@@ -1,0 +1,184 @@
+﻿<UserControl x:Class="Calculator.View.ManageContractUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModel="clr-namespace:Calculator.ViewModel"
+             xmlns:iconPack ="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:mahApps="http://metro.mahapps.com/winfx/xaml/controls"
+             DataContext="{x:Static viewModel:ManageContractViewModel.Instance}"
+             mc:Ignorable="d">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- search border -->
+        <Border BorderThickness="2"
+                BorderBrush="{StaticResource AccentBaseColorBrush}"
+                Margin="10"
+                Padding="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+              
+                <TextBlock Text="جست و جو:"
+                           FlowDirection="RightToLeft"
+                           Grid.Column="3"
+                           Margin="10,10"/>
+                <TextBox Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged}"
+                         Grid.Column="2"
+                         Style="{StaticResource SimpleTextBox}"/>
+                <TextBlock Text=" * جست و جو بر اساس نام پروژه، نام پیمانکار و شماره پیمان می باشد."
+                           FlowDirection="RightToLeft"
+                           VerticalAlignment="Center"
+                           Grid.Column="1"/>
+                <TextBlock Grid.Column="0"
+                           VerticalAlignment="Center"
+                           Text="{Binding Message,UpdateSourceTrigger=PropertyChanged}"
+                           Foreground="Red"/>
+
+                <mahApps:MetroProgressBar Margin="0,20"
+                                          Grid.Column="0">
+                    <mahApps:MetroProgressBar.Style>
+                        <Style TargetType="mahApps:MetroProgressBar" BasedOn="{StaticResource MahApps.Metro.Styles.MetroProgressBar}">
+                            <Setter Property="IsIndeterminate" Value="True"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ProgressBarIsEnable,UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ProgressBarIsEnable,UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                    <Setter Property="Visibility" Value="Hidden"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </mahApps:MetroProgressBar.Style>
+                </mahApps:MetroProgressBar>
+
+            </Grid>
+        </Border>        
+
+        <DataGrid Grid.Row="1"
+                  Name="ContractDataGrid"
+                  Style="{StaticResource SimpleDataGridStyle}"
+                  Margin="10"
+                  ItemsSource="{Binding ContractCollection,UpdateSourceTrigger=PropertyChanged}"
+                  SelectedCellsChanged="DataGrid_OnSelectedCellsChanged">
+            <DataGrid.Columns>
+
+                <DataGridTemplateColumn Header="تنظیمات">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="viewModel:ContractDataGridItem">
+                            <StackPanel Orientation="Horizontal">
+                                <Button Style="{StaticResource SimpleButton}"
+                                        Foreground="Black"
+                                        Command="{Binding EditCommand}"
+                                        Margin="5,0">
+                                    <iconPack:Material Kind="Pencil"
+                                                       Width="20"
+                                                       Height="20"/>
+                                </Button>
+                                <Button Style="{StaticResource SimpleButton}"
+                                        Foreground="Black"
+                                        Command="{Binding DeleteCommand}"
+                                        Margin="5,0">
+                                    <iconPack:Material Kind="Delete"
+                                                       Width="20"
+                                                       Height="20"/>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="مبلغ پیمان" Binding="{Binding ItemContract.Amount,UpdateSourceTrigger=PropertyChanged}"
+                                    Width="*"/>
+
+                <DataGridTextColumn Header="شماره پیمان" Binding="{Binding ItemContract.Number,UpdateSourceTrigger=PropertyChanged}"
+                                    Width="*"/>
+
+                <DataGridTemplateColumn Header="تاریخ پیمان" 
+                                        Width="*">
+                    <DataGridTemplateColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource SimpleDataGridColumnHeaderStyle}">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </DataGridTemplateColumn.HeaderStyle>
+
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="روز"
+                                           TextAlignment="Center"
+                                           Grid.Column="2"
+                                           Margin="10,0"/>
+                                <TextBlock Text="ماه"
+                                           TextAlignment="Center"
+                                           Grid.Column="1"
+                                           Margin="10,0"/>
+                                <TextBlock Text="سال"
+                                           TextAlignment="Center"
+                                           Grid.Column="0"
+                                           Margin="10,0"/>
+                                
+                            </Grid>
+                            
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+
+                    <DataGridTemplateColumn.CellStyle>
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource SimpleDataGridCellStyle}">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </DataGridTemplateColumn.CellStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="viewModel:ContractDataGridItem">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding ItemContract.Date.Day,UpdateSourceTrigger=PropertyChanged}"
+                                           Grid.Column="2"
+                                           TextAlignment="Center"
+                                           Margin="10,0"/>
+                                <TextBlock Text="{Binding ItemContract.Date.Month,UpdateSourceTrigger=PropertyChanged}"
+                                           Grid.Column="1"
+                                           TextAlignment="Center"
+                                           Margin="10,0"/>
+                                <TextBlock Text="{Binding ItemContract.Date.Year,UpdateSourceTrigger=PropertyChanged}"
+                                           Grid.Column="0"
+                                           TextAlignment="Center"
+                                           Margin="10,0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="نوع پیمان" />
+
+                <DataGridTextColumn Header="نام پیمانکار" Binding="{Binding ItemContract.ContractorName,UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+
+                <DataGridTextColumn Header="نام پروژه" Binding="{Binding ItemContract.ProjectName,UpdateSourceTrigger=PropertyChanged}"
+                                    Width="*"/>
+
+                <DataGridTextColumn Header="ردیف" Binding="{Binding ItemContract.Index,UpdateSourceTrigger=PropertyChanged}"/>
+        
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

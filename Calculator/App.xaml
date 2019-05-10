@@ -1,0 +1,32 @@
+﻿<Application x:Class="Calculator.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml"
+             Exit="App_OnExit">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+
+                <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/controls.buttons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/controls.textbox.xaml" />
+                <!-- load colors -->
+                <ResourceDictionary Source="pack://application:,,,/CustomStyle/ColorDictionary.xaml"/>
+                <!-- load custom theme -->
+                <ResourceDictionary Source="pack://application:,,,/CustomStyle/MetroCustomTheme.xaml"/>
+                <!-- add custom font -->
+                <ResourceDictionary Source="pack://application:,,,/Font/CustomFont.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/CustomStyle/CustomButton.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/CustomStyle/CustomTextBox.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/CustomStyle/CustomListView.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/CustomStyle/CustomComboBox.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/CustomStyle/CustomDataGrid.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/CustomStyle/CustomCheckBox.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/CustomStyle/CustomTabItem.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

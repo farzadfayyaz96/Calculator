@@ -1,0 +1,105 @@
+﻿<mahApps:MetroWindow x:Class="Calculator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:mahApps ="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:iconPack ="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        WindowState="Maximized"
+        MinHeight="600"
+        MinWidth="800">
+
+    <mahApps:MetroWindow.Flyouts>
+        <mahApps:FlyoutsControl>
+            <mahApps:Flyout IsOpen="{Binding FlyoutIsOpen,UpdateSourceTrigger=PropertyChanged}"
+                            Width="300"
+                            Background="{StaticResource AccentColorBrush}"
+                            CloseButtonVisibility="Collapsed"
+                            Position="Right">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <!-- close button -->
+                    <Button Command="{Binding FlyoutCommand}"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource SimpleButton}">
+                        <iconPack:Material Kind="ArrowLeft"
+                                           Width="30"
+                                           Height="30"/>
+                    </Button>
+
+                    <!-- about us button -->
+                    <Button Grid.Row="1"
+                            Command="{Binding AboutUsCommand}">
+                        درباره ما
+                    </Button>
+
+                </Grid>
+            </mahApps:Flyout>
+        </mahApps:FlyoutsControl>
+    </mahApps:MetroWindow.Flyouts>
+
+    <Grid Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+       
+        <!-- header grid -->
+        <Grid Background="{StaticResource AccentBaseColorBrush}"
+              Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            
+            <!-- flyout button -->
+            <Button Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    Command="{Binding FlyoutCommand}"
+                    Style="{StaticResource SimpleButton}">
+                <iconPack:Material Kind="Menu"
+                                   Width="30"
+                                   Height="30"/>
+            </Button>
+        </Grid>
+
+        <!-- content grid -->
+        <mahApps:TransitioningContentControl Grid.Row="1"
+                                             Transition="Down"
+                                             Content="{Binding Control,UpdateSourceTrigger=PropertyChanged}"/>
+
+        <!-- flyout background button -->
+        <Button Grid.Row="0"
+                Grid.RowSpan="2"
+                Command="{Binding FlyoutCommand}">
+            <Button.Background>
+                <SolidColorBrush Color="Black" Opacity="0.5"/>
+            </Button.Background>
+            <Button.Style>
+                <Style TargetType="Button" 
+                       BasedOn="{StaticResource SimpleButton}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding FlyoutIsOpen,UpdateSourceTrigger=PropertyChanged}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding FlyoutIsOpen,UpdateSourceTrigger=PropertyChanged}" Value="False">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                        </DataTrigger>
+
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+
+    </Grid>
+</mahApps:MetroWindow>
