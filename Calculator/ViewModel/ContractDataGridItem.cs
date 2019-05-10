@@ -7,7 +7,7 @@ using Calculator.Model.TableObject;
 
 namespace Calculator.ViewModel
 {
-    class ContractDataGridItem
+    public class ContractDataGridItem
     {
         
         public ContractDataGridItem(Contract contract)
@@ -27,6 +27,8 @@ namespace Calculator.ViewModel
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
+                //show progress bar 
+                ManageContractViewModel.Instance.ProgressBarIsEnable = true;
                 try
                 {
                     //remove from database
@@ -38,6 +40,11 @@ namespace Calculator.ViewModel
                 {
                     Logger.LogException(e);
                     ManageContractViewModel.Instance.Message = "خطا در هنگام حذف پیمان";
+                }
+                finally
+                {
+                    //hide progress bar
+                    ManageContractViewModel.Instance.ProgressBarIsEnable = false;
                 }
             });
         }

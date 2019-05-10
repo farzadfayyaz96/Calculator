@@ -5,7 +5,7 @@ using Calculator.ViewModel;
 
 namespace Calculator.Model.TableObject
 {
-    class Contract :NotifyProperty
+    public class Contract :NotifyProperty
     {
         private string _index;
         private string _projectName;

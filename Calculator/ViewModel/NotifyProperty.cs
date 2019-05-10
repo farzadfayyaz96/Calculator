@@ -4,7 +4,7 @@ using Calculator.Annotations;
 
 namespace Calculator.ViewModel
 {
-    class NotifyProperty : INotifyPropertyChanged
+    public class NotifyProperty : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

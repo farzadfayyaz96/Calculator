@@ -131,12 +131,16 @@
     <Compile Include="ViewModel\CommandHandler.cs" />
     <Compile Include="ViewModel\ContractDataGridItem.cs" />
     <Compile Include="ViewModel\DateConverter.cs" />
+    <Compile Include="ViewModel\EditContractViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ManageContractViewModel.cs" />
     <Compile Include="ViewModel\NewContractViewModel.cs" />
     <Compile Include="ViewModel\NotifyProperty.cs" />
     <Compile Include="View\AboutUsUserControl.xaml.cs">
       <DependentUpon>AboutUsUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditContractWindow.xaml.cs">
+      <DependentUpon>EditContractWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ManageContractUserControl.xaml.cs">
       <DependentUpon>ManageContractUserControl.xaml</DependentUpon>
@@ -197,6 +201,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\AboutUsUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditContractWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
