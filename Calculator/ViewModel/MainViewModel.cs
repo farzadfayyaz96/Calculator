@@ -15,7 +15,7 @@ namespace Calculator.ViewModel
         {
             FlyoutCommand = new CommandHandler(FlyoutAction);
             AboutUsCommand = new CommandHandler(ShowAboutUs);
-            Control = new ManageContractUserControl();
+            Control = new ManageProfitUserControl();
         }
 
         public static MainViewModel Instance = new MainViewModel();

@@ -137,6 +137,7 @@
     <Compile Include="ViewModel\EditContractViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ManageContractViewModel.cs" />
+    <Compile Include="ViewModel\ManageProfitViewModel.cs" />
     <Compile Include="ViewModel\NewContractViewModel.cs" />
     <Compile Include="ViewModel\NotifyProperty.cs" />
     <Compile Include="View\AboutUsUserControl.xaml.cs">
@@ -147,6 +148,9 @@
     </Compile>
     <Compile Include="View\ManageContractUserControl.xaml.cs">
       <DependentUpon>ManageContractUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ManageProfitUserControl.xaml.cs">
+      <DependentUpon>ManageProfitUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\NewContractUserControl.xaml.cs">
       <DependentUpon>NewContractUserControl.xaml</DependentUpon>
@@ -212,6 +216,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ManageContractUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ManageProfitUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
