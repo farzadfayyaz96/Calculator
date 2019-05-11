@@ -21,8 +21,6 @@ namespace Calculator.ViewModel
         public ICommand DeleteCommand { get; }
         public Contract ItemContract { get; }
 
-        
-
         private void Delete()
         {
             Application.Current.Dispatcher.Invoke(() =>

@@ -26,6 +26,18 @@
             <TextBox Text="{Binding NewContract.ContractorName,UpdateSourceTrigger=PropertyChanged}"
                      Width="300"
                      Style="{StaticResource SimpleTextBox}"/>
+            <!-- contract Type -->
+            <TextBlock Text="نوع پیمان:"
+                       FlowDirection="RightToLeft"
+                       Margin="15,0"/>
+            <ComboBox Style="{StaticResource SimpleComboBoxStyle}"
+                      SelectedIndex="{Binding SelectedContractTypeIndex,UpdateSourceTrigger=PropertyChanged}">
+                <ComboBoxItem Content="پیش پرداخت"/>
+                <ComboBoxItem Content="موقت"/>
+                <ComboBoxItem Content="قطعی"/>
+                <ComboBoxItem Content="تعدیل"/>
+                <ComboBoxItem Content="سپرده"/>
+            </ComboBox>
             <!-- date -->
             <TextBlock Text="تاریخ پیمان :"
                        Margin="15,0"
@@ -53,6 +65,7 @@
                     Style="{StaticResource FirstCustomButton}"
                     HorizontalAlignment="Center"
                     Width="150"
+                    IsDefault="True"
                     Command="{Binding MakeContractCommand}"/>
 
             <mahApps:MetroProgressBar Margin="0,20">

@@ -31,6 +31,8 @@ namespace Calculator.Model.DataAccess
                             Amount = reader["Contract_Amount"].ToString()
                             
                         };
+                        //set contract type
+                        contract.SetContractType(reader["Contract_Type"].ToString());
                         //date
                         var date = reader["Contract_Date"].ToString();
                         try
@@ -73,6 +75,8 @@ namespace Calculator.Model.DataAccess
                             Number = reader["Contract_Number"].ToString(),
                             Amount = reader["Contract_Amount"].ToString()
                         };
+                        //set contract type
+                        contract.SetContractType(reader["Contract_Type"].ToString());
                         //date
                         var date = reader["Contract_Date"].ToString();
                         try
@@ -90,6 +94,7 @@ namespace Calculator.Model.DataAccess
                 }
             }
         }
+
         public static Contract SelectById(string contractId)
         {
             var connection = DatabaseConnection.Connection;
@@ -111,6 +116,8 @@ namespace Calculator.Model.DataAccess
                             Number = reader["Contract_Number"].ToString(),
                             Amount = reader["Contract_Amount"].ToString()
                         };
+                        //set contract type
+                        contract.SetContractType(reader["Contract_Type"].ToString());
                         //date
                         var date = reader["Contract_Date"].ToString();
                         try
@@ -134,11 +141,12 @@ namespace Calculator.Model.DataAccess
             var connection = DatabaseConnection.Connection;
             using (var command = connection.CreateCommand())
             {
-                const string sql = "insert into T_Contract_Info(Contract_Id,Contract_Project_Name,Contract_Contractor_Name,Contract_Date,Contract_Number,Contract_Amount) values(@id,@projectName,@contractorName,@date,@number,@amount)";
+                const string sql = "insert into T_Contract_Info(Contract_Id,Contract_Project_Name,Contract_Contractor_Name,Contract_Type,Contract_Date,Contract_Number,Contract_Amount) values(@id,@projectName,@contractorName,@contractType,@date,@number,@amount)";
                 command.CommandText = sql;
                 command.Parameters.AddWithValue("@id", contract.Id);
                 command.Parameters.AddWithValue("@projectName", contract.ProjectName);
                 command.Parameters.AddWithValue("@contractorName", contract.ContractorName);
+                command.Parameters.AddWithValue("@contractType", contract.GetContractTypeValue());
                 command.Parameters.AddWithValue("@date", contract.Date);
                 command.Parameters.AddWithValue("@number", contract.Number);
                 command.Parameters.AddWithValue("@amount", contract.Amount);
@@ -153,11 +161,12 @@ namespace Calculator.Model.DataAccess
             var connection = DatabaseConnection.Connection;
             using (var command = connection.CreateCommand())
             {
-                const string sql = "update T_Contract_Info set Contract_Project_Name = @projectName,Contract_Contractor_Name = @contractorName,Contract_Date = @date , Contract_Number = @number , Contract_Amount = @amount  where Contract_Id = @id";
+                const string sql = "update T_Contract_Info set Contract_Project_Name = @projectName,Contract_Contractor_Name = @contractorName , Contract_Type = @contractType , Contract_Date = @date , Contract_Number = @number , Contract_Amount = @amount  where Contract_Id = @id";
                 command.CommandText = sql;
                 command.Parameters.AddWithValue("@id", contract.Id);
                 command.Parameters.AddWithValue("@projectName", contract.ProjectName);
                 command.Parameters.AddWithValue("@contractorName", contract.ContractorName);
+                command.Parameters.AddWithValue("@contractType", contract.GetContractTypeValue());
                 command.Parameters.AddWithValue("@date", contract.Date);
                 command.Parameters.AddWithValue("@number", contract.Number);
                 command.Parameters.AddWithValue("@amount", contract.Amount);
@@ -175,7 +184,7 @@ namespace Calculator.Model.DataAccess
                 const string sql = "delete from T_Contract_Info where Contract_Id = @id";
                 command.CommandText = sql;
                 command.Parameters.AddWithValue("@id", contractId);
-                Logger.Log($"execute sql = {sql}\n\r contract id = {contractId}");
+                Logger.Log($"execute sql = {sql}\n\rcontract id = {contractId}");
                 command.ExecuteNonQuery();
                 connection.Close();
             }

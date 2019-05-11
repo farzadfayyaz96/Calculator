@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using Arash;
 using Calculator.ViewModel;
 
@@ -13,7 +14,8 @@ namespace Calculator.Model.TableObject
         private PersianDate _date;
         private string _number;
         private string _amount;
-
+        private ContractType _contractType;
+        private string _contractTypeString;
 
         public string Index
         {
@@ -74,6 +76,65 @@ namespace Calculator.Model.TableObject
                 _amount = value;
                 OnPropertyChanged(nameof(Amount));
             }
+        }
+
+        public ContractType ContractType
+        {
+            get => _contractType;
+            set
+            {
+                _contractType = value;
+                OnPropertyChanged(nameof(ContractType));
+                if (_contractType == ContractType.Balancing) ContractTypeString = "تعدیل";
+                else if (_contractType == ContractType.Certain) ContractTypeString = "قطعی";
+                else if (_contractType == ContractType.Deposit) ContractTypeString = "سپرده";
+                else if (_contractType == ContractType.Prepayment) ContractTypeString = "پیش پرداخت";
+                else if (_contractType == ContractType.Temporary) ContractTypeString = "موقت";
+            }
+        }
+
+        public string ContractTypeString
+        {
+            get => _contractTypeString;
+            set
+            {
+                _contractTypeString = value;
+                OnPropertyChanged(nameof(ContractTypeString));
+            }
+        }
+
+        public void SetContractType(string type)
+        {
+            if (type.Equals("0")) ContractType = ContractType.Prepayment;
+            else if (type.Equals("1")) ContractType = ContractType.Temporary;
+            else if (type.Equals("2")) ContractType = ContractType.Certain;
+            else if (type.Equals("3")) ContractType = ContractType.Balancing;
+            else if (type.Equals("4")) ContractType = ContractType.Deposit;
+        }
+
+        public string GetContractTypeValue()
+        {
+            if (ContractType == ContractType.Prepayment) return "0";
+            if (ContractType == ContractType.Temporary) return "1";
+            if (ContractType == ContractType.Certain) return "2";
+            if (ContractType == ContractType.Balancing) return "3";
+            return "4";
+        }
+
+        public void Clear()
+        {
+            Index = string.Empty;
+            Id = string.Empty;
+            ProjectName = string.Empty;
+            ContractorName = string.Empty;
+            //set date to now
+            Date = new PersianDate(DateTime.Now);
+            Number = string.Empty;
+            Amount = string.Empty;
+            //contract type to default
+            ContractType = ContractType.Prepayment;
+            ContractTypeString = string.Empty;
+            
         }
 
         public override string ToString()

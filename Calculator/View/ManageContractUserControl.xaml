@@ -169,7 +169,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="نوع پیمان" />
+                <DataGridTextColumn Header="نوع پیمان" Binding="{Binding ItemContract.ContractTypeString,UpdateSourceTrigger=PropertyChanged}"/>
 
                 <DataGridTextColumn Header="نام پیمانکار" Binding="{Binding ItemContract.ContractorName,UpdateSourceTrigger=PropertyChanged}" Width="*"/>
 

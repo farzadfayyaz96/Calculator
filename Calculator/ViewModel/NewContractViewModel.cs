@@ -11,6 +11,7 @@ namespace Calculator.ViewModel
     {
         private bool _progressBarIsEnable;
         private string _message;
+        private int _selectedContractTypeIndex;
         public NewContractViewModel()
         {
             MakeContractCommand = new CommandHandler(MakeContract);
@@ -21,6 +22,20 @@ namespace Calculator.ViewModel
         public Contract NewContract { get; set; }
 
         public ICommand MakeContractCommand { get; }
+
+        public int SelectedContractTypeIndex
+        {
+            get => _selectedContractTypeIndex;
+            set
+            {
+                _selectedContractTypeIndex = value;
+                OnPropertyChanged(nameof(SelectedContractTypeIndex));
+                //not selected
+                if(_selectedContractTypeIndex == -1)return;
+                //set contract type
+                NewContract.SetContractType($"{_selectedContractTypeIndex}");
+            }
+        }
 
         public bool ProgressBarIsEnable
         {
@@ -87,6 +102,13 @@ namespace Calculator.ViewModel
                      ContractDataAccess.Insert(NewContract);
                      Message = "پیمان جدید با موفقیت ذخیره شد";
                      ProgressBarIsEnable = false;
+                     //clear type 
+                     SelectedContractTypeIndex = 0;
+                    //clear form
+                    NewContract.Clear();
+                    NewContract = new Contract();
+                     
+                     
                 }
                 catch (Exception e)
                 {

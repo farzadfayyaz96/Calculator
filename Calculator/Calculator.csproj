@@ -121,11 +121,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CustomException\ContractNotFoundException.cs" />
+    <Compile Include="CustomException\DatabaseItemNotFoundException.cs" />
     <Compile Include="Log\Logger.cs" />
     <Compile Include="Model\DataAccess\ContractDataAccess.cs" />
     <Compile Include="Model\DataAccess\DatabaseConnection.cs" />
+    <Compile Include="Model\DataAccess\ProfitDateAccess.cs" />
     <Compile Include="Model\TableObject\Contract.cs" />
     <Compile Include="Model\TableObject\ContractType.cs" />
+    <Compile Include="Model\TableObject\Profit.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel\AboutUsViewModel.cs" />
     <Compile Include="ViewModel\CommandHandler.cs" />
