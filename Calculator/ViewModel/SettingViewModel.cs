@@ -2,22 +2,21 @@
 
 namespace Calculator.ViewModel
 {
-    class AboutUsViewModel : NotifyProperty
+    class SettingViewModel
     {
 
-        public AboutUsViewModel()
+
+        public SettingViewModel()
         {
             CloseCommand = new CommandHandler(Close);
         }
 
         public ICommand CloseCommand { get; }
 
+
         private void Close()
         {
             MainViewModel.Instance.RemovePopupAction();
         }
-
-
-
     }
 }

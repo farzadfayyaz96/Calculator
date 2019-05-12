@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModel="clr-namespace:Calculator.ViewModel"
              xmlns:iconPack="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:tableObject="clr-namespace:Calculator.Model.TableObject"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -18,22 +19,79 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel HorizontalAlignment="Center"
-                    Orientation="Horizontal"
-                    Margin="0,20,0,0">
+        <Grid HorizontalAlignment="Stretch"
+                    Margin="40,20,40,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Text="{Binding Message,UpdateSourceTrigger=PropertyChanged}"
+                       Grid.Column="0"
+                       FlowDirection="RightToLeft"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       TextAlignment="Center"
+                       FontSize="{StaticResource FontSizeSmall}"
+                       FontFamily="{StaticResource IranSansMedium}">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsError,UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                <Setter Property="Foreground" Value="Red"/>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding IsError,UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                <Setter Property="Foreground" Value="Black"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+
+                    </Style>
+                    
+                </TextBlock.Style>
+            </TextBlock>
             <Button Content="ذخیره"
+                    Grid.Column="3"
+                    Command="{Binding SaveCommand}"
                     Style="{StaticResource FirstCustomButton}"
                     Padding="50,0"/>
+
             <TextBox Text="{Binding InterestRates,UpdateSourceTrigger=PropertyChanged}"
+                     Grid.Column="4"
                      Width="300"
                      Style="{StaticResource SimpleTextBox}"/>
+
             <TextBlock Text="درصد سود:"
+                       Grid.Column="5"
                        FlowDirection="RightToLeft"
-                       Margin="0,0,0,0"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        TextAlignment="Center"/>
-        </StackPanel>
+
+            <TextBlock Text="{Binding MonthName,UpdateSourceTrigger=PropertyChanged}"
+                       FlowDirection="RightToLeft"
+                       Grid.Column="6"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                       TextAlignment="Center"
+                       Margin="50,0,10,0"
+                       FontSize="{StaticResource FontSizeRegular}"/>
+
+            <TextBlock Text="ماه : "
+                       Grid.Column="7"
+                       FlowDirection="RightToLeft"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       TextAlignment="Center"/>
+
+        </Grid>
         <Border Grid.Row="1"
                 Margin="30"
                 BorderBrush="{StaticResource AccentBaseColorBrush}"
@@ -86,32 +144,58 @@
 
                 </Grid>
 
-                <Grid Grid.Row="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+                
+                <ListView Grid.Row="1"
+                          FlowDirection="RightToLeft"
+                          ItemsSource="{Binding ProfitCollection,UpdateSourceTrigger=PropertyChanged}"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          BorderThickness="0"
+                          SelectedIndex="{Binding ProfitListSelectedIndex,UpdateSourceTrigger=PropertyChanged}"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          BorderBrush="Transparent">
+                    
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="3"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    
+                    <ListView.ItemTemplate>
+                        <DataTemplate DataType="tableObject:Profit">
+                            <StackPanel>
+                                <TextBlock Text="{Binding MonthName,UpdateSourceTrigger=PropertyChanged}"
+                                           FontSize="{StaticResource FontSizeLarge}"
+                                           HorizontalAlignment="Stretch"
+                                           TextAlignment="Center"/>
+                                <Grid HorizontalAlignment="Center">
+                                    
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <TextBlock Text="درصد سود:"
+                                               Margin="5"
+                                               Grid.Column="0"
+                                               FlowDirection="RightToLeft"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Stretch"
+                                               TextAlignment="Center"/>
+                                    <TextBlock Text="{Binding InterestRates,UpdateSourceTrigger=PropertyChanged}"
+                                               Margin="5"
+                                               Grid.Column="1"
+                                               HorizontalAlignment="Stretch"
+                                               TextAlignment="Center"/>
+                                </Grid>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                   
 
-                    <ToggleButton Content="فروردین"
-                                  Grid.Row="0"
-                                  Grid.Column="2"/>
-
-                    <ToggleButton Content="اردیبهشت"
-                                  Grid.Row="0"
-                                  Grid.Column="1"/>
-
-                    <ToggleButton Content="خرداد"
-                                  Grid.Row="0"
-                                  Grid.Column="0"/>
-                </Grid>
+                </ListView>
+                
             </Grid>
 
         </Border>

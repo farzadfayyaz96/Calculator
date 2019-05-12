@@ -144,6 +144,7 @@
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                         </Style>
                     </DataGridTemplateColumn.CellStyle>
+
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="viewModel:ContractDataGridItem">
                             <Grid>

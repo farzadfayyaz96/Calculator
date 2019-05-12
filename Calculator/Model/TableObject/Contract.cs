@@ -140,7 +140,7 @@ namespace Calculator.Model.TableObject
         public override string ToString()
         {
             return
-                $"project name = {ProjectName}\r\ncontractorName = {ContractorName}\r\ndate = {Date}\r\nnumber = {Number}\r\n amount = {Amount}";
+                $"project name = {ProjectName}\r\ncontractorName = {ContractorName}\r\ndate = {Date}\r\nnumber = {Number}\r\namount = {Amount}";
         }
 
         public override bool Equals(object obj)
@@ -158,6 +158,7 @@ namespace Calculator.Model.TableObject
 
         public static ObservableCollection<ContractDataGridItem> GetObservableCollection()
         {
+
             var contractCollection = new ObservableCollection<ContractDataGridItem>();
             contractCollection.CollectionChanged += (sender, args) =>
             {

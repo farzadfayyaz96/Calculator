@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Calculator.CustomException;
 using Calculator.Log;
 using Calculator.Model.TableObject;
@@ -7,7 +8,7 @@ namespace Calculator.Model.DataAccess
 {
     class ProfitDateAccess
     {
-        public static List<Profit> SelectByYear(string year)
+        public static List<Profit> SelectByYear(int year)
         {
             var connection = DatabaseConnection.Connection;
             using (var command = connection.CreateCommand())
@@ -34,6 +35,8 @@ namespace Calculator.Model.DataAccess
             }
         }
 
+       
+
         public static Profit SelectProfit(Profit profit)
         {
             var connection = DatabaseConnection.Connection;
@@ -42,7 +45,7 @@ namespace Calculator.Model.DataAccess
                 const string sql = "select * from T_Profit where Profit_Year = @year and Profit_Month = @month";
                 command.CommandText = sql;
                 command.Parameters.AddWithValue("@year", profit.Year);
-                command.Parameters.AddWithValue("@year", profit.Month);
+                command.Parameters.AddWithValue("@month", profit.Month);
                 Logger.LogQuery($"{sql}\n\r{profit}");
                 using (var reader = command.ExecuteReader())
                 {
@@ -67,10 +70,12 @@ namespace Calculator.Model.DataAccess
 
         public static void Insert(Profit profit)
         {
+            Console.WriteLine(profit);
             var connection = DatabaseConnection.Connection;
             using (var command = connection.CreateCommand())
             {
                 const string sql = "insert into T_Profit(Profit_Year,Profit_Month,Profit_Interest_Rates) values(@year,@month,@rates)";
+                command.CommandText = sql;
                 command.Parameters.AddWithValue("@year", profit.Year);
                 command.Parameters.AddWithValue("@month", profit.Month);
                 command.Parameters.AddWithValue("@rates", profit.InterestRates);
@@ -85,10 +90,11 @@ namespace Calculator.Model.DataAccess
             var connection = DatabaseConnection.Connection;
             using (var command = connection.CreateCommand())
             {
-                const string sql = "update T_Profit set Profit_Interest_Rates = @rates where Profit_Year = @year and Profit_Month = @month";
+                const string sql = "update T_Profit set Profit_Interest_Rates=@rates where Profit_Year=@year and Profit_Month=@month";
+                command.CommandText = sql;
                 command.Parameters.AddWithValue("@year", profit.Year);
                 command.Parameters.AddWithValue("@month", profit.Month);
-                command.Parameters.AddWithValue("@Profit_Interest_Rates", profit.InterestRates);
+                command.Parameters.AddWithValue("@rates", profit.InterestRates);
                 Logger.LogQuery($"{sql}\n\r{profit}");
                 command.ExecuteNonQuery();
                 connection.Close();

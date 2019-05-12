@@ -15,12 +15,23 @@ namespace Calculator.ViewModel
         {
             FlyoutCommand = new CommandHandler(FlyoutAction);
             AboutUsCommand = new CommandHandler(ShowAboutUs);
-            Control = new ManageProfitUserControl();
+            Control = new ManageContractUserControl();
+            NewContractCommand = new CommandHandler(ShowNewContract);
+            ManageContractCommand = new CommandHandler(ShowManageContract);
+            ManageProfitCommand = new CommandHandler(ShowManageProfit);
+            SettingCommand = new CommandHandler(ShowSetting);
         }
 
         public static MainViewModel Instance = new MainViewModel();
 
         public Action<UserControl> AddPopupAction { get; set; }
+
+        public Action RemovePopupAction { get; set; }
+
+        public ICommand NewContractCommand { get; }
+        public ICommand ManageProfitCommand { get; }
+        public ICommand ManageContractCommand { get; }
+        public ICommand SettingCommand { get; }
 
 
         public ICommand AboutUsCommand { get; }
@@ -64,6 +75,35 @@ namespace Calculator.ViewModel
             
         }
 
+        public void ChangeContent(UserControl control)
+        {
+            Control = control;
+        }
+
+        private void ShowManageProfit()
+        {
+            Control = new ManageProfitUserControl();
+            FlyoutAction();
+        }
+
+        private void ShowManageContract()
+        {
+            Control = new ManageContractUserControl();
+            FlyoutAction();
+        }
+
+        private void ShowNewContract()
+        {
+            Control = new NewContractUserControl();
+            FlyoutAction();
+        }
+
+        private void ShowSetting()
+        {
+            
+            AddPopupAction(new SettingUserControl());
+            FlyoutAction();
+        }
         
     }
 }

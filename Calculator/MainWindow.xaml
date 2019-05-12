@@ -10,6 +10,14 @@
         MinHeight="600"
         MinWidth="800">
 
+    <mahApps:MetroWindow.TitleTemplate>
+        <DataTemplate>
+            <TextBlock Text="اسم برنامه"
+                       VerticalAlignment="Center"
+                       Margin="10,0"/>
+        </DataTemplate>
+    </mahApps:MetroWindow.TitleTemplate>
+
     <mahApps:MetroWindow.Flyouts>
         <mahApps:FlyoutsControl>
             <mahApps:Flyout IsOpen="{Binding FlyoutIsOpen,UpdateSourceTrigger=PropertyChanged}"
@@ -21,9 +29,12 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <!-- close button -->
@@ -35,11 +46,159 @@
                                            Height="30"/>
                     </Button>
 
-                    <!-- about us button -->
-                    <Button Grid.Row="1"
-                            Command="{Binding AboutUsCommand}">
-                        درباره ما
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image Source="document.ico"
+                               Width="100"
+                               Grid.Column="1"
+                               Margin="10,0"/>
+                        <TextBlock Text="اینجا اسمه برنامه اس"
+                                   Foreground="White"
+                                   FontSize="{StaticResource FontSizeRegular}"
+                                   Grid.Column="0"
+                                   TextAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Stretch"/>
+                    </Grid>
+
+                    <Rectangle Grid.Row="2"
+                               Fill="White"
+                               Height="3"
+                               Margin="0,10"
+                               VerticalAlignment="Bottom"/>
+
+                    <!-- manage contract button -->
+                    <Button Grid.Row="3"
+                            Margin="0,10"
+                            HorizontalContentAlignment="Stretch"
+                            Command="{Binding ManageContractCommand}"
+                            Style="{StaticResource SimpleButton}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="مدیریت پیمان" Grid.Column="1"
+                                       VerticalAlignment="Center"
+                                       TextAlignment="Center"
+                                       FontSize="{StaticResource FontSizeRegular}"
+                                       HorizontalAlignment="Stretch"/>
+                            <Label Grid.Column="0"
+                                   Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Path=Foreground}">
+                                <iconPack:Material Kind="FileDocument"
+                                                   Width="30"
+                                                   Height="30"/>
+                            </Label>
+
+                        </Grid>
                     </Button>
+
+                    <!-- new contract button -->
+                    <Button Grid.Row="4"
+                            Margin="0,10"
+                            Command="{Binding NewContractCommand}"
+                            HorizontalContentAlignment="Stretch"
+                            Style="{StaticResource SimpleButton}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="پیمان جدید" Grid.Column="1"
+                                       VerticalAlignment="Center"
+                                       TextAlignment="Center"
+                                       FontSize="{StaticResource FontSizeRegular}"
+                                       HorizontalAlignment="Stretch"/>
+                            <Label Grid.Column="0"
+                                   Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Path=Foreground}">
+                                <iconPack:Material Kind="FilePlus"
+                                                   Width="30"
+                                                   Height="30"/>
+                            </Label>
+
+                        </Grid>
+                    </Button>
+
+                    <!-- new contract button -->
+                    <Button Grid.Row="5"
+                            Margin="0,10"
+                            Command="{Binding ManageProfitCommand}"
+                            HorizontalContentAlignment="Stretch"
+                            Style="{StaticResource SimpleButton}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="مدیریت تقویم" Grid.Column="1"
+                                       VerticalAlignment="Center"
+                                       TextAlignment="Center"
+                                       FontSize="{StaticResource FontSizeRegular}"
+                                       HorizontalAlignment="Stretch"/>
+                            <Label Grid.Column="0"
+                                   Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Path=Foreground}">
+                                <iconPack:Material Kind="CalendarSearch"
+                                                   Width="30"
+                                                   Height="30"/>
+                            </Label>
+
+                        </Grid>
+                    </Button>
+
+
+                    <!-- about us button -->
+                    <Grid Grid.Row="7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="0"
+                                Padding="10"
+                                Command="{Binding SettingCommand}"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource SimpleButton}">
+                            <iconPack:Material Kind="Settings"
+                                               Width="30"
+                                               Height="30"/>
+                        </Button>
+
+                        <Button Margin="0,10"
+                                Grid.Column="2"
+                                HorizontalContentAlignment="Stretch"
+                                Style="{StaticResource SimpleButton}"
+                                Command="{Binding AboutUsCommand}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="درباره ما" Grid.Column="1"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"
+                                           FontSize="{StaticResource FontSizeRegular}"
+                                           HorizontalAlignment="Stretch"/>
+                                <Label Grid.Column="0"
+                                       Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Path=Foreground}">
+                                    <iconPack:Material Kind="Information"
+                                                       Width="30"
+                                                       Height="30"/>
+                                </Label>
+
+                            </Grid>
+                        </Button>
+                    </Grid>
+                    
 
                 </Grid>
             </mahApps:Flyout>
@@ -57,8 +216,8 @@
         <Grid Background="{StaticResource AccentBaseColorBrush}"
               Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             
             <!-- flyout button -->
@@ -70,11 +229,19 @@
                                    Width="30"
                                    Height="30"/>
             </Button>
+
+            <TextBlock Text="اینجا اسم برنامه اس"
+                       Grid.Column="0"
+                       FontSize="{StaticResource FontSizeRegular}"
+                       Foreground="White"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Center"
+                       Margin="10"/>
         </Grid>
 
         <!-- content grid -->
         <mahApps:TransitioningContentControl Grid.Row="1"
-                                             Transition="Down"
+                                             Transition="Up"
                                              Content="{Binding Control,UpdateSourceTrigger=PropertyChanged}"/>
 
         <!-- flyout background button -->

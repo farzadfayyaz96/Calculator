@@ -11,6 +11,7 @@ namespace Calculator
             InitializeComponent();
             DataContext = MainViewModel.Instance;
             MainViewModel.Instance.AddPopupAction = AddPopup;
+            MainViewModel.Instance.RemovePopupAction = RemovePopup;
         }
 
 
@@ -19,6 +20,12 @@ namespace Calculator
             Grid.SetRow(control, 0);
             Grid.SetRowSpan(control, 2);
             MainGrid.Children.Add(control);
+        }
+
+        private void RemovePopup()
+        {
+            var index = MainGrid.Children.Count - 1 ;
+            MainGrid.Children.RemoveAt(index);
         }
 
     }

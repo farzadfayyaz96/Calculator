@@ -57,7 +57,7 @@
             <TextBlock Text="مبلغ پیمان :"
                        Margin="15,0"
                        FlowDirection="RightToLeft"/>
-            <TextBox Text="{Binding NewContract.Amount,UpdateSourceTrigger=PropertyChanged}"
+            <TextBox Text="{Binding NewContract.Amount,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:0,0}'}"
                      Width="300"
                      Style="{StaticResource SimpleTextBox}"/>
             <!-- make project button -->

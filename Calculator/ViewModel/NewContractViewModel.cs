@@ -100,6 +100,8 @@ namespace Calculator.ViewModel
                 try
                 {
                      ContractDataAccess.Insert(NewContract);
+                     //add to manage contract data grid
+                     ManageContractViewModel.Instance.ContractCollection.Add(new ContractDataGridItem(NewContract));
                      Message = "پیمان جدید با موفقیت ذخیره شد";
                      ProgressBarIsEnable = false;
                      //clear type 

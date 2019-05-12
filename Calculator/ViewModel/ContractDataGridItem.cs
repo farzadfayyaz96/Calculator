@@ -12,7 +12,17 @@ namespace Calculator.ViewModel
         
         public ContractDataGridItem(Contract contract)
         {
-            ItemContract = contract;
+            ItemContract = new Contract
+            {
+                Id = contract.Id,
+                ProjectName = contract.ProjectName,
+                ContractorName = contract.ContractorName,
+                Date =  contract.Date,
+                Amount = contract.Amount,
+                ContractType = contract.ContractType,
+                Index = contract.Index,
+                Number = contract.Number
+            };
             EditCommand = new CommandHandler(Edit);
             DeleteCommand = new CommandHandler(Delete);
         }
