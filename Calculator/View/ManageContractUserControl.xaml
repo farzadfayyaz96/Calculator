@@ -99,8 +99,9 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="مبلغ پیمان" Binding="{Binding ItemContract.Amount,UpdateSourceTrigger=PropertyChanged}"
-                                    Width="*"/>
+                <DataGridTextColumn Header="مبلغ پیمان" Binding="{Binding ItemContract.AmountWithComa,UpdateSourceTrigger=PropertyChanged}"
+                                    Width="*"
+                                    />
 
                 <DataGridTextColumn Header="شماره پیمان" Binding="{Binding ItemContract.Number,UpdateSourceTrigger=PropertyChanged}"
                                     Width="*"/>
@@ -172,7 +173,8 @@
 
                 <DataGridTextColumn Header="نوع پیمان" Binding="{Binding ItemContract.ContractTypeString,UpdateSourceTrigger=PropertyChanged}"/>
 
-                <DataGridTextColumn Header="نام پیمانکار" Binding="{Binding ItemContract.ContractorName,UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="نام پیمانکار" Binding="{Binding ItemContract.ContractorName,UpdateSourceTrigger=PropertyChanged}" 
+                                    Width="*"/>
 
                 <DataGridTextColumn Header="نام پروژه" Binding="{Binding ItemContract.ProjectName,UpdateSourceTrigger=PropertyChanged}"
                                     Width="*"/>

@@ -122,10 +122,12 @@
     </ApplicationDefinition>
     <Compile Include="CustomException\ContractNotFoundException.cs" />
     <Compile Include="CustomException\DatabaseItemNotFoundException.cs" />
+    <Compile Include="CustomException\UserNotFoundException.cs" />
     <Compile Include="Log\Logger.cs" />
     <Compile Include="Model\DataAccess\ContractDataAccess.cs" />
     <Compile Include="Model\DataAccess\DatabaseConnection.cs" />
     <Compile Include="Model\DataAccess\ProfitDateAccess.cs" />
+    <Compile Include="Model\DataAccess\ProgramInfoDataAccess.cs" />
     <Compile Include="Model\TableObject\Contract.cs" />
     <Compile Include="Model\TableObject\ContractType.cs" />
     <Compile Include="Model\TableObject\Profit.cs" />
@@ -135,6 +137,7 @@
     <Compile Include="ViewModel\ContractDataGridItem.cs" />
     <Compile Include="ViewModel\DateConverter.cs" />
     <Compile Include="ViewModel\EditContractViewModel.cs" />
+    <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ManageContractViewModel.cs" />
     <Compile Include="ViewModel\ManageProfitViewModel.cs" />
@@ -146,6 +149,9 @@
     </Compile>
     <Compile Include="View\EditContractWindow.xaml.cs">
       <DependentUpon>EditContractWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoginUserControl.xaml.cs">
+      <DependentUpon>LoginUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ManageContractUserControl.xaml.cs">
       <DependentUpon>ManageContractUserControl.xaml</DependentUpon>
@@ -216,6 +222,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\EditContractWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LoginUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

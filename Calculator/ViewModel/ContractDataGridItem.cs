@@ -62,5 +62,7 @@ namespace Calculator.ViewModel
 
         }
 
+
+
     }
 }

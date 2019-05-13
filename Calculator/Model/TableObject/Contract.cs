@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
+using System.Linq;
+using System.Text.RegularExpressions;
 using Arash;
 using Calculator.ViewModel;
+using FastReport.Editor.Syntax;
 
 namespace Calculator.Model.TableObject
 {
@@ -63,6 +65,7 @@ namespace Calculator.Model.TableObject
             get => _number;
             set
             {
+                
                 _number = value;
                 OnPropertyChanged(nameof(Number));
             }
@@ -70,13 +73,22 @@ namespace Calculator.Model.TableObject
 
         public string Amount
         {
-            get =>_amount;
+            get=> _amount; 
             set
             {
+                var regex = new Regex("^[0-9]\\d*$");
+                if (!regex.IsMatch(value) && !string.IsNullOrEmpty(value))
+                {
+                    return;
+                }
                 _amount = value;
+
                 OnPropertyChanged(nameof(Amount));
+                OnPropertyChanged(nameof(AmountWithComa));
             }
         }
+
+        public string AmountWithComa => Split(Amount, 3);
 
         public ContractType ContractType
         {
@@ -170,6 +182,18 @@ namespace Calculator.Model.TableObject
             return contractCollection;
         }
 
-        
+        public static string Split(string str, int chunkSize)
+        {
+            var temp = string.Empty;
+            var counter = 1;
+            for (var i = str.Length - 1; i >= 0; i--)
+            {
+                var coma = counter % chunkSize == 0 && counter != str.Length ? "," : string.Empty;
+                counter++;
+                temp = $"{coma}{str[i]}{temp}";
+            }
+            return temp;
+        }
+
     }
 }
