@@ -23,5 +23,22 @@ namespace Calculator.Model.DataAccess
                 }
             }
         }
+
+        public static void UpdatePassword(string password)
+        {
+            var connection = DatabaseConnection.Connection;
+            using (var command = connection.CreateCommand())
+            {
+                const string sql = "update T_Program_Info set Program_Info_Value = @password where Program_Info_Key = @key";
+                command.CommandText = sql;
+                command.Parameters.AddWithValue("@key", "app_password");
+                command.Parameters.AddWithValue("@password", password);
+                Logger.LogQuery(sql);
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+        }
+
+
     }
 }

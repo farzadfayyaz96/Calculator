@@ -53,7 +53,7 @@ namespace Calculator.Log
 
         public static void CloseFile()
         {
-           // _writer.Close();
+            _writer.Close();
         }
     }
 }

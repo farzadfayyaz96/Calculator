@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Calculator.Log;
 using Calculator.Model.DataAccess;
 using Calculator.Model.TableObject;
+using Calculator.View;
 
 namespace Calculator.ViewModel
 {
@@ -24,12 +25,21 @@ namespace Calculator.ViewModel
                 Number = contract.Number
             };
             EditCommand = new CommandHandler(Edit);
-            DeleteCommand = new CommandHandler(Delete);
+            DeleteCommand = new CommandHandler(ShowDeleteDialog);
         }
 
         public ICommand EditCommand { get; }
         public ICommand DeleteCommand { get; }
         public Contract ItemContract { get; }
+
+        private void ShowDeleteDialog()
+        {
+            //init dialog for delete contract
+            var message = $"آیا مایل به حذف \"{ItemContract.ProjectName}\" می باشید؟";
+            var dialog = new DialogUserControl(message,Delete);
+            //add popup
+            MainViewModel.Instance.AddPopupAction(dialog);
+        }
 
         private void Delete()
         {

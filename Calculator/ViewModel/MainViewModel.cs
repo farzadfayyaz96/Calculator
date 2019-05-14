@@ -10,6 +10,7 @@ namespace Calculator.ViewModel
     {
         private bool _flyoutIsOpen;
         private UserControl _control;
+        private bool _isLogin;
 
         private MainViewModel()
         {
@@ -20,23 +21,29 @@ namespace Calculator.ViewModel
             ManageContractCommand = new CommandHandler(ShowManageContract);
             ManageProfitCommand = new CommandHandler(ShowManageProfit);
             SettingCommand = new CommandHandler(ShowSetting);
+            IsLogin = true;
         }
 
         public static MainViewModel Instance = new MainViewModel();
 
         public Action<UserControl> AddPopupAction { get; set; }
-
         public Action RemovePopupAction { get; set; }
 
         public ICommand NewContractCommand { get; }
         public ICommand ManageProfitCommand { get; }
         public ICommand ManageContractCommand { get; }
         public ICommand SettingCommand { get; }
-
-
         public ICommand AboutUsCommand { get; }
         public ICommand FlyoutCommand { get; }
-
+        public bool IsLogin
+        {
+            get => _isLogin;
+            set
+            {
+                _isLogin = value;
+                OnPropertyChanged(nameof(IsLogin));
+            }
+        }
         public bool FlyoutIsOpen
         {
             get => _flyoutIsOpen;
@@ -46,7 +53,6 @@ namespace Calculator.ViewModel
                 OnPropertyChanged(nameof(FlyoutIsOpen));
             }
         }
-
         public UserControl Control
         {
             get => _control;
@@ -62,7 +68,6 @@ namespace Calculator.ViewModel
             FlyoutIsOpen = !FlyoutIsOpen;
 
         }
-
         private void ShowAboutUs()
         {
             Application.Current.Dispatcher.Invoke(() =>
@@ -74,33 +79,28 @@ namespace Calculator.ViewModel
             });
             
         }
-
         public void ChangeContent(UserControl control)
         {
             Control = control;
         }
-
         private void ShowManageProfit()
         {
             FlyoutAction();
             Control = new ManageProfitUserControl();
             
         }
-
         private void ShowManageContract()
         {
             FlyoutAction();
             Control = new ManageContractUserControl();
             
         }
-
         private void ShowNewContract()
         {
             FlyoutAction();
             Control = new NewContractUserControl();
             
         }
-
         private void ShowSetting()
         {
             FlyoutAction();

@@ -54,6 +54,7 @@ namespace Calculator.ViewModel
                     if (result)
                     {
                         MainViewModel.Instance.ChangeContent(new ManageContractUserControl());
+                        MainViewModel.Instance.IsLogin = false;
                         return;
                     }
                     Message = "رمز عبور معتبر نمی باشد.";

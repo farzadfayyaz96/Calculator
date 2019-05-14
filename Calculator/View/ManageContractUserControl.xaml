@@ -34,13 +34,16 @@
                            FlowDirection="RightToLeft"
                            Grid.Column="3"
                            Margin="10,10"/>
+
                 <TextBox Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged}"
                          Grid.Column="2"
                          Style="{StaticResource SimpleTextBox}"/>
+
                 <TextBlock Text=" * جست و جو بر اساس نام پروژه، نام پیمانکار و شماره پیمان می باشد."
                            FlowDirection="RightToLeft"
                            VerticalAlignment="Center"
                            Grid.Column="1"/>
+
                 <TextBlock Grid.Column="0"
                            VerticalAlignment="Center"
                            Text="{Binding Message,UpdateSourceTrigger=PropertyChanged}"
@@ -67,60 +70,31 @@
         </Border>        
 
         <DataGrid Grid.Row="1"
+                  RowDetailsVisibilityMode="Visible"
                   Name="ContractDataGrid"
                   Style="{StaticResource SimpleDataGridStyle}"
                   Margin="10"
                   ItemsSource="{Binding ContractCollection,UpdateSourceTrigger=PropertyChanged}"
                   SelectedCellsChanged="DataGrid_OnSelectedCellsChanged">
+
             <DataGrid.Columns>
-
-                <DataGridTemplateColumn Header="تنظیمات">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate DataType="viewModel:ContractDataGridItem">
-                            <StackPanel Orientation="Horizontal">
-                                <Button Style="{StaticResource SimpleButton}"
-                                        Foreground="Black"
-                                        Command="{Binding EditCommand}"
-                                        Margin="5,0">
-                                    <iconPack:Material Kind="Pencil"
-                                                       Width="20"
-                                                       Height="20"/>
-                                </Button>
-                                <Button Style="{StaticResource SimpleButton}"
-                                        Foreground="Black"
-                                        Command="{Binding DeleteCommand}"
-                                        Margin="5,0">
-                                    <iconPack:Material Kind="Delete"
-                                                       Width="20"
-                                                       Height="20"/>
-                                </Button>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-
-                <DataGridTextColumn Header="مبلغ پیمان" Binding="{Binding ItemContract.AmountWithComa,UpdateSourceTrigger=PropertyChanged}"
-                                    Width="*"
-                                    />
-
-                <DataGridTextColumn Header="شماره پیمان" Binding="{Binding ItemContract.Number,UpdateSourceTrigger=PropertyChanged}"
-                                    Width="*"/>
-
-                <DataGridTemplateColumn Header="تاریخ پیمان" 
-                                        Width="*">
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource SimpleDataGridColumnHeaderStyle}">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-
+                <DataGridTextColumn Header="ردیف"
+                                    Width="Auto"
+                                    Binding="{Binding ItemContract.Index,UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="نام پروژه" 
+                                    Binding="{Binding ItemContract.ProjectName,UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="نام پیمانکار" 
+                                    Binding="{Binding ItemContract.ContractorName,UpdateSourceTrigger=PropertyChanged}" />
+                <DataGridTextColumn Header="نوع پیمان" 
+                                    Binding="{Binding ItemContract.ContractTypeString,UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTemplateColumn Header="تاریخ پیمان">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="روز"
                                            TextAlignment="Center"
@@ -134,25 +108,17 @@
                                            TextAlignment="Center"
                                            Grid.Column="0"
                                            Margin="10,0"/>
-                                
+
                             </Grid>
-                            
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
-
-                    <DataGridTemplateColumn.CellStyle>
-                        <Style TargetType="DataGridCell" BasedOn="{StaticResource SimpleDataGridCellStyle}">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                        </Style>
-                    </DataGridTemplateColumn.CellStyle>
-
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="viewModel:ContractDataGridItem">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="{Binding ItemContract.Date.Day,UpdateSourceTrigger=PropertyChanged}"
                                            Grid.Column="2"
@@ -170,17 +136,42 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTextColumn Header="شماره پیمان" 
+                                    Binding="{Binding ItemContract.Number,UpdateSourceTrigger=PropertyChanged}"/>
 
-                <DataGridTextColumn Header="نوع پیمان" Binding="{Binding ItemContract.ContractTypeString,UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="مبلغ پیمان"
+                                    Width="Auto"
+                                    Binding="{Binding ItemContract.AmountWithComa,UpdateSourceTrigger=PropertyChanged}"/>
 
-                <DataGridTextColumn Header="نام پیمانکار" Binding="{Binding ItemContract.ContractorName,UpdateSourceTrigger=PropertyChanged}" 
-                                    Width="*"/>
+                <DataGridTemplateColumn Header="تنظیمات" 
+                                        Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="viewModel:ContractDataGridItem">
+                            <StackPanel Orientation="Horizontal">
 
-                <DataGridTextColumn Header="نام پروژه" Binding="{Binding ItemContract.ProjectName,UpdateSourceTrigger=PropertyChanged}"
-                                    Width="*"/>
+                                <Button Style="{StaticResource SimpleButton}"
+                                        Foreground="Black"
+                                        Command="{Binding EditCommand}"
+                                        Margin="5,0">
+                                    <iconPack:Material Kind="Pencil"
+                                                       Width="20"
+                                                       Height="20"/>
+                                </Button>
 
-                <DataGridTextColumn Header="ردیف" Binding="{Binding ItemContract.Index,UpdateSourceTrigger=PropertyChanged}"/>
-        
+                                <Button Style="{StaticResource SimpleButton}"
+                                        Foreground="Black"
+                                        Command="{Binding DeleteCommand}"
+                                        Margin="5,0">
+
+                                    <iconPack:Material Kind="Delete"
+                                                       Width="20"
+                                                       Height="20"/>
+
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

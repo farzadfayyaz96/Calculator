@@ -38,6 +38,7 @@
         <Setter Property="SelectionUnit" Value="FullRow"/>
         <Setter Property="Margin" Value="15,5"/>
         <Setter Property="BorderThickness" Value="3"/>
+        <Setter Property="ColumnWidth" Value="*"/>
         <Setter Property="BorderBrush" Value="{StaticResource AccentColorBrush}"/>
         <Setter Property="AlternatingRowBackground">
             <Setter.Value>
@@ -49,7 +50,8 @@
         <Setter Property="AutoGenerateColumns" Value="False"/>
         <Setter Property="CellStyle" Value="{StaticResource SimpleDataGridCellStyle}"/>
         <Setter Property="ColumnHeaderStyle" Value="{StaticResource SimpleDataGridColumnHeaderStyle}"/>
-        <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
+        <Setter Property="FlowDirection" Value="RightToLeft"/>
         
     </Style>
     

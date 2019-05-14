@@ -14,7 +14,7 @@ namespace Calculator.View
             _viewModel = new LoginViewModel();
             DataContext = _viewModel;
             _viewModel.FocusAction = FocusPasswordBox;
-            FocusPasswordBox();
+            PasswordBox.Password = "123";
         }
 
         private void PasswordBox_OnPasswordChanged(object sender, RoutedEventArgs e)
@@ -23,6 +23,11 @@ namespace Calculator.View
         }
 
         private void FocusPasswordBox()
+        {
+            PasswordBox.Focus();
+        }
+
+        private void LoginUserControl_OnLoaded(object sender, RoutedEventArgs e)
         {
             PasswordBox.Focus();
         }

@@ -1,0 +1,121 @@
+﻿<UserControl x:Class="Calculator.View.DialogUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:iconPack="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+
+    <Grid>
+
+        <Grid.Background>
+            <SolidColorBrush Color="Black" Opacity="0.5"/>
+        </Grid.Background>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Background="White"
+              Grid.Row="1">
+            <Grid Margin="150,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0"
+                  Margin="20,30"
+                  HorizontalAlignment="Right">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- message -->
+                    <TextBlock Text="{Binding Message}"
+                           FlowDirection="RightToLeft"
+                           Grid.Column="0"
+                           TextAlignment="Left"
+                           Margin="30,0"
+                           VerticalAlignment="Center"
+                           FontSize="{StaticResource FontSizeRegular}"
+                           TextTrimming="WordEllipsis"
+                           TextWrapping="Wrap"/>
+                    <!-- icon -->
+                    <Label Grid.Column="1"
+                       VerticalAlignment="Top">
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsError,UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                        <Setter Property="Content">
+                                            <Setter.Value>
+                                                <iconPack:Material Kind="AlertCircle"
+                                                               Width="60"
+                                                               Height="60"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Foreground" Value="OrangeRed"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsError,UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                        <Setter Property="Content">
+                                            <Setter.Value>
+                                                <iconPack:Material Kind="Information"
+                                                               Width="60"
+                                                               Height="60"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Foreground" Value="DarkOrange"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
+                    </Label>
+                </Grid>
+
+                <StackPanel Grid.Row="1"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="110,10">
+
+                    <Button Content="{Binding CloseButtonText,UpdateSourceTrigger=PropertyChanged}"
+                            Style="{StaticResource SeconderCustomButton}"
+                            Command="{Binding CloseCommand}"
+                            Padding="50,5"
+                            IsCancel="True"
+                            FontSize="{StaticResource FontSizeRegular}"
+                            HorizontalAlignment="Right"/>
+
+                    <Button Content="بله"
+                            Command="{Binding OkCommand}"
+                            Padding="50,5"
+                            FontSize="{StaticResource FontSizeRegular}"
+                            HorizontalAlignment="Right">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource FirstCustomButton}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsError,UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsError,UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Setter Property="IsDefault" Value="True"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                </StackPanel>
+
+
+            </Grid>
+        </Grid>
+        
+    </Grid>
+</UserControl>
