@@ -4,12 +4,156 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mahApps ="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:viewModel="clr-namespace:Calculator.ViewModel"
+        xmlns:persianDateControls="clr-namespace:Arash.PersianDateControls;assembly=PersianDateControls"
         mc:Ignorable="d"
-        Title=""
         WindowState="Maximized"
         MinHeight="600"
         MinWidth="800">
+
+    <mahApps:MetroWindow.TitleTemplate>
+        <DataTemplate DataType="viewModel:EditContractViewModel">
+            <Grid>
+                <TextBlock Text="{Binding ItemContract.ProjectName}"
+                           VerticalAlignment="Center"
+                           Margin="10,0"/>
+            </Grid>
+        </DataTemplate>
+    </mahApps:MetroWindow.TitleTemplate>
+    
+    
+
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
         
+
+        <Border BorderBrush="{StaticResource AccentBaseColorBrush}"
+                BorderThickness="3"
+                Margin="20"
+                Padding="20"
+                Grid.Row="0">
+            <Grid FlowDirection="RightToLeft">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="نام پروژه :"
+                           Grid.Column="0"
+                           VerticalAlignment="Center"
+                           Grid.Row="0"/>
+                <TextBox Text="{Binding ItemContract.ProjectName,UpdateSourceTrigger=PropertyChanged}"
+                         Grid.Column="1"
+                         Style="{StaticResource SimpleTextBox}"
+                         Grid.Row="0"/>
+
+                <TextBlock Text="نام پیمانکار :"
+                           Grid.Column="2"
+                           VerticalAlignment="Center"
+                           Grid.Row="0"/>
+                <TextBox Text="{Binding ItemContract.ContractorName,UpdateSourceTrigger=PropertyChanged}"
+                         Grid.Column="3"
+                         Style="{StaticResource SimpleTextBox}"
+                         Grid.Row="0"/>
+
+                <TextBlock Text="نام تاریخ پروژه :"
+                           Grid.Column="4"
+                           VerticalAlignment="Center"
+                           Grid.Row="0"/>
+                <ComboBox Style="{StaticResource SimpleComboBoxStyle}"
+                          Grid.Column="5"
+                          Grid.Row="0"
+                          SelectedIndex="{Binding SelectedContractTypeIndex,UpdateSourceTrigger=PropertyChanged}">
+                    <ComboBoxItem Content="پیش پرداخت"/>
+                    <ComboBoxItem Content="موقت"/>
+                    <ComboBoxItem Content="قطعی"/>
+                    <ComboBoxItem Content="تعدیل"/>
+                    <ComboBoxItem Content="سپرده"/>
+                </ComboBox>
+
+                <TextBlock Text="نام تاریخ پروژه :"
+                           Grid.Column="6"
+                           VerticalAlignment="Center"
+                           Grid.Row="0"/>
+                <persianDateControls:PersianDatePicker Height="30"
+                                                       Name="DatePicker"
+                                                       Grid.Column="7"
+                                                       BorderThickness="3"
+                                                       Grid.Row="0"
+                                                       SelectedDateChanged="DatePicker_OnSelectedDateChanged"/>
+
+                <!-- row 2 -->
+                <TextBlock Text="شماره پیمان : "
+                           Grid.Column="0"
+                           VerticalAlignment="Center"
+                           Grid.Row="1"/>
+                <TextBox Text="{Binding ItemContract.Number,UpdateSourceTrigger=PropertyChanged}"
+                         Grid.Column="1"
+                         Style="{StaticResource SimpleTextBox}"
+                         Grid.Row="1"/>
+
+                <TextBlock Text="مبلغ پیمان : "
+                           Grid.Column="2"
+                           VerticalAlignment="Center"
+                           Grid.Row="1"/>
+                <TextBox Text="{Binding ItemContract.Amount,UpdateSourceTrigger=PropertyChanged}"
+                         Grid.Column="3"
+                         Style="{StaticResource SimpleTextBox}"
+                         Grid.Row="1"/>
+
+                <TextBlock Text="{Binding Message,UpdateSourceTrigger=PropertyChanged}"
+                           TextAlignment="Center"
+                           VerticalAlignment="Center"
+                           Grid.Column="5"
+                           FontFamily="{StaticResource IranSansMedium}"
+                           Grid.Row="1">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsError,UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                    <Setter Property="Foreground" Value="Red"/>
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding IsError,UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <Button Content="ذخیره"
+                        Grid.Column="7"
+                        HorizontalAlignment="Center"
+                        Padding="45,5"
+                        Command="{Binding SaveCommand,UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource FirstCustomButton}"
+                        Grid.Row="1"/>
+
+            </Grid>
+        </Border>
+        <TextBlock Text="مشخصات قرار داد"
+                   FontSize="{StaticResource FontSizeRegular}"
+                   Background="White"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Top"
+                   Padding="5,0"
+                   Margin="40,5"
+                   Grid.Row="0"/>
+
     </Grid>
 </mahApps:MetroWindow>

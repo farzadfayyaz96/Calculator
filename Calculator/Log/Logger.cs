@@ -55,5 +55,6 @@ namespace Calculator.Log
         {
             _writer.Close();
         }
+
     }
 }

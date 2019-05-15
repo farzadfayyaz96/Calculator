@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text.RegularExpressions;
 using Arash;
 using Calculator.ViewModel;
@@ -124,6 +123,15 @@ namespace Calculator.Model.TableObject
             else if (type.Equals("4")) ContractType = ContractType.Deposit;
         }
 
+        public int GetSelectedContractTypeIndex()
+        {
+            if (ContractType == ContractType.Prepayment) return 0;
+            if (ContractType == ContractType.Temporary) return 1;
+            if (ContractType == ContractType.Certain) return 2;
+            if (ContractType == ContractType.Balancing) return 3;
+            return 4;
+        }
+
         public string GetContractTypeValue()
         {
             if (ContractType == ContractType.Prepayment) return "0";
@@ -152,7 +160,7 @@ namespace Calculator.Model.TableObject
         public override string ToString()
         {
             return
-                $"project name = {ProjectName}\r\ncontractorName = {ContractorName}\r\ndate = {Date}\r\nnumber = {Number}\r\namount = {Amount}";
+                $"project name = {ProjectName}\r\ncontractorName = {ContractorName}\r\ntype = {ContractType}\r\ncontract type = {ContractTypeString}\r\ndate = {Date}\r\nnumber = {Number}\r\namount = {Amount}";
         }
 
         public override bool Equals(object obj)
@@ -194,6 +202,7 @@ namespace Calculator.Model.TableObject
             }
             return temp;
         }
+
 
     }
 }

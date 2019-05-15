@@ -69,6 +69,12 @@ namespace Calculator.ViewModel
 
         private void Edit()
         {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var editContractWindow = new EditContractWindow(ItemContract);
+                editContractWindow.Show();
+            });
+            
 
         }
 

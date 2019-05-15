@@ -9,5 +9,10 @@ namespace Calculator
         {
             Logger.CloseFile();
         }
+
+        private void App_OnStartup(object sender, StartupEventArgs e)
+        {
+            Logger.Log("start app");
+        }
     }
 }
