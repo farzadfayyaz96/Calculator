@@ -12,30 +12,33 @@ namespace Calculator.ViewModel
         private string _oldPassword;
         private string _newPassword;
         private string _confirmPassword;
-        private string _message;
+        private string _changePasswordMessage;
         private bool _isError;
 
         public SettingViewModel()
         {
             CloseCommand = new CommandHandler(Close);
             ChangePasswordCommand = new CommandHandler(ChangePassword);
+            SaveProfitContractTypeCommand = new CommandHandler(SaveProfitContractType);
         }
 
         public ICommand CloseCommand { get; }
 
         public ICommand ChangePasswordCommand { get; }
 
+        public ICommand SaveProfitContractTypeCommand { get; }
+
         public Action FocusAction { get; set; }
 
         public Action ClearPasswordAction { get; set; }
 
-        public string Message
+        public string ChangePasswordMessage
         {
-            get => _message;
+            get => _changePasswordMessage;
             set
             {
-                _message = value;
-                OnPropertyChanged(nameof(Message));
+                _changePasswordMessage = value;
+                OnPropertyChanged(nameof(ChangePasswordMessage));
             }
         }
 
@@ -91,28 +94,28 @@ namespace Calculator.ViewModel
                 //check variable
                 if (string.IsNullOrEmpty(OldPassword))
                 {
-                    ShowError("رمز عبور فعلی را وارد کنید.");
+                    ShowChangePasswordError("رمز عبور فعلی را وارد کنید.");
                     FocusAction();
                     return;
                 }
 
                 if (string.IsNullOrEmpty(NewPassword))
                 {
-                    ShowError("رمز عبور جدید را وارد کنید.");
+                    ShowChangePasswordError("رمز عبور جدید را وارد کنید.");
                     FocusAction();
                     return;
                 }
 
                 if (string.IsNullOrEmpty(ConfirmPassword))
                 {
-                    ShowError("تایید رمز عبور را وارد کنید");
+                    ShowChangePasswordError("تایید رمز عبور را وارد کنید");
                     FocusAction();
                     return;
                 }
 
                 if (!NewPassword.Equals(ConfirmPassword))
                 {
-                    ShowError("رمز عبور جدید مطابقت ندارد");
+                    ShowChangePasswordError("رمز عبور جدید مطابقت ندارد");
                     FocusAction();
                     return;
                 }
@@ -122,35 +125,43 @@ namespace Calculator.ViewModel
                     var result = ProgramInfoDataAccess.Login(OldPassword);
                     if (!result)
                     {
-                        ShowError("رمز عبور فعلی اشتباه است");
+                        ShowChangePasswordError("رمز عبور فعلی اشتباه است");
                         FocusAction();
                         return;
                     }
                     //update password
                     ProgramInfoDataAccess.UpdatePassword(NewPassword);
-                    ShowMessage("رمز عبور با موفقیت تغییر یافت.");
+                    ShowChangePasswordMessage("رمز عبور با موفقیت تغییر یافت.");
                     ClearPasswordAction();
                     FocusAction();
                 }
                 catch (Exception e)
                 {
                     Logger.LogException(e);
-                    ShowError("خطا در ارتباط با پیگاه داده");
+                    ShowChangePasswordError("خطا در ارتباط با پیگاه داده");
                 }
             });
         }
 
-        private void ShowError(string message)
+        private void ShowChangePasswordError(string message)
         {
             IsError = true;
-            Message = message;
+            ChangePasswordMessage = message;
 
         }
 
-        private void ShowMessage(string message)
+        private void ShowChangePasswordMessage(string message)
         {
             IsError = false;
-            Message = message;
+            ChangePasswordMessage = message;
+        }
+
+        private void SaveProfitContractType()
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                //do something here!!!
+            });
         }
     }
 }
