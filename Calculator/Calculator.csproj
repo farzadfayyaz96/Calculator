@@ -135,6 +135,7 @@
     <Compile Include="ViewModel\AboutUsViewModel.cs" />
     <Compile Include="ViewModel\CommandHandler.cs" />
     <Compile Include="ViewModel\ContractDataGridItem.cs" />
+    <Compile Include="ViewModel\ContractSpecificationsViewModel.cs" />
     <Compile Include="ViewModel\DateConverter.cs" />
     <Compile Include="ViewModel\DialogViewModel.cs" />
     <Compile Include="ViewModel\EditContractViewModel.cs" />
@@ -147,6 +148,9 @@
     <Compile Include="ViewModel\SettingViewModel.cs" />
     <Compile Include="View\AboutUsUserControl.xaml.cs">
       <DependentUpon>AboutUsUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ContractSpecificationsUserControl.xaml.cs">
+      <DependentUpon>ContractSpecificationsUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DialogUserControl.xaml.cs">
       <DependentUpon>DialogUserControl.xaml</DependentUpon>
@@ -226,6 +230,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\AboutUsUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ContractSpecificationsUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

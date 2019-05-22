@@ -39,10 +39,23 @@
                          Grid.Column="2"
                          Style="{StaticResource SimpleTextBox}"/>
 
-                <TextBlock Text=" * جست و جو بر اساس نام پروژه، نام پیمانکار و شماره پیمان می باشد."
-                           FlowDirection="RightToLeft"
-                           VerticalAlignment="Center"
-                           Grid.Column="1"/>
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            Margin="10"
+                            FlowDirection="RightToLeft">
+
+                    <RadioButton Content="نام پروژه"
+                                 IsChecked="{Binding IsProjectName,UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="10,0"/>
+
+                    <RadioButton Content="نام پیمانکار"
+                                 IsChecked="{Binding IsContractorName,UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="10,0"/>
+
+                    <RadioButton Content="شماره پیمان"
+                                 IsChecked="{Binding IsContractNumber,UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="10,0"/>
+                </StackPanel>
 
                 <TextBlock Grid.Column="0"
                            VerticalAlignment="Center"
@@ -85,8 +98,6 @@
                                     Binding="{Binding ItemContract.ProjectName,UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="نام پیمانکار" 
                                     Binding="{Binding ItemContract.ContractorName,UpdateSourceTrigger=PropertyChanged}" />
-                <DataGridTextColumn Header="نوع پیمان" 
-                                    Binding="{Binding ItemContract.ContractTypeString,UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTemplateColumn Header="تاریخ پیمان">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>

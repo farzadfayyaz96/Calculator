@@ -12,6 +12,9 @@ namespace Calculator.ViewModel
         private ObservableCollection<ContractDataGridItem> _contractCollection;
         private string _message;
         private bool _progressBarIsEnable;
+        private bool _isProjectName;
+        private bool _isContractorName;
+        private bool _isContractNumber;
         private ManageContractViewModel()
         {
             Application.Current.Dispatcher.Invoke(() =>
@@ -25,6 +28,7 @@ namespace Calculator.ViewModel
                     Logger.LogException(e);
                 }
             });
+            IsProjectName = true;
 
         }
 
@@ -37,6 +41,36 @@ namespace Calculator.ViewModel
             {
                 _message = value;
                 OnPropertyChanged(nameof(Message));
+            }
+        }
+
+        public bool IsProjectName
+        {
+            get => _isProjectName;
+            set
+            {
+                _isProjectName = value;
+                OnPropertyChanged(nameof(IsProjectName));
+            }
+        }
+
+        public bool IsContractorName
+        {
+            get => _isContractorName;
+            set
+            {
+                _isContractorName = value;
+                OnPropertyChanged(nameof(IsContractorName));
+            }
+        }
+
+        public bool IsContractNumber
+        {
+            get => _isContractNumber;
+            set
+            {
+                _isContractNumber = value;
+                OnPropertyChanged(nameof(IsContractNumber));
             }
         }
 
@@ -95,7 +129,8 @@ namespace Calculator.ViewModel
                     ProgressBarIsEnable = true;
                     try
                     {
-                        ContractCollection = ContractDataAccess.Search(SearchText);
+                        var type = IsProjectName ? 1 : IsContractorName ? 2 : 3;
+                        ContractCollection = ContractDataAccess.Search(SearchText,type);
                     }
                     catch (Exception e)
                     {

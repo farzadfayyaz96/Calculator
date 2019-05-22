@@ -20,7 +20,6 @@ namespace Calculator.ViewModel
                 ContractorName = contract.ContractorName,
                 Date =  contract.Date,
                 Amount = contract.Amount,
-                ContractType = contract.ContractType,
                 Index = contract.Index,
                 Number = contract.Number
             };
