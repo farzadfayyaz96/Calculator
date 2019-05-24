@@ -152,7 +152,7 @@
 
                 <DataGridTextColumn Header="مبلغ پیمان"
                                     Width="Auto"
-                                    Binding="{Binding ItemContract.AmountWithComa,UpdateSourceTrigger=PropertyChanged}"/>
+                                    Binding="{Binding ItemContract.Amount,UpdateSourceTrigger=PropertyChanged}"/>
 
                 <DataGridTemplateColumn Header="تنظیمات" 
                                         Width="Auto">

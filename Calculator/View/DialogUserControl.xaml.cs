@@ -5,16 +5,16 @@ namespace Calculator.View
 {
     public partial class DialogUserControl 
     {
-        public DialogUserControl(string message)
+        public DialogUserControl(string message,Action closeAction)
         {
             InitializeComponent();
-            DataContext = new DialogViewModel(message);
+            DataContext = new DialogViewModel(message,closeAction);
         }
 
-        public DialogUserControl(string message,Action action)
+        public DialogUserControl(string message,Action okAction,Action closeAction)
         {
             InitializeComponent();
-            DataContext = new DialogViewModel(message,action);
+            DataContext = new DialogViewModel(message,okAction,closeAction);
         }
     }
 }

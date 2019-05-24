@@ -1,5 +1,4 @@
-﻿
-using System.Windows;
+﻿using System.Windows.Controls;
 using Calculator.Model.TableObject;
 using Calculator.ViewModel;
 
@@ -8,18 +7,31 @@ namespace Calculator.View
 
     public partial class EditContractWindow
     {
-        private readonly EditContractViewModel _viewModel;
         public EditContractWindow(Contract contract)
         {
             InitializeComponent();
-            _viewModel = new EditContractViewModel(contract);
-            DataContext = _viewModel;
-            DatePicker.SelectedDate = contract.Date;
+            ViewModel = new EditContractViewModel(contract);
+            DataContext = ViewModel;
+            Title = contract.ProjectName;
+            ViewModel.AddPopupAction = AddPopup;
+            ViewModel.RemovePopupAction = RemovePopup;
+
         }
 
-        private void DatePicker_OnSelectedDateChanged(object sender, RoutedEventArgs e)
+        public EditContractViewModel ViewModel { get; }
+
+        private void AddPopup(UserControl control)
         {
-            _viewModel.ItemContract.Date = DatePicker.SelectedDate;
+            Grid.SetRow(control, 0);
+            Grid.SetRowSpan(control, 2);
+            MainGrid.Children.Add(control);
         }
+
+        private void RemovePopup()
+        {
+            var index = MainGrid.Children.Count - 1;
+            MainGrid.Children.RemoveAt(index);
+        }
+
     }
 }

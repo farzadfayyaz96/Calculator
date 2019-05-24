@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
+using System.Windows;
 using Arash;
 using Calculator.ViewModel;
 
@@ -72,19 +73,15 @@ namespace Calculator.Model.TableObject
             get=> _amount; 
             set
             {
-                var regex = new Regex("^[0-9]\\d*$");
-                if (!regex.IsMatch(value) && !string.IsNullOrEmpty(value))
+                var temp = value.Replace(",", "");
+                if (!AmountSplitter.AmountRegex.IsMatch(temp) && !string.IsNullOrEmpty(temp))
                 {
                     return;
                 }
-                _amount = value;
-
+                _amount = string.IsNullOrEmpty(temp) ? temp : AmountSplitter.Split(temp, 3);
                 OnPropertyChanged(nameof(Amount));
-                OnPropertyChanged(nameof(AmountWithComa));
             }
         }
-
-        public string AmountWithComa => Split(Amount, 3);
 
 
         public void Clear()
@@ -125,27 +122,15 @@ namespace Calculator.Model.TableObject
             var contractCollection = new ObservableCollection<ContractDataGridItem>();
             contractCollection.CollectionChanged += (sender, args) =>
             {
-                for (var i = 0; i < contractCollection.Count; i++)
+                Application.Current.Dispatcher.Invoke(() =>
                 {
-                    contractCollection[i].ItemContract.Index = $"{i + 1}";
-                }
+                    for (var i = 0; i < contractCollection.Count; i++)
+                    {
+                        contractCollection[i].ItemContract.Index = $"{i + 1}";
+                    }
+                });
             };
             return contractCollection;
         }
-
-        public static string Split(string str, int chunkSize)
-        {
-            var temp = string.Empty;
-            var counter = 1;
-            for (var i = str.Length - 1; i >= 0; i--)
-            {
-                var coma = counter % chunkSize == 0 && counter != str.Length ? "," : string.Empty;
-                counter++;
-                temp = $"{coma}{str[i]}{temp}";
-            }
-            return temp;
-        }
-
-
     }
 }

@@ -9,19 +9,21 @@ namespace Calculator.ViewModel
         private string _message;
         private bool _isError;
         private string _closeButtonText;
-        public DialogViewModel(string message,Action okAction)
+        public DialogViewModel(string message,Action okAction,Action closeAction)
         {
             Message = message;
             OkAction = okAction;
-            CloseCommand = new CommandHandler(Close);
+            CloseAction = closeAction;
+            CloseCommand = new CommandHandler(closeAction);
             OkCommand = new CommandHandler(Ok);
             CloseButtonText = "خیر";
         }
 
-        public DialogViewModel(string message)
+        public DialogViewModel(string message,Action closeAction)
         {
             Message = message;
-            CloseCommand = new CommandHandler(Close);
+            CloseAction = closeAction;
+            CloseCommand = new CommandHandler(CloseAction);
             IsError = true;
             CloseButtonText = "باشه";
         }
@@ -29,6 +31,8 @@ namespace Calculator.ViewModel
         public ICommand OkCommand { get; }
         public ICommand CloseCommand { get; }
         public Action OkAction { get; set; }
+
+        public Action CloseAction { get; set; }
 
         public string CloseButtonText
         {
@@ -60,15 +64,10 @@ namespace Calculator.ViewModel
             }
         }
 
-        private void Close()
-        {
-            MainViewModel.Instance.RemovePopupAction();
-        }
-
         private void Ok()
         {
             OkAction();
-            Close();
+            CloseAction();
         }
         
 

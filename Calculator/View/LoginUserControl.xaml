@@ -44,6 +44,40 @@
                     IsDefault="True"
                     FontSize="{StaticResource FontSizeRegular}"
                     Style="{StaticResource FirstCustomButton}"/>
+
+            <!--<Button BorderThickness="0"
+                    Padding="50,10"
+                    HorizontalAlignment="Center"
+                    BorderBrush="Transparent"
+                    Content="farzad"
+                    Background="#819C4B">
+                <Button.Style>
+                    
+                    <Style TargetType="Button" BasedOn="{StaticResource AccentedSquareButtonStyle}">
+                        <Setter Property="Background" Value="#819C4B"/>
+                        <Setter Property="Margin" Value="50"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect BlurRadius="50"
+                                                          Opacity="0.3"
+                                                          Color="#819C4B"
+                                                          Direction="270"
+                                                          ShadowDepth="15"/>
+                                    </Setter.Value>
+                                    
+                                </Setter>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Foreground" Value="#323B20"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+
+                </Button.Style>
+            </Button>-->
             
         </StackPanel>
             

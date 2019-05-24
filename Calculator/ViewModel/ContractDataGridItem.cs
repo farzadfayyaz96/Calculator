@@ -35,7 +35,7 @@ namespace Calculator.ViewModel
         {
             //init dialog for delete contract
             var message = $"آیا مایل به حذف \"{ItemContract.ProjectName}\" می باشید؟";
-            var dialog = new DialogUserControl(message,Delete);
+            var dialog = new DialogUserControl(message,Delete,MainViewModel.Instance.RemovePopupAction);
             //add popup
             MainViewModel.Instance.AddPopupAction(dialog);
         }
@@ -70,8 +70,23 @@ namespace Calculator.ViewModel
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
+                //searching for exist edit contract windows
+                var list = ManageContractViewModel.Instance.EditContractWindowList;
+                foreach (var window in list)
+                {
+                    if (!window.ViewModel.FunctionsControl.ViewModel.ItemFunction.ContractId.Equals(ItemContract.Id))
+                    {
+                        //not found so continue
+                        continue;
+                    }
+                    //found it so active it and get out 
+                    window.Activate();
+                    return;
+                }
+                //not exist so make new windows and add it to list
                 var editContractWindow = new EditContractWindow(ItemContract);
                 editContractWindow.Show();
+                list.Add(editContractWindow);
             });
             
 

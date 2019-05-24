@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls;
 using Calculator.Log;
 using Calculator.Model.DataAccess;
+using Calculator.View;
 
 namespace Calculator.ViewModel
 {
@@ -29,10 +32,12 @@ namespace Calculator.ViewModel
                 }
             });
             IsProjectName = true;
-
+            EditContractWindowList = new List<EditContractWindow>();
         }
 
         public static ManageContractViewModel Instance { get; } = new ManageContractViewModel();
+
+        public List<EditContractWindow> EditContractWindowList { get; } 
 
         public string Message
         {
