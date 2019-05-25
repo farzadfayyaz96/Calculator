@@ -26,7 +26,7 @@ namespace Calculator.Model.DataAccess
                         {
                             Id = reader["Function_Id"].ToString(),
                             ContractId = reader["Contract_Id"].ToString(),
-                            ContractType = ContractTypeUtil.GetContractTypeByName(reader["Function_Type"].ToString()),
+                            ContractType = reader["Function_Type"].ToString(),
                             Amount = reader["Function_Amount"].ToString(),
                         };
                         //date
@@ -57,7 +57,7 @@ namespace Calculator.Model.DataAccess
                 command.CommandText = sql;
                 command.Parameters.AddWithValue("@id", function.Id);
                 command.Parameters.AddWithValue("@contractId", function.ContractId);
-                command.Parameters.AddWithValue("@type", function.ContractTypeName);
+                command.Parameters.AddWithValue("@type", function.ContractType);
                 command.Parameters.AddWithValue("@date", function.Date);
                 command.Parameters.AddWithValue("@amount", function.Amount);
                 Logger.LogQuery($"{sql}\r\n{function}");

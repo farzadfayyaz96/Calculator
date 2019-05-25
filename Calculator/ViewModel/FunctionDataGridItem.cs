@@ -50,7 +50,7 @@ namespace Calculator.ViewModel
                     break;
                 }
                 //init dialog for delete contract
-                var message = $"آیا مایل به حذف کارکرد به مبلغ '{ItemFunction.Amount}' و از نوع '{ItemFunction.ContractTypeName}' می باشید؟";
+                var message = $"آیا مایل به حذف کارکرد به مبلغ '{ItemFunction.Amount}' و از نوع '{ItemFunction.ContractType}' می باشید؟";
                 var dialog = new DialogUserControl(message, () => DeleteAction(this),editWindow?.ViewModel.RemovePopupAction);
                 editWindow?.ViewModel.AddPopupAction(dialog);
 

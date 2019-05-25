@@ -68,7 +68,6 @@
                            FontFamily="{StaticResource IranSansMedium}"
                            HorizontalAlignment="Center"
                            Text="{Binding Message,UpdateSourceTrigger=PropertyChanged}">
-                    <!-- {Binding Message,UpdateSourceTrigger=PropertyChanged} -->
                     <TextBlock.Style>
                        <Style TargetType="TextBlock">
 
@@ -120,7 +119,7 @@
                 <DataGridTextColumn Header="مبلغ قرارداد" 
                                     Binding="{Binding ItemFunction.Amount,UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="نوع قرارداد"
-                                    Binding="{Binding ItemFunction.ContractTypeName,UpdateSourceTrigger=PropertyChanged}"/>
+                                    Binding="{Binding ItemFunction.ContractType,UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTemplateColumn Header="تاریخ پیمان">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>

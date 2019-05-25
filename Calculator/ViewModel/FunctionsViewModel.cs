@@ -19,7 +19,7 @@ namespace Calculator.ViewModel
             ItemFunction = new Function
             {
                 ContractId = contractId,
-                ContractType = ContractType.Prepayment
+                ContractType = "پیش پرداخت"
             };
             SaveCommand = new CommandHandler(Save);
             Application.Current.Dispatcher.Invoke(() =>
@@ -59,7 +59,11 @@ namespace Calculator.ViewModel
             {
                 _selectedContractTypeIndex = value;
                 OnPropertyChanged(nameof(SelectedContractTypeIndex));
-                ItemFunction.ContractType = ContractTypeUtil.GetContractTypeByIndex(_selectedContractTypeIndex);
+                if (_selectedContractTypeIndex == 0) ItemFunction.ContractType = "پیش پرداخت";
+                else if (_selectedContractTypeIndex == 1) ItemFunction.ContractType = "موقت";
+                else if (_selectedContractTypeIndex == 2) ItemFunction.ContractType = "قطعی";
+                else if (_selectedContractTypeIndex == 3) ItemFunction.ContractType = "تعدیل";
+                else if (_selectedContractTypeIndex == 4) ItemFunction.ContractType = "سپرده";
             }
         }
 

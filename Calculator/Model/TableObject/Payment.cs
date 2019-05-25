@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using Arash;
@@ -7,26 +6,18 @@ using Calculator.ViewModel;
 
 namespace Calculator.Model.TableObject
 {
-    public class Function : NotifyProperty
+    public class Payment :NotifyProperty
     {
-        private int _index;
         private string _amount;
         private PersianDate _date;
+        private int _index;
         private string _contractType;
-
+        private string _paymentType;
+        
+       
         public string Id { get; set; }
 
         public string ContractId { get; set; }
-
-        public int Index
-        {
-            get => _index;
-            set
-            {
-                _index = value;
-                OnPropertyChanged(nameof(Index));
-            }
-        }
 
         public string Amount
         {
@@ -46,16 +37,17 @@ namespace Calculator.Model.TableObject
                 }
                 _amount = string.IsNullOrEmpty(temp) ? temp : AmountSplitter.Split(temp, 3);
                 OnPropertyChanged(nameof(Amount));
+
             }
         }
 
-        public PersianDate Date
+        public int Index
         {
-            get => _date;
+            get => _index;
             set
             {
-                _date = value;
-                OnPropertyChanged(nameof(Date));
+                _index = value;
+                OnPropertyChanged(nameof(Index));
             }
         }
 
@@ -69,9 +61,31 @@ namespace Calculator.Model.TableObject
             }
         }
 
-        public override string ToString()
+        public string PaymentType
         {
-            return $"index = {Index}\r\nid = {Id}\r\ncontract id = {ContractId}\r\ncontract type = {ContractType}\r\namount = {Amount}\r\ndata = {Date.ToString()}\r\n";
+            get => _paymentType;
+            set
+            {
+                _paymentType = value;
+                OnPropertyChanged(nameof(PaymentType));
+            }
+        }
+
+        public PersianDate Date
+        {
+            get => _date;
+            set
+            {
+                _date = value;
+                OnPropertyChanged(nameof(Date));
+            }
+        }
+
+        public void Clear()
+        {
+            Amount = string.Empty;
+            Date = new PersianDate(DateTime.Now);
+            Id = string.Empty;
         }
 
         public override bool Equals(object obj)
@@ -79,40 +93,35 @@ namespace Calculator.Model.TableObject
             if (obj == null) return false;
             try
             {
-                var function = (Function) obj;
-                return function.Id.Equals(Id);
+                var payment = (Payment) obj;
+                return payment.Id.Equals(Id);
             }
-            catch (Exception)
+            catch (Exception )
             {
                 return false;
             }
-            
         }
 
-
-        public void Clear()
+        public override string ToString()
         {
-            Amount = string.Empty;
-            Date = new PersianDate(DateTime.Now);
-            Id = string.Empty;
-
+            return $"id = {Id}\r\ncontract id = {ContractId}\r\namount = {Amount}\r\npayment type = {PaymentType}\r\ndate = {Date}";
         }
-
-        public static ObservableCollection<FunctionDataGridItem> GetObservableCollection()
+        public static ObservableCollection<PaymentDataGridItem> GetPaymentDataGridItemCollection()
         {
-            var functionCollection = new ObservableCollection<FunctionDataGridItem>();
-            functionCollection.CollectionChanged += (sender, args) =>
+            var list = new ObservableCollection<PaymentDataGridItem>();
+            list.CollectionChanged += (sender, args) =>
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    for (var i = 0; i < functionCollection.Count; i++)
+                    for (var i = 0; i < list.Count; i++)
                     {
-                        functionCollection[i].ItemFunction.Index = i+1;
+                        list[i].ItemPayment.Index = i + 1;
                     }
                 });
+               
             };
-            return functionCollection;
+            return list;
         }
-        
+
     }
 }
