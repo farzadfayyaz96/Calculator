@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.ObjectModel;
+using System.Numerics;
 using System.Windows;
 using Arash;
 using Calculator.ViewModel;
@@ -13,6 +14,12 @@ namespace Calculator.Model.TableObject
         private string _amount;
         private PersianDate _date;
         private string _contractType;
+        private BigInteger _remainingAmount;
+        private string _remainingAmountString;
+        public Function()
+        {
+            RemainingAmount = new BigInteger();
+        }
 
         public string Id { get; set; }
 
@@ -49,6 +56,38 @@ namespace Calculator.Model.TableObject
             }
         }
 
+        public BigInteger RemainingAmount {
+            get=>_remainingAmount;
+            set
+            {
+                _remainingAmount = value;
+                OnPropertyChanged(nameof(RemainingAmount));
+                RemainingAmountString = _remainingAmount.ToString();
+                
+            }
+
+        }
+
+        public string RemainingAmountString
+        {
+            get => _remainingAmountString;
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    _remainingAmountString = value;
+                    OnPropertyChanged(nameof(RemainingAmountString));
+                    return;
+                }
+                var temp = value.Replace(",", "");
+                if (!AmountSplitter.AmountRegex.IsMatch(temp) && !string.IsNullOrEmpty(temp))
+                {
+                    return;
+                }
+                _remainingAmountString = string.IsNullOrEmpty(temp) ? temp : AmountSplitter.Split(temp, 3);
+                OnPropertyChanged(nameof(RemainingAmountString));
+            }
+        }
         public PersianDate Date
         {
             get => _date;

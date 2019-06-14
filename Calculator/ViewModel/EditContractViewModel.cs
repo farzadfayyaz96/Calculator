@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Controls;
 using Calculator.Model.TableObject;
 using Calculator.View;
@@ -28,6 +29,13 @@ namespace Calculator.ViewModel
             FunctionsControl.ViewModel.ClosePopupAction = RemovePopupAction;
             PaymentsControl = new PaymentsUserControl(itemContract);
             GeneralSituationControl = new GeneralSituationUserControl();
+            var functions = FunctionsControl.ViewModel.FunctionCollection.Select(x => x.ItemFunction);
+            GeneralSituationControl.ViewModel.AddCollection(functions);
+            FunctionsControl.ViewModel.AddFunctionAction = GeneralSituationControl.ViewModel.AddFunction;
+            var payments = PaymentsControl.ViewModel.PaymentCollection.Select(x => x.ItemPayment);
+            GeneralSituationControl.ViewModel.AddCollection(payments);
+            PaymentsControl.ViewModel.AddPaymentAction = GeneralSituationControl.ViewModel.AddPayment;
+
         }
 
         public Action<UserControl> AddPopupAction { get; set; }
@@ -48,6 +56,7 @@ namespace Calculator.ViewModel
         public FunctionsUserControl FunctionsControl { get; }
 
         public PaymentsUserControl PaymentsControl { get; }
+
         public int SelectedTabIndex
         {
             get => _selectedTabIndex;
@@ -58,6 +67,7 @@ namespace Calculator.ViewModel
                 if (_selectedTabIndex == 0) Control = ContractSpecificationsControl;
                 else if (_selectedTabIndex == 1) Control = FunctionsControl;
                 else if (_selectedTabIndex == 2) Control = PaymentsControl;
+                else if (_selectedTabIndex == 3) Control = GeneralSituationControl;
             }
         }
 

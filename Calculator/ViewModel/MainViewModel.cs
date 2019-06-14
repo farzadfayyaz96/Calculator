@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -22,6 +23,7 @@ namespace Calculator.ViewModel
             ManageProfitCommand = new CommandHandler(ShowManageProfit);
             SettingCommand = new CommandHandler(ShowSetting);
             IsLogin = true;
+            
         }
 
         public static MainViewModel Instance = new MainViewModel();

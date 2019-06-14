@@ -21,7 +21,7 @@ namespace Calculator.ViewModel
             };
 
             DeleteCommand = new CommandHandler(ShowDeleteDialog);
-            
+            EditCommand = new CommandHandler(()=>{});
         }
 
         public Payment ItemPayment { get; set; }

@@ -36,8 +36,10 @@ namespace Calculator.View
 
         private void EditContractWindow_OnClosed(object sender, EventArgs e)
         {
-            //remove this windows from active edit contract window list in manage contract view model
+            //remove this windows from active edit contract window list in manage contract view model 
             ManageContractViewModel.Instance.EditContractWindowList.Remove(this);
+
+
         }
     }
 }

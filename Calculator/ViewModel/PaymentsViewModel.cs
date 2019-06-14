@@ -46,6 +46,8 @@ namespace Calculator.ViewModel
         
         public ICommand SaveCommand { get; }
 
+        public Action<Payment> AddPaymentAction { get; set; }
+
         public ObservableCollection<PaymentDataGridItem> PaymentCollection { get; }
 
         public bool IsPaymentCash
@@ -130,7 +132,10 @@ namespace Calculator.ViewModel
                     //insert to database
                     PaymentDataAccess.Insert(ItemPayment);
                     //add to data grid
-                    PaymentCollection.Add(new PaymentDataGridItem(ItemPayment));
+                    var paymentDataGridItem = new PaymentDataGridItem(ItemPayment);
+                    PaymentCollection.Add(paymentDataGridItem);
+                    //add to general situation
+                    AddPaymentAction(paymentDataGridItem.ItemPayment);
                     //clear 
                     ItemPayment.Clear();
                     IsPaymentCash = true;

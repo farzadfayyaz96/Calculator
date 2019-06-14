@@ -2,10 +2,331 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModel="clr-namespace:Calculator.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <DataGrid ItemsSource="{Binding GeneralSituationCollection,UpdateSourceTrigger=PropertyChanged}"
+                  SelectionChanged="Selector_OnSelectionChanged"
+                  Name="DataGrid"
+                  Style="{StaticResource SimpleDataGridStyle}">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ردیف"
+                                    Width="Auto"
+                                    Binding="{Binding Index,UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn Header="مبلغ کارکرد"
+                                    Width="*"
+                                    Binding="{Binding FunctionSituation.Amount,UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                
+                                <TextBlock Text="تاریخ کارکرد"
+                                           Grid.Row="0"
+                                           HorizontalAlignment="Stretch"
+                                           TextAlignment="Center"
+                                           FlowDirection="RightToLeft"/>
+                                
+                                <Rectangle Fill="White"
+                                           Grid.Row="1"
+                                           Height="3"
+                                           Margin="0,2"
+                                           HorizontalAlignment="Stretch"/>
+                                <Grid Grid.Row="2"
+                                      HorizontalAlignment="Center">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="روز"
+                                               TextAlignment="Center"
+                                               Grid.Column="2"
+                                               Margin="20,0,20,0"/>
+                                    <TextBlock Text="ماه"
+                                               TextAlignment="Center"
+                                               Grid.Column="1"
+                                               Margin="20,0,5,0"/>
+                                    <TextBlock Text="سال"
+                                               TextAlignment="Center"
+                                               HorizontalAlignment="Center"
+                                               Grid.Column="0"
+                                               Margin="20,0,15,0"/>
+
+                                </Grid>
+                                
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="viewModel:GeneralSituationDataGridItem">
+                            <Grid HorizontalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="2"
+                                           HorizontalAlignment="Center"
+                                           TextAlignment="Center"
+                                           Margin="20,0">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontFamily" Value="{StaticResource IranSansMedium}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsFunction,UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                                    <Setter Property="Text" Value="{Binding FunctionSituation.Date.Day,UpdateSourceTrigger=PropertyChanged}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsFunction,UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <TextBlock Text="{Binding FunctionSituation.Date.Month,UpdateSourceTrigger=PropertyChanged}"
+                                           Grid.Column="1"
+                                           TextAlignment="Center"
+                                           Margin="20,0">
+
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontFamily" Value="{StaticResource IranSansMedium}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsFunction,UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                                    <Setter Property="Text" Value="{Binding FunctionSituation.Date.Month,UpdateSourceTrigger=PropertyChanged}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsFunction,UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+
+                                </TextBlock>
+                                <TextBlock Grid.Column="0"
+                                           TextAlignment="Center"
+                                           Margin="20,0">
+
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontFamily" Value="{StaticResource IranSansMedium}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsFunction,UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                                    <Setter Property="Text" Value="{Binding FunctionSituation.Date.Year,UpdateSourceTrigger=PropertyChanged}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsFunction,UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+
+                                </TextBlock>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    
+                    <DataGridTemplateColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource SimpleDataGridColumnHeaderStyle}">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </DataGridTemplateColumn.HeaderStyle>
+
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="مبلغ پرداختی"
+                                    Width="*"
+                                    Binding="{Binding PaymentSituation.Amount,UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Text="تاریخ پرداخت"
+                                           Grid.Row="0"
+                                           HorizontalAlignment="Stretch"
+                                           TextAlignment="Center"
+                                           FlowDirection="RightToLeft"/>
+
+                                <Rectangle Fill="White"
+                                           Grid.Row="1"
+                                           Height="3"
+                                           Margin="0,2"
+                                           HorizontalAlignment="Stretch"/>
+                                <Grid Grid.Row="2"
+                                      HorizontalAlignment="Center">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="روز"
+                                               TextAlignment="Center"
+                                               Grid.Column="2"
+                                               Margin="20,0,20,0"/>
+                                    <TextBlock Text="ماه"
+                                               TextAlignment="Center"
+                                               Grid.Column="1"
+                                               Margin="20,0,5,0"/>
+                                    <TextBlock Text="سال"
+                                               TextAlignment="Center"
+                                               HorizontalAlignment="Center"
+                                               Grid.Column="0"
+                                               Margin="20,0,15,0"/>
+
+                                </Grid>
+
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="viewModel:GeneralSituationDataGridItem">
+                            <Grid HorizontalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="2"
+                                           HorizontalAlignment="Center"
+                                           TextAlignment="Center"
+                                           Margin="20,0">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontFamily" Value="{StaticResource IranSansMedium}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsFunction,UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsFunction,UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                                    <Setter Property="Text" Value="{Binding PaymentSituation.Date.Day,UpdateSourceTrigger=PropertyChanged}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <TextBlock Text="{Binding PaymentSituation.Date.Month,UpdateSourceTrigger=PropertyChanged}"
+                                           Grid.Column="1"
+                                           TextAlignment="Center"
+                                           Margin="20,0">
+
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontFamily" Value="{StaticResource IranSansMedium}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsFunction,UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsFunction,UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                                    <Setter Property="Text" Value="{Binding PaymentSituation.Date.Month,UpdateSourceTrigger=PropertyChanged}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+
+                                </TextBlock>
+                                <TextBlock Grid.Column="0"
+                                           TextAlignment="Center"
+                                           Margin="20,0">
+
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontFamily" Value="{StaticResource IranSansMedium}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsFunction,UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsFunction,UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                                    <Setter Property="Text" Value="{Binding PaymentSituation.Date.Year,UpdateSourceTrigger=PropertyChanged}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+
+                                </TextBlock>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                    <DataGridTemplateColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource SimpleDataGridColumnHeaderStyle}">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </DataGridTemplateColumn.HeaderStyle>
+
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="باقی مانده کارکرد"
+                                    Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="viewModel:GeneralSituationDataGridItem">
+                            <TextBlock FontFamily="{StaticResource IranSansMedium}"
+                                       Text="{Binding FunctionSituation.RemainingAmountString,UpdateSourceTrigger=PropertyChanged}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            
+                                            <DataTrigger Binding="{Binding IsFunction,UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
+                <DataGridTemplateColumn Header="نوع قرارداد"
+                                    Width="*">
+
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="viewModel:GeneralSituationDataGridItem">
+                            <TextBlock FontFamily="{StaticResource IranSansMedium}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsFunction,UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                                <Setter Property="Text" Value="{Binding FunctionSituation.ContractType,UpdateSourceTrigger=PropertyChanged}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsFunction}" Value="False">
+                                                <Setter Property="Text" Value="{Binding PaymentSituation.ContractType,UpdateSourceTrigger=PropertyChanged}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+            </DataGrid.Columns>
+
+        </DataGrid>
     </Grid>
 </UserControl>

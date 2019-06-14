@@ -192,6 +192,10 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
+                <DataGridTextColumn Header="نوع پرداخت"
+                                    Width="*"
+                                    Binding="{Binding ItemPayment.PaymentType,UpdateSourceTrigger=PropertyChanged}"/>
+
                 <DataGridTemplateColumn Header="تنظیمات" 
                                         Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>

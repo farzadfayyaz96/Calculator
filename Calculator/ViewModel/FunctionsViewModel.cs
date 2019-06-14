@@ -47,7 +47,7 @@ namespace Calculator.ViewModel
 
         public Function ItemFunction { get; set; }
         public ICommand SaveCommand { get; set; }
-
+        public Action<Function> AddFunctionAction { get; set; }
         public Action ClosePopupAction { get; set; }
 
         public ObservableCollection<FunctionDataGridItem> FunctionCollection { get; set; }
@@ -141,6 +141,8 @@ namespace Calculator.ViewModel
                     DeleteAction = DeleteItem,
                 };
                 FunctionCollection.Add(functionDataGridItem);
+                //add to general situation 
+                AddFunctionAction(functionDataGridItem.ItemFunction);
                 ShowMessage("کارکرد جدید با موفقیت ذخیره شد",false);
                 //claer
                 ItemFunction.Clear();

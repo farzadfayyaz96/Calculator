@@ -6,6 +6,7 @@
         <Setter Property="Background" Value="{StaticResource AccentColorBrush}"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontSize" Value="14"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="BorderBrush" Value="White"/>
         <Setter Property="Padding" Value="5"/>
