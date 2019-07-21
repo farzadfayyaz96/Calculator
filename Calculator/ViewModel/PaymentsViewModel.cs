@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using Arash;
 using Calculator.Log;
 using Calculator.Model.DataAccess;
 using Calculator.Model.TableObject;
@@ -15,7 +16,9 @@ namespace Calculator.ViewModel
         private bool _isPaymentCash;
         private bool _isPaymentPapers;
         private string _message;
+        private bool _isEditMode;
         private int _selectedContractTypeIndex;
+
         public PaymentsViewModel(string contractId)
         {
             ItemPayment = new Payment
@@ -29,6 +32,7 @@ namespace Calculator.ViewModel
                 foreach (var paymentDataGridItem in PaymentCollection)
                 {
                     paymentDataGridItem.DeleteAction = DeletePayment;
+                    paymentDataGridItem.EditAction = EditItem;
                 }
             }
             catch (Exception e)
@@ -47,6 +51,7 @@ namespace Calculator.ViewModel
         public ICommand SaveCommand { get; }
 
         public Action<Payment> AddPaymentAction { get; set; }
+        public Action<PersianDate> ChangeSelectedDateAction { get; set; }
 
         public ObservableCollection<PaymentDataGridItem> PaymentCollection { get; }
 
@@ -92,6 +97,16 @@ namespace Calculator.ViewModel
             }
         }
 
+        public bool IsEditMode
+        {
+            get => _isEditMode;
+            set
+            {
+                _isEditMode = value;
+                OnPropertyChanged(nameof(IsEditMode));
+            }
+        }
+
         public int SelectedContractIndex
         {
             get => _selectedContractTypeIndex;
@@ -125,6 +140,14 @@ namespace Calculator.ViewModel
                     return;
                 }
 
+                //update
+                if (IsEditMode)
+                {
+
+
+                }
+
+                //insert payment
                 try
                 {
                     //add guid to payment
@@ -172,6 +195,29 @@ namespace Calculator.ViewModel
                 }
             });
             
+        }
+
+        private void EditItem(PaymentDataGridItem payment)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                IsEditMode = true;
+                ItemPayment.Id = payment.ItemPayment.Id;
+                ItemPayment.Amount = payment.ItemPayment.Amount;
+                ChangeSelectedDateAction(payment.ItemPayment.Date);
+
+                ItemPayment.ContractType = payment.ItemPayment.ContractType;
+                if (ItemPayment.ContractType.Equals("پیش پرداخت")) SelectedContractIndex = 0;
+                else if (ItemPayment.ContractType.Equals("موقت")) SelectedContractIndex = 1;
+                else if (ItemPayment.ContractType.Equals("قطعی")) SelectedContractIndex = 2;
+                else if (ItemPayment.ContractType.Equals("تعدیل")) SelectedContractIndex = 3;
+                else if (ItemPayment.ContractType.Equals("سپرده")) SelectedContractIndex = 4;
+
+                ItemPayment.PaymentType = payment.ItemPayment.PaymentType;
+
+
+
+            });
         }
 
         private void ShowMessage(string message,bool isError)

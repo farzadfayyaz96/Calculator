@@ -21,13 +21,15 @@ namespace Calculator.ViewModel
             };
 
             DeleteCommand = new CommandHandler(ShowDeleteDialog);
-            EditCommand = new CommandHandler(()=>{});
+            EditCommand = new CommandHandler(() => { EditAction(this);});
         }
 
         public Payment ItemPayment { get; set; }
 
         public ICommand DeleteCommand { get; }
         public ICommand EditCommand { get; }
+
+        public Action<PaymentDataGridItem> EditAction { get; set; }
         public Action<PaymentDataGridItem> DeleteAction { get; set; }
 
         public void ShowDeleteDialog()
