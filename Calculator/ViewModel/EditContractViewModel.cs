@@ -70,10 +70,5 @@ namespace Calculator.ViewModel
                 else if (_selectedTabIndex == 3) Control = GeneralSituationControl;
             }
         }
-
-        
-
-       
-
     }
 }

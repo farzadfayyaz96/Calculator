@@ -10,6 +10,15 @@
         Closed="EditContractWindow_OnClosed"
         MinWidth="800">
 
+   <mahApps:MetroWindow.TitleTemplate>
+       <DataTemplate>
+           <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Content}"
+                      Margin="10,0"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Center"/>
+       </DataTemplate>
+   </mahApps:MetroWindow.TitleTemplate>
+
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -36,9 +45,8 @@
                          Header="وضعیت کلی"/>
             </TabControl>
 
-        <mahApps:TransitioningContentControl Content="{Binding Control,UpdateSourceTrigger=PropertyChanged}"
-                                             Transition="Up"
-                                             Grid.Row="1"/>
+        <ContentControl Content="{Binding Control,UpdateSourceTrigger=PropertyChanged}"
+                        Grid.Row="1"/>
 
         
     </Grid>

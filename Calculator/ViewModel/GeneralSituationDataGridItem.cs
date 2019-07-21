@@ -34,6 +34,7 @@ namespace Calculator.ViewModel
             }
         }
         
+        public int ChildCount { get; set; }
         
 
     }

@@ -10,6 +10,7 @@
         <DataGrid ItemsSource="{Binding GeneralSituationCollection,UpdateSourceTrigger=PropertyChanged}"
                   SelectionChanged="Selector_OnSelectionChanged"
                   Name="DataGrid"
+                  ScrollViewer.CanContentScroll="False"
                   Style="{StaticResource SimpleDataGridStyle}">
 
             <DataGrid.Columns>
@@ -44,27 +45,25 @@
                                            Margin="0,2"
                                            HorizontalAlignment="Stretch"/>
                                 <Grid Grid.Row="2"
+                                      Width="200"
                                       HorizontalAlignment="Center">
 
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
                                     <TextBlock Text="روز"
                                                TextAlignment="Center"
-                                               Grid.Column="2"
-                                               Margin="20,0,20,0"/>
+                                               Grid.Column="2"/>
                                     <TextBlock Text="ماه"
                                                TextAlignment="Center"
-                                               Grid.Column="1"
-                                               Margin="20,0,5,0"/>
+                                               Grid.Column="1"/>
                                     <TextBlock Text="سال"
                                                TextAlignment="Center"
                                                HorizontalAlignment="Center"
-                                               Grid.Column="0"
-                                               Margin="20,0,15,0"/>
+                                               Grid.Column="0"/>
 
                                 </Grid>
                                 
@@ -73,16 +72,16 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="viewModel:GeneralSituationDataGridItem">
-                            <Grid HorizontalAlignment="Center">
+                            <Grid HorizontalAlignment="Center"
+                                  Width="200">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="2"
                                            HorizontalAlignment="Center"
-                                           TextAlignment="Center"
-                                           Margin="20,0">
+                                           TextAlignment="Center">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="FontFamily" Value="{StaticResource IranSansMedium}"/>
@@ -99,8 +98,7 @@
                                 </TextBlock>
                                 <TextBlock Text="{Binding FunctionSituation.Date.Month,UpdateSourceTrigger=PropertyChanged}"
                                            Grid.Column="1"
-                                           TextAlignment="Center"
-                                           Margin="20,0">
+                                           TextAlignment="Center">
 
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
@@ -118,8 +116,7 @@
 
                                 </TextBlock>
                                 <TextBlock Grid.Column="0"
-                                           TextAlignment="Center"
-                                           Margin="20,0">
+                                           TextAlignment="Center">
 
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
@@ -155,12 +152,12 @@
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <Grid>
+                            <Grid Width="200">
 
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
 
                                 <TextBlock Text="تاریخ پرداخت"
@@ -175,27 +172,25 @@
                                            Margin="0,2"
                                            HorizontalAlignment="Stretch"/>
                                 <Grid Grid.Row="2"
+                                      Width="200"
                                       HorizontalAlignment="Center">
 
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
                                     <TextBlock Text="روز"
                                                TextAlignment="Center"
-                                               Grid.Column="2"
-                                               Margin="20,0,20,0"/>
+                                               Grid.Column="2"/>
                                     <TextBlock Text="ماه"
                                                TextAlignment="Center"
-                                               Grid.Column="1"
-                                               Margin="20,0,5,0"/>
+                                               Grid.Column="1"/>
                                     <TextBlock Text="سال"
                                                TextAlignment="Center"
                                                HorizontalAlignment="Center"
-                                               Grid.Column="0"
-                                               Margin="20,0,15,0"/>
+                                               Grid.Column="0"/>
 
                                 </Grid>
 
@@ -205,16 +200,16 @@
 
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="viewModel:GeneralSituationDataGridItem">
-                            <Grid HorizontalAlignment="Center">
+                            <Grid HorizontalAlignment="Center"
+                                  Width="200">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="2"
                                            HorizontalAlignment="Center"
-                                           TextAlignment="Center"
-                                           Margin="20,0">
+                                           TextAlignment="Center">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="FontFamily" Value="{StaticResource IranSansMedium}"/>
@@ -231,8 +226,7 @@
                                 </TextBlock>
                                 <TextBlock Text="{Binding PaymentSituation.Date.Month,UpdateSourceTrigger=PropertyChanged}"
                                            Grid.Column="1"
-                                           TextAlignment="Center"
-                                           Margin="20,0">
+                                           TextAlignment="Center">
 
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
@@ -250,8 +244,7 @@
 
                                 </TextBlock>
                                 <TextBlock Grid.Column="0"
-                                           TextAlignment="Center"
-                                           Margin="20,0">
+                                           TextAlignment="Center">
 
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">

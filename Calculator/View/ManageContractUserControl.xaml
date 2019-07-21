@@ -95,67 +95,64 @@
                                     Width="Auto"
                                     Binding="{Binding ItemContract.Index,UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="نام پروژه" 
+                                    Width="*"
                                     Binding="{Binding ItemContract.ProjectName,UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="نام پیمانکار" 
+                                    Width="*"
                                     Binding="{Binding ItemContract.ContractorName,UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTemplateColumn Header="تاریخ پیمان">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <Grid>
+                            <Grid Width="200">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="روز"
                                            TextAlignment="Center"
-                                           Grid.Column="2"
-                                           Margin="10,0"/>
+                                           Grid.Column="2"/>
                                 <TextBlock Text="ماه"
                                            TextAlignment="Center"
-                                           Grid.Column="1"
-                                           Margin="10,0"/>
+                                           Grid.Column="1"/>
                                 <TextBlock Text="سال"
                                            TextAlignment="Center"
-                                           Grid.Column="0"
-                                           Margin="10,0"/>
+                                           Grid.Column="0"/>
 
                             </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="viewModel:ContractDataGridItem">
-                            <Grid>
+                            <Grid Width="200">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="{Binding ItemContract.Date.Day,UpdateSourceTrigger=PropertyChanged}"
                                            Grid.Column="2"
-                                           TextAlignment="Center"
-                                           Margin="10,0"/>
+                                           TextAlignment="Center"/>
                                 <TextBlock Text="{Binding ItemContract.Date.Month,UpdateSourceTrigger=PropertyChanged}"
                                            Grid.Column="1"
-                                           TextAlignment="Center"
-                                           Margin="10,0"/>
+                                           TextAlignment="Center"/>
                                 <TextBlock Text="{Binding ItemContract.Date.Year,UpdateSourceTrigger=PropertyChanged}"
                                            Grid.Column="0"
-                                           TextAlignment="Center"
-                                           Margin="10,0"/>
+                                           TextAlignment="Center"/>
                             </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="شماره پیمان" 
+                                    Width="*"
                                     Binding="{Binding ItemContract.Number,UpdateSourceTrigger=PropertyChanged}"/>
 
                 <DataGridTextColumn Header="مبلغ پیمان"
-                                    Width="Auto"
+                                    Width="*"
                                     Binding="{Binding ItemContract.Amount,UpdateSourceTrigger=PropertyChanged}"/>
 
                 <DataGridTemplateColumn Header="تنظیمات" 
-                                        Width="Auto">
+                                        Width="100">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="viewModel:ContractDataGridItem">
                             <StackPanel Orientation="Horizontal">

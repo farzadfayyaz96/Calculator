@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using Arash;
 using Calculator.Log;
 using Calculator.Model.DataAccess;
 using Calculator.Model.TableObject;
@@ -14,6 +15,8 @@ namespace Calculator.ViewModel
         private bool _isErrorMode;
         private string _message;
         private int _selectedContractTypeIndex;
+        private Function _itemFunction;
+        private ObservableCollection<FunctionDataGridItem> _functionCollection;
         public FunctionsViewModel(string contractId)
         {
             ItemFunction = new Function
@@ -45,12 +48,29 @@ namespace Calculator.ViewModel
            
         }
 
-        public Function ItemFunction { get; set; }
+        public Function ItemFunction
+        {
+            get => _itemFunction;
+            set
+            {
+                _itemFunction = value;
+                OnPropertyChanged(nameof(ItemFunction));
+            }
+        }
         public ICommand SaveCommand { get; set; }
         public Action<Function> AddFunctionAction { get; set; }
+        public Action<PersianDate> ChangeSelectedDateAction { get; set; }
         public Action ClosePopupAction { get; set; }
 
-        public ObservableCollection<FunctionDataGridItem> FunctionCollection { get; set; }
+        public ObservableCollection<FunctionDataGridItem> FunctionCollection
+        {
+            get=>_functionCollection;
+            set
+            {
+                _functionCollection = value;
+                OnPropertyChanged(nameof(FunctionCollection));
+            }
+        }
 
         public int SelectedContractTypeIndex
         {
@@ -122,6 +142,36 @@ namespace Calculator.ViewModel
                     return;
                 }
 
+                //update 
+                if (IsEditMode)
+                {
+                    try
+                    {
+                        //update database
+                        FunctionDataAccess.Update(ItemFunction);
+                        //update data grid
+                        foreach (var fdg in FunctionCollection)
+                        {
+                            if (!fdg.ItemFunction.Equals(ItemFunction)) continue;
+                            fdg.ItemFunction.ContractType = ItemFunction.ContractType;
+                            fdg.ItemFunction.Amount = ItemFunction.Amount;
+                            fdg.ItemFunction.Date = ItemFunction.Date;
+                            break;
+                        }
+                        ShowMessage("کارکرد با موفقیت به روزرسانی شد", false);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.LogException(e);
+                        ShowMessage("خطا در حین به روز رسانی کارکرد", true);
+                        return;
+                    }
+                    ItemFunction.Clear();
+                    SelectedContractTypeIndex = 0;
+                    IsEditMode = false;
+                    return;
+                }
+                //insert new function item
                 //add new function id
                 ItemFunction.Id = Guid.NewGuid().ToString();
                 try
@@ -144,7 +194,7 @@ namespace Calculator.ViewModel
                 //add to general situation 
                 AddFunctionAction(functionDataGridItem.ItemFunction);
                 ShowMessage("کارکرد جدید با موفقیت ذخیره شد",false);
-                //claer
+                //clear
                 ItemFunction.Clear();
                 SelectedContractTypeIndex = 0;
             });
@@ -160,9 +210,14 @@ namespace Calculator.ViewModel
                 try
                 {
                     //delete from database
-                    FunctionDataAccess.Delete(function.ItemFunction.ContractId);
+                    FunctionDataAccess.Delete(function.ItemFunction.Id);
                     //delete from data gird
+                    foreach (var fdg in FunctionCollection)
+                    {
+                        
+                    }
                     FunctionCollection.Remove(function);
+                   
                     ShowMessage("کارکرد با موفقیت حذف شد",false);
                 }
                 catch (Exception e)
@@ -171,6 +226,7 @@ namespace Calculator.ViewModel
                     ShowMessage("خطا در حین حذف کارکرد جدید", true);
                 }
 
+               
                 
             });
         }
@@ -180,26 +236,17 @@ namespace Calculator.ViewModel
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                try
-                {
-                    //update database
-                    FunctionDataAccess.Update(function.ItemFunction);
-                    //update data grid
-                    foreach (var functionDataGridItem in FunctionCollection)
-                    {
-                        if (!functionDataGridItem.Equals(function))continue;
-                        functionDataGridItem.ItemFunction.ContractType = function.ItemFunction.ContractType;
-                        functionDataGridItem.ItemFunction.Amount = functionDataGridItem.ItemFunction.Amount;
-                        functionDataGridItem.ItemFunction.Date = functionDataGridItem.ItemFunction.Date;
-                        break;
-                    }
-                    ShowMessage("کارکرد با موفقیت به روزرسانی شد",false);
-                }
-                catch (Exception e)
-                {
-                    Logger.LogException(e);
-                    ShowMessage("خطا در حین به روز رسانی کارکرد",true);
-                }
+                IsEditMode = true;
+                ItemFunction.Id = function.ItemFunction.Id;
+                ItemFunction.Amount = function.ItemFunction.Amount;
+                ChangeSelectedDateAction(function.ItemFunction.Date);
+                ItemFunction.ContractType = function.ItemFunction.ContractType;
+                if (function.ItemFunction.ContractType.Equals("پیش پرداخت")) SelectedContractTypeIndex = 0;
+                else if (function.ItemFunction.ContractType.Equals("موقت")) SelectedContractTypeIndex = 1;
+                else if (function.ItemFunction.ContractType.Equals("قطعی")) SelectedContractTypeIndex = 2;
+                else if (function.ItemFunction.ContractType.Equals("تعدیل")) SelectedContractTypeIndex = 3;
+                else if (function.ItemFunction.ContractType.Equals("سپرده")) SelectedContractTypeIndex = 4;
+                
             });
         }
     }

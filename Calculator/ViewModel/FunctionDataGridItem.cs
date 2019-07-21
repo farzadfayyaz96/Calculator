@@ -61,16 +61,7 @@ namespace Calculator.ViewModel
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
-            try
-            {
-                var funcItem = (FunctionDataGridItem)obj;
-                return funcItem.ItemFunction.Equals(ItemFunction);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-            
+            return obj is FunctionDataGridItem funcItem && funcItem.ItemFunction.Equals(ItemFunction);
         }
     }
 }

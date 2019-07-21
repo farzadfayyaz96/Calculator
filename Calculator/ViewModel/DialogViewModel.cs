@@ -1,6 +1,8 @@
 ﻿
 using System;
+using System.Windows;
 using System.Windows.Input;
+using MahApps.Metro.Controls;
 
 namespace Calculator.ViewModel
 {
@@ -66,8 +68,12 @@ namespace Calculator.ViewModel
 
         private void Ok()
         {
-            OkAction();
-            CloseAction();
+            Application.Current.Invoke(() =>
+            {
+                OkAction();
+                CloseAction();
+            });
+            
         }
         
 

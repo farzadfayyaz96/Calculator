@@ -44,6 +44,7 @@ namespace Calculator.Model.TableObject
                 {
                     _amount = value;
                     OnPropertyChanged(nameof(Amount));
+                    RemainingAmount = 0;
                     return;
                 }
                 var temp = value.Replace(",", "");
@@ -53,6 +54,7 @@ namespace Calculator.Model.TableObject
                 }
                 _amount = string.IsNullOrEmpty(temp) ? temp : AmountSplitter.Split(temp, 3);
                 OnPropertyChanged(nameof(Amount));
+                RemainingAmount = BigInteger.Parse(_amount.Replace(",", ""));
             }
         }
 

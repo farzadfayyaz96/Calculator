@@ -16,7 +16,7 @@ namespace Calculator.Model.DataAccess
                 const string sql = "select * from T_Function where Contract_Id = @id";
                 command.CommandText = sql;
                 command.Parameters.AddWithValue("@id", contractId);
-                Logger.LogQuery(sql);
+                Logger.LogQuery($"{sql}\r\ncontract id = {contractId}");
                 using (var reader = command.ExecuteReader())
                 {
                     var list = Function.GetObservableCollection();
@@ -78,7 +78,7 @@ namespace Calculator.Model.DataAccess
                 command.Parameters.AddWithValue("@type",function.ContractType);
                 command.Parameters.AddWithValue("@date",function.Date);
                 command.Parameters.AddWithValue("@amount",function.Amount);
-                Logger.LogQuery(sql);
+                Logger.LogQuery($"{sql}\r\n{function}");
                 command.ExecuteNonQuery();
                 connection.Close();
             }
@@ -91,7 +91,7 @@ namespace Calculator.Model.DataAccess
                 const string sql = "delete from T_Function where Function_Id = @id";
                 command.CommandText = sql;
                 command.Parameters.AddWithValue("@id", functionId);
-                Logger.LogQuery(sql);
+                Logger.LogQuery($"{sql}\r\nid = {functionId}");
                 command.ExecuteNonQuery();
                 connection.Close();
             }

@@ -138,42 +138,41 @@
                                     Binding="{Binding ItemPayment.Index,UpdateSourceTrigger=PropertyChanged}"/>
 
                 <DataGridTextColumn Header="مقدار پرداخت"
+                                    Width="*"
                                     Binding="{Binding ItemPayment.Amount,UpdateSourceTrigger=PropertyChanged}"/>
 
                 <DataGridTextColumn Header="نوع قرارداد"
+                                    Width="*"
                                     Binding="{Binding ItemPayment.ContractType,UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTemplateColumn Header="تاریخ پیمان">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <Grid>
+                            <Grid Width="200">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="روز"
                                            TextAlignment="Center"
-                                           Grid.Column="2"
-                                           Margin="10,0"/>
+                                           Grid.Column="2"/>
                                 <TextBlock Text="ماه"
                                            TextAlignment="Center"
-                                           Grid.Column="1"
-                                           Margin="10,0"/>
+                                           Grid.Column="1"/>
                                 <TextBlock Text="سال"
                                            TextAlignment="Center"
-                                           Grid.Column="0"
-                                           Margin="10,0"/>
+                                           Grid.Column="0"/>
 
                             </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="viewModel:PaymentDataGridItem">
-                            <Grid>
+                            <Grid Width="200">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="{Binding ItemPayment.Date.Day,UpdateSourceTrigger=PropertyChanged}"
                                            Grid.Column="2"
@@ -197,7 +196,7 @@
                                     Binding="{Binding ItemPayment.PaymentType,UpdateSourceTrigger=PropertyChanged}"/>
 
                 <DataGridTemplateColumn Header="تنظیمات" 
-                                        Width="Auto">
+                                        Width="100">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="viewModel:FunctionDataGridItem">
                             <StackPanel Orientation="Horizontal">
