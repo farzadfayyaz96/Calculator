@@ -5,6 +5,7 @@
              Exit="App_OnExit"
              Startup="App_OnStartup">
     <Application.Resources>
+
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
 
@@ -28,6 +29,12 @@
                 <ResourceDictionary Source="pack://application:,,,/CustomStyle/CustomCheckBox.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/CustomStyle/CustomTabItem.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="TextBox" BasedOn="{StaticResource SimpleTextBox}"/>
         </ResourceDictionary>
+
+       
     </Application.Resources>
+
+
 </Application>

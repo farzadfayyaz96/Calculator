@@ -37,12 +37,14 @@
                          Header="مشخصات قرارداد"/>
 
                 <TabItem Style="{StaticResource TabItemStyle}"
-                         Header="کارکردها"/>
+                         Header="پیش پرداخت ها"/>
                 <TabItem Style="{StaticResource TabItemStyle}"
-                         Header="پرداخت ها"/>
+                         Header="صورت وضعیت"/>
 
                 <TabItem Style="{StaticResource TabItemStyle}"
-                         Header="وضعیت کلی"/>
+                         Header="تعدیل"/>
+            <TabItem Style="{StaticResource TabItemStyle}"
+                     Header="سپرده"/>
             </TabControl>
 
         <ContentControl Content="{Binding Control,UpdateSourceTrigger=PropertyChanged}"

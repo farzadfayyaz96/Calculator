@@ -74,7 +74,7 @@ namespace Calculator.ViewModel
                 var list = ManageContractViewModel.Instance.EditContractWindowList;
                 foreach (var window in list)
                 {
-                    if (!window.ViewModel.FunctionsControl.ViewModel.ItemFunction.ContractId.Equals(ItemContract.Id))
+                    //if (!window.ViewModel.FunctionsControl.ViewModel.ItemFunction.ContractId.Equals(ItemContract.Id))
                     {
                         //not found so continue
                         continue;

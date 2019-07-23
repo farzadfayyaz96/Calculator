@@ -155,13 +155,11 @@
     <Compile Include="Log\Logger.cs" />
     <Compile Include="Model\DataAccess\ContractDataAccess.cs" />
     <Compile Include="Model\DataAccess\DatabaseConnection.cs" />
-    <Compile Include="Model\DataAccess\FunctionDataAccess.cs" />
-    <Compile Include="Model\DataAccess\PaymentDataAccess.cs" />
     <Compile Include="Model\DataAccess\ProfitDateAccess.cs" />
     <Compile Include="Model\DataAccess\ProgramInfoDataAccess.cs" />
     <Compile Include="Model\TableObject\Contract.cs" />
-    <Compile Include="Model\TableObject\Function.cs" />
     <Compile Include="Model\TableObject\Payment.cs" />
+    <Compile Include="Model\TableObject\Prepayment.cs" />
     <Compile Include="Model\TableObject\Profit.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel\AboutUsViewModel.cs" />
@@ -172,18 +170,14 @@
     <Compile Include="ViewModel\DateConverter.cs" />
     <Compile Include="ViewModel\DialogViewModel.cs" />
     <Compile Include="ViewModel\EditContractViewModel.cs" />
-    <Compile Include="ViewModel\FunctionDataGridItem.cs" />
-    <Compile Include="ViewModel\FunctionsViewModel.cs" />
-    <Compile Include="ViewModel\GeneralSituationDataGridItem.cs" />
-    <Compile Include="ViewModel\GeneralSituationViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ManageContractViewModel.cs" />
     <Compile Include="ViewModel\ManageProfitViewModel.cs" />
     <Compile Include="ViewModel\NewContractViewModel.cs" />
     <Compile Include="ViewModel\NotifyProperty.cs" />
-    <Compile Include="ViewModel\PaymentDataGridItem.cs" />
-    <Compile Include="ViewModel\PaymentsViewModel.cs" />
+    <Compile Include="ViewModel\PaymentListViewItem.cs" />
+    <Compile Include="ViewModel\PrepaymentViewModel.cs" />
     <Compile Include="ViewModel\SettingViewModel.cs" />
     <Compile Include="View\AboutUsUserControl.xaml.cs">
       <DependentUpon>AboutUsUserControl.xaml</DependentUpon>
@@ -197,12 +191,6 @@
     <Compile Include="View\EditContractWindow.xaml.cs">
       <DependentUpon>EditContractWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\FunctionsUserControl.xaml.cs">
-      <DependentUpon>FunctionsUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\GeneralSituationUserControl.xaml.cs">
-      <DependentUpon>GeneralSituationUserControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\LoginUserControl.xaml.cs">
       <DependentUpon>LoginUserControl.xaml</DependentUpon>
     </Compile>
@@ -215,8 +203,8 @@
     <Compile Include="View\NewContractUserControl.xaml.cs">
       <DependentUpon>NewContractUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\PaymentsUserControl.xaml.cs">
-      <DependentUpon>PaymentsUserControl.xaml</DependentUpon>
+    <Compile Include="View\PrepaymentUserControl.xaml.cs">
+      <DependentUpon>PrepaymentUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SettingUserControl.xaml.cs">
       <DependentUpon>SettingUserControl.xaml</DependentUpon>
@@ -293,14 +281,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\FunctionsUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\GeneralSituationUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\LoginUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -317,7 +297,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\PaymentsUserControl.xaml">
+    <Page Include="View\PrepaymentUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
