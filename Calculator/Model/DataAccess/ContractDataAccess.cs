@@ -28,7 +28,8 @@ namespace Calculator.Model.DataAccess
                             ProjectName = reader["Contract_Project_Name"].ToString(),
                             ContractorName = reader["Contract_Contractor_Name"].ToString(),
                             Number = reader["Contract_Number"].ToString(),
-                            Amount = reader["Contract_Amount"].ToString()
+                            Amount = reader["Contract_Amount"].ToString(),
+                            PrepaymentId = reader["Contract_Prepayment_Id"].ToString()
 
                         };
                         //date
@@ -65,7 +66,6 @@ namespace Calculator.Model.DataAccess
             var connection = DatabaseConnection.Connection;
             using (var command = connection.CreateCommand())
             {
-                //const string sql = "select *  from T_Contract_Info where Contract_Project_Name like @text or Contract_Contractor_Name like @text or Contract_Number like @text";
                 var columnName = type == 1 ? "Contract_Project_Name" : type == 2 ? "Contract_Contractor_Name" : "Contract_Number";
                 var sql = $"select * from T_Contract_Info where {columnName}  like @text";
                 command.CommandText = sql;
@@ -82,7 +82,8 @@ namespace Calculator.Model.DataAccess
                             ProjectName = reader["Contract_Project_Name"].ToString(),
                             ContractorName = reader["Contract_Contractor_Name"].ToString(),
                             Number = reader["Contract_Number"].ToString(),
-                            Amount = reader["Contract_Amount"].ToString()
+                            Amount = reader["Contract_Amount"].ToString(),
+                            PrepaymentId = reader["Contract_Prepayment_Id"].ToString()
                         };
                         //date
                         var date = reader["Contract_Date"].ToString();
@@ -101,52 +102,12 @@ namespace Calculator.Model.DataAccess
                 }
             }
         }
-
-        public static Contract SelectById(string contractId)
-        {
-            var connection = DatabaseConnection.Connection;
-            
-            using (var command = connection.CreateCommand())
-            {
-                const string sql = "select * from T_Contract_Info where Contract_Id = @contractId";
-                command.CommandText = sql;
-                Logger.Log($"execute sql = {sql}\r\ncontract id = {contractId}");
-                using (var reader = command.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        var contract = new Contract
-                        {
-                            Id = contractId,
-                            ProjectName = reader["Contract_Project_Name"].ToString(),
-                            ContractorName = reader["Contract_Contractor_Name"].ToString(),
-                            Number = reader["Contract_Number"].ToString(),
-                            Amount = reader["Contract_Amount"].ToString()
-                        };
-                        //date
-                        var date = reader["Contract_Date"].ToString();
-                        try
-                        {
-                            contract.Date = DateConverter.StringToPersianDate(date);
-                        }
-                        catch (Exception e)
-                        {
-                            Logger.LogException(e);
-                        }
-                        connection.Close();
-                        return contract;
-                    }
-                    throw new ContractNotFoundException("contract id",contractId);
-                }
-            }
-        }
-
         public static void Insert(Contract contract)
         {
             var connection = DatabaseConnection.Connection;
             using (var command = connection.CreateCommand())
             {
-                const string sql = "insert into T_Contract_Info(Contract_Id,Contract_Project_Name,Contract_Contractor_Name,Contract_Date,Contract_Number,Contract_Amount) values(@id,@projectName,@contractorName,@date,@number,@amount)";
+                const string sql = "insert into T_Contract_Info(Contract_Id,Contract_Project_Name,Contract_Contractor_Name,Contract_Date,Contract_Number,Contract_Amount,Contract_Prepayment_Id) values(@id,@projectName,@contractorName,@date,@number,@amount,@prepaymentId)";
                 command.CommandText = sql;
                 command.Parameters.AddWithValue("@id", contract.Id);
                 command.Parameters.AddWithValue("@projectName", contract.ProjectName);
@@ -154,6 +115,7 @@ namespace Calculator.Model.DataAccess
                 command.Parameters.AddWithValue("@date", contract.Date);
                 command.Parameters.AddWithValue("@number", contract.Number);
                 command.Parameters.AddWithValue("@amount", contract.Amount);
+                command.Parameters.AddWithValue("@prepaymentId", contract.PrepaymentId);
                 Logger.Log($"execute sql = {sql}\r\n{contract}");
                 command.ExecuteNonQuery();
                 connection.Close();

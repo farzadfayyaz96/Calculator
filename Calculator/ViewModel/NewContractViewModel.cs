@@ -82,14 +82,16 @@ namespace Calculator.ViewModel
                 //show message
                 Message = "لطفا صبر کنید";
                 //add new guid to new contract
+                //init ids
                 NewContract.Id = Guid.NewGuid().ToString();
+                NewContract.PrepaymentId = Guid.NewGuid().ToString();
                 try
                 {
-                     ContractDataAccess.Insert(NewContract);
-                     //add to manage contract data grid
-                     ManageContractViewModel.Instance.ContractCollection.Add(new ContractDataGridItem(NewContract));
-                     Message = "پیمان جدید با موفقیت ذخیره شد";
-                     ProgressBarIsEnable = false;
+                    ContractDataAccess.Insert(NewContract);
+                    //add to manage contract data grid
+                    ManageContractViewModel.Instance.ContractCollection.Add(new ContractDataGridItem(NewContract));
+                    Message = "پیمان جدید با موفقیت ذخیره شد";
+                    ProgressBarIsEnable = false;
                     //clear form
                     NewContract.Clear();
                     NewContract = new Contract();

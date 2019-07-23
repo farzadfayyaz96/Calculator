@@ -1,18 +1,18 @@
-﻿using System.Numerics;
+﻿using System;
 using Arash;
 using Calculator.ViewModel;
 
 namespace Calculator.Model.TableObject
 {
-    public class Payment : NotifyProperty
+    public class PrepaymentTask :NotifyProperty
     {
-
         private string _amount;
         private PersianDate _date;
 
+        public string PrepaymentId { get; set; }
+        public string Level { get; set; }
 
-        public string Id { get; set; }
-
+        public bool IsExistInDatabase { get; set; }
         public string Amount
         {
             get => _amount;
@@ -34,7 +34,6 @@ namespace Calculator.Model.TableObject
             }
         }
 
-
         public PersianDate Date
         {
             get => _date;
@@ -45,7 +44,9 @@ namespace Calculator.Model.TableObject
             }
         }
 
-
-
+        public override string ToString()
+        {
+            return $"prepayment id = {PrepaymentId}\r\nlevel = {Level}\r\namount = {Amount}\r\ndate = {Date}";
+        }
     }
 }

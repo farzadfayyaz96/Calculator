@@ -1,69 +1,47 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
+using System.Windows;
 using System.Windows.Input;
+using Calculator.Log;
+using Calculator.Model.DataAccess;
+using Calculator.Model.TableObject;
 using Calculator.View;
+using MahApps.Metro.Controls;
 
 namespace Calculator.ViewModel
 {
     public class PrepaymentViewModel : NotifyProperty
     {
-        private string _level1PrepaymentText;
-        private string _level2PrepaymentText;
-        private string _level3PrepaymentText;
-        private string _message;
+        private string _paymentMessage;
         private bool _isMessageError;
+        private bool _isPrepaymentExist;
+        private string _prepaymentTaskMessage;
+        private bool _prepaymentTaskIsError;
+        private Prepayment _prepaymentItem;
         public PrepaymentViewModel()
         {
             PaymentCollection = new ObservableCollection<PaymentListViewItem>
             {
-                new PaymentListViewItem(AddPayment,DeletePayment),
+                new PaymentListViewItem(AddPayment, DeletePayment),
             };
             DeleteAllCommand = new CommandHandler(DeleteAllPayment);
+            AddPrepaymentCommand = new CommandHandler(AddPrepayment);
         }
 
         public ObservableCollection<PaymentListViewItem> PaymentCollection { get; }
         public ICommand DeleteAllCommand { get; }
+        public ICommand AddPrepaymentCommand { get; }
 
-        public string Level1PrepaymentText
-        {
-            get => _level1PrepaymentText;
-            set
-            {
-                _level1PrepaymentText = value;
-                OnPropertyChanged(nameof(Level1PrepaymentText));
-            }
-        }
-
-        public string Level2PrepaymentText
-        {
-            get => _level2PrepaymentText;
-            set
-            {
-                _level2PrepaymentText = value;
-                OnPropertyChanged(nameof(Level2PrepaymentText));
-            }
-        }
-
-        public string Level3PrepaymentText
-        {
-            get => _level3PrepaymentText;
-            set
-            {
-                _level3PrepaymentText = value;
-                OnPropertyChanged(nameof(Level3PrepaymentText));
-            }
-        }
+       
         public string ContractId { get; set; }
 
-        public string Message
+        public string PaymentMessage
         {
-            get => _message;
+            get => _paymentMessage;
             set
             {
-                _message = value;
-                OnPropertyChanged(nameof(Message));
+                _paymentMessage = value;
+                OnPropertyChanged(nameof(PaymentMessage));
             }
         }
 
@@ -77,17 +55,57 @@ namespace Calculator.ViewModel
             }
         }
 
+        public string PrepaymentTaskMessage
+        {
+            get => _prepaymentTaskMessage;
+            set
+            {
+                _prepaymentTaskMessage = value;
+                OnPropertyChanged(nameof(PrepaymentTaskMessage));
+            }
+        }
+        public bool IsPrepaymentExist
+        {
+            get => _isPrepaymentExist;
+            set
+            {
+                _isPrepaymentExist = value;
+                OnPropertyChanged(nameof(IsPrepaymentExist));
+            }
+        }
+
+        public bool PrepaymentTaskOneIsError
+        {
+            get => _prepaymentTaskIsError;
+            set
+            {
+                _prepaymentTaskIsError = value;
+                OnPropertyChanged(nameof(PrepaymentTaskOneIsError));
+            }
+        }
+
+        public Prepayment PrepaymentItem
+        {
+            get=>_prepaymentItem;
+            set
+            {
+                _prepaymentItem = value;
+                OnPropertyChanged(nameof(PrepaymentItem));
+            }
+        }
+
         private void AddPayment(PaymentListViewItem item)
         {
             if (string.IsNullOrEmpty(item.PaymentItem.Amount))
             {
-                ShowMessage("مبلغ پرداخت را وارد کنید",true);
+                ShowPaymentMessage("مبلغ پرداخت را وارد کنید", true);
                 return;
             }
+
             item.IsSavedItem = true;
-            var newItem = new PaymentListViewItem(AddPayment,DeletePayment);
+            var newItem = new PaymentListViewItem(AddPayment, DeletePayment);
             PaymentCollection.Add(newItem);
-            ShowMessage("پرداخت با موفقیت ذخیره شد",false);
+            ShowPaymentMessage($"پرداخت با مبلغ  {item.PaymentItem.Amount} با موفقیت ذخیره شد", false);
         }
 
         private void DeletePayment(PaymentListViewItem item)
@@ -96,8 +114,8 @@ namespace Calculator.ViewModel
             {
                 var paymentListViewItem = PaymentCollection[i];
                 if (!paymentListViewItem.PaymentItem.Id.Equals(item.PaymentItem.Id)) continue;
-                
-                    
+
+
                 //get contract windows
                 var contractWindowList = ManageContractViewModel.Instance.EditContractWindowList;
                 EditContractWindow editWindow = null;
@@ -108,50 +126,83 @@ namespace Calculator.ViewModel
                         //not found yet!!!
                         continue;
                     }
+
                     //found it and add new popup dialog to windows
                     editWindow = window;
                     break;
                 }
+
                 //show dialog
-                var message = $"آیا مایل به حذف پرداخت به مبلغ '{item.PaymentItem.Amount}' و در تاریخ '{item.PaymentItem.Date}' می باشید ؟";
-                var dialog = new DialogUserControl(message, () => { PaymentCollection.RemoveAt(i); },editWindow?.ViewModel.RemovePopupAction);
+                var message =
+                    $"آیا مایل به حذف پرداخت به مبلغ '{item.PaymentItem.Amount}' و در تاریخ '{item.PaymentItem.Date}' می باشید ؟";
+                var dialog = new DialogUserControl(message, () => { PaymentCollection.RemoveAt(i); },
+                    editWindow?.ViewModel.RemovePopupAction);
                 editWindow?.ViewModel.AddPopupAction(dialog);
                 break;
             }
-            
         }
 
         private void DeleteAllPayment()
         {
-            //get contract windows
-            var contractWindowList = ManageContractViewModel.Instance.EditContractWindowList;
-            EditContractWindow editWindow = null;
-            foreach (var window in contractWindowList)
+            Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                if (!window.ViewModel.ContractId.Equals(ContractId))
+                //get contract windows
+                var contractWindowList = ManageContractViewModel.Instance.EditContractWindowList;
+                EditContractWindow editWindow = null;
+                foreach (var window in contractWindowList)
                 {
-                    //not found yet!!!
-                    continue;
-                }
-                //found it and add new popup dialog to windows
-                editWindow = window;
-                break;
-            }
-            //show dialog
-            var message = $"آیا مایل به حذف همه ی پرداخت ها هستید؟";
-            var dialog = new DialogUserControl(message, () =>
-            {
-                PaymentCollection.Clear();
-                PaymentCollection.Add(new PaymentListViewItem(AddPayment, DeletePayment));
-            }, editWindow?.ViewModel.RemovePopupAction);
-            editWindow?.ViewModel.AddPopupAction(dialog);
+                    if (!window.ViewModel.ContractId.Equals(ContractId))
+                    {
+                        //not found yet!!!
+                        continue;
+                    }
 
+                    //found it and add new popup dialog to windows
+                    editWindow = window;
+                    break;
+                }
+
+                //show dialog
+                var message = $"آیا مایل به حذف همه ی پرداخت ها هستید؟";
+                var dialog = new DialogUserControl(message, () =>
+                {
+                    PaymentCollection.Clear();
+                    PaymentCollection.Add(new PaymentListViewItem(AddPayment, DeletePayment));
+                }, editWindow?.ViewModel.RemovePopupAction);
+                editWindow?.ViewModel.AddPopupAction(dialog);
+                ShowPaymentMessage("همه پرداخت ها با موفقیت حذف شدند",false);
+            });
+            
         }
 
-        private void ShowMessage(string message,bool isError)
+        private void ShowPaymentMessage(string message, bool isError)
         {
-            Message = message;
+            PaymentMessage = message;
             IsMessageError = isError;
         }
+
+        public void ShowPrePaymentTaskMessage(string message,bool isError)
+        {
+            PrepaymentTaskOneIsError = isError;
+            PrepaymentTaskMessage = message;
+        }
+
+        private void AddPrepayment()
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                try
+                {
+                    PrepaymentDataAccess.Insert(PrepaymentItem);
+                    IsPrepaymentExist = true;
+                }
+                catch (Exception e)
+                {
+                    Logger.LogException(e);
+                }
+
+            });
+        }
+
     }
 }

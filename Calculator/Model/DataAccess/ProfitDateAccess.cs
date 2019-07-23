@@ -70,7 +70,6 @@ namespace Calculator.Model.DataAccess
 
         public static void Insert(Profit profit)
         {
-            Console.WriteLine(profit);
             var connection = DatabaseConnection.Connection;
             using (var command = connection.CreateCommand())
             {

@@ -149,17 +149,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CustomException\ContractNotFoundException.cs" />
+    <Compile Include="CustomException\ItemNotFoundException.cs" />
     <Compile Include="CustomException\DatabaseItemNotFoundException.cs" />
     <Compile Include="CustomException\UserNotFoundException.cs" />
     <Compile Include="Log\Logger.cs" />
     <Compile Include="Model\DataAccess\ContractDataAccess.cs" />
     <Compile Include="Model\DataAccess\DatabaseConnection.cs" />
+    <Compile Include="Model\DataAccess\PrepaymentDataAccess.cs" />
+    <Compile Include="Model\DataAccess\PrepaymentTasksDataAccess.cs" />
     <Compile Include="Model\DataAccess\ProfitDateAccess.cs" />
     <Compile Include="Model\DataAccess\ProgramInfoDataAccess.cs" />
     <Compile Include="Model\TableObject\Contract.cs" />
     <Compile Include="Model\TableObject\Payment.cs" />
     <Compile Include="Model\TableObject\Prepayment.cs" />
+    <Compile Include="Model\TableObject\PrepaymentTask.cs" />
     <Compile Include="Model\TableObject\Profit.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel\AboutUsViewModel.cs" />

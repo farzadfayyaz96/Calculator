@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Text.RegularExpressions;
 using System.Windows;
 using Arash;
 using Calculator.ViewModel;
@@ -26,6 +25,8 @@ namespace Calculator.Model.TableObject
             }
         }
         public string Id { get; set; }
+
+        public string PrepaymentId { get; set; }
 
         public string ProjectName
         {
@@ -100,7 +101,7 @@ namespace Calculator.Model.TableObject
         public override string ToString()
         {
             return
-                $"project name = {ProjectName}\r\ncontractorName = {ContractorName}\r\ndate = {Date}\r\nnumber = {Number}\r\namount = {Amount}";
+                $"project name = {ProjectName}\r\ncontractorName = {ContractorName}\r\ndate = {Date}\r\nnumber = {Number}\r\namount = {Amount}\r\nPrepayment Id = {PrepaymentId}";
         }
 
         public override bool Equals(object obj)

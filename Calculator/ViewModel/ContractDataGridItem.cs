@@ -21,7 +21,8 @@ namespace Calculator.ViewModel
                 Date =  contract.Date,
                 Amount = contract.Amount,
                 Index = contract.Index,
-                Number = contract.Number
+                Number = contract.Number,
+                PrepaymentId = contract.PrepaymentId
             };
             EditCommand = new CommandHandler(Edit);
             DeleteCommand = new CommandHandler(ShowDeleteDialog);

@@ -26,7 +26,7 @@ namespace Calculator.ViewModel
             ContractId = itemContract.Id;
             ContractSpecificationsControl = new ContractSpecificationsUserControl(itemContract);
             Control = ContractSpecificationsControl;
-            PrepaymentControl = new PrepaymentUserControl {ViewModel = {ContractId = ContractId}};
+            PrepaymentControl = new PrepaymentUserControl(contract.PrepaymentId) {ViewModel = {ContractId = ContractId}};
         }
 
         public Action<UserControl> AddPopupAction { get; set; }

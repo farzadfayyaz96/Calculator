@@ -8,7 +8,7 @@
         xmlns:iconPack ="http://metro.mahapps.com/winfx/xaml/iconpacks"
         WindowState="Maximized"
         MinHeight="600"
-        MinWidth="800">
+        MinWidth="900">
 
     <mahApps:MetroWindow.TitleTemplate>
         <DataTemplate>
