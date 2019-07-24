@@ -1,5 +1,4 @@
-﻿using System;
-using Arash;
+﻿using Arash;
 using Calculator.ViewModel;
 
 namespace Calculator.Model.TableObject
@@ -8,11 +7,49 @@ namespace Calculator.Model.TableObject
     {
         private string _amount;
         private PersianDate _date;
+        private bool _isInsertMode;
+        private bool _isUpdateMode;
+        private bool _isExistInDatebase;
+        public PrepaymentTask(string prepaymentId,string level)
+        {
+            PrepaymentId = prepaymentId;
+            Level = level;
+            Date = PersianDate.Today;
+        }
 
         public string PrepaymentId { get; set; }
         public string Level { get; set; }
 
-        public bool IsExistInDatabase { get; set; }
+        public bool IsInsertMode
+        {
+            get => _isInsertMode;
+            set
+            {
+                _isInsertMode = value;
+                OnPropertyChanged(nameof(IsInsertMode));
+            }
+
+        }
+
+        public bool IsUpdateMode
+        {
+            get => _isUpdateMode;
+            set
+            {
+                _isUpdateMode = value;
+                OnPropertyChanged(nameof(IsUpdateMode));
+            }
+        }
+
+        public bool IsExistInDatabase
+        {
+            get => _isExistInDatebase;
+            set
+            {
+                _isExistInDatebase = value;
+                OnPropertyChanged(nameof(IsExistInDatabase));
+            }
+        }
         public string Amount
         {
             get => _amount;
@@ -48,5 +85,6 @@ namespace Calculator.Model.TableObject
         {
             return $"prepayment id = {PrepaymentId}\r\nlevel = {Level}\r\namount = {Amount}\r\ndate = {Date}";
         }
+
     }
 }

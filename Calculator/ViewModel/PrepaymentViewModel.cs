@@ -2,11 +2,11 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using Arash;
 using Calculator.Log;
 using Calculator.Model.DataAccess;
 using Calculator.Model.TableObject;
 using Calculator.View;
-using MahApps.Metro.Controls;
 
 namespace Calculator.ViewModel
 {
@@ -32,7 +32,6 @@ namespace Calculator.ViewModel
         public ICommand DeleteAllCommand { get; }
         public ICommand AddPrepaymentCommand { get; }
 
-       
         public string ContractId { get; set; }
 
         public string PaymentMessage
@@ -203,6 +202,54 @@ namespace Calculator.ViewModel
 
             });
         }
+
+
+        public void SavePrepaymentTaskChanges(PrepaymentTask task)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                
+                var level = string.Empty;
+                if (task.Level.Equals("1")) level = "اول";
+                else if (task.Level.Equals("2")) level = "دوم";
+                else if (task.Level.Equals("3")) level = "سوم";
+                if (task.IsExistInDatabase){
+                    //exist so update it
+                    try
+                    {
+                        PrepaymentTasksDataAccess.Update(task);
+                        var message = "مرحله " + level + " با موفقیت ویرایش یافت";
+                        ShowPrePaymentTaskMessage(message, false);
+                    }
+                    catch (Exception exception)
+                    {
+                        Logger.LogException(exception);
+                        var message = "خطا در حین ویرایش مرحله" + level;
+                        ShowPrePaymentTaskMessage(message, true);
+                    }
+
+                    return;
+                }
+
+                //not exist so insert it
+                try
+                {
+                    PrepaymentTasksDataAccess.Insert(task);
+                    var message = "مرحله " + level + " با موفقیت ذخیره شد";
+                    ShowPrePaymentTaskMessage(message, false);
+                    task.IsExistInDatabase = true;
+                }
+                catch (Exception exception)
+                {
+                    Logger.LogException(exception);
+                    var message = "خطا در حین ویرایش مرحله " + level;
+                    ShowPrePaymentTaskMessage(message, true);
+                }
+
+            });
+        }
+
+       
 
     }
 }

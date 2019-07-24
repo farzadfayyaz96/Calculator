@@ -1,7 +1,6 @@
 ﻿
 using System;
 using System.Data;
-using Arash;
 using Calculator.CustomException;
 using Calculator.Log;
 using Calculator.Model.TableObject;

@@ -59,10 +59,8 @@ namespace Calculator.Model.DataAccess
                 {
                     if (reader.Read())
                     {
-                        var task = new PrepaymentTask
+                        var task = new PrepaymentTask(prepaymentId,level)
                         {
-                            PrepaymentId = prepaymentId,
-                            Level = level,
                             Amount = reader["Prepayment_Tasks_Amount"].ToString(),
                             IsExistInDatabase = true
                         };
@@ -84,6 +82,22 @@ namespace Calculator.Model.DataAccess
                 }
                 
 
+            }
+        }
+
+        public static void Delete(string taskId,string level)
+        {
+            var connection = DatabaseConnection.Connection;
+            using (var command = connection.CreateCommand())
+            {
+                const string sql =
+                    "delete from T_Prepayment_Tasks where Prepayment_Tasks_Prepayment_Id = @id and Prepayment_Tasks_Level = @level";
+                command.CommandText = sql;
+                command.Parameters.AddWithValue("@id", taskId);
+                command.Parameters.AddWithValue("@level", level);
+                Logger.LogQuery(sql);
+                command.ExecuteNonQuery();
+                connection.Close();
             }
         }
 

@@ -11,17 +11,44 @@ namespace Calculator.Model.TableObject
     public class Prepayment : NotifyProperty
     {
         private PersianDate _warrantyDate;
+        private PrepaymentTask _taskLevelOne;
+        private PrepaymentTask _taskLevelTwo;
+        private PrepaymentTask _taskLevelThree;
 
         public Prepayment(string prepaymentId)
         {
             Id = prepaymentId;
-            
-
         }
 
-        public PrepaymentTask TaskLevelOne { get; set; }
-        public PrepaymentTask TaskLevelTwo { get; set; }
-        public PrepaymentTask TaskLevelThree { get; set; }
+        public PrepaymentTask TaskLevelOne
+        {
+            get=>_taskLevelOne;
+            set
+            {
+                _taskLevelOne = value;
+                OnPropertyChanged(nameof(TaskLevelOne));
+            }
+        }
+
+        public PrepaymentTask TaskLevelTwo
+        {
+            get=>_taskLevelTwo;
+            set
+            {
+                _taskLevelTwo = value;
+                OnPropertyChanged(nameof(TaskLevelTwo));
+            }
+        }
+
+        public PrepaymentTask TaskLevelThree
+        {
+            get=>_taskLevelThree;
+            set
+            {
+                _taskLevelThree = value;
+                OnPropertyChanged(nameof(TaskLevelThree));
+            }
+        }
 
         public PersianDate WarrantyDate
         {
@@ -41,54 +68,60 @@ namespace Calculator.Model.TableObject
             return $"id ={Id}\r\ndate = {WarrantyDate}\r\n";
         }
 
-        public void InitPrepaymentTasks()
+        public void InitPrepaymentTasks(bool initFlag,Action<PersianDate,PersianDate,PersianDate> setDateAction)
         {
-            //get prepayment task level 1
-            try
+            if (initFlag)
             {
-                TaskLevelOne = PrepaymentTasksDataAccess.SelectByPrepaymentIdAndLevel(Id, "1");
+                TaskLevelOne = new PrepaymentTask(Id,"1");
+                TaskLevelTwo = new PrepaymentTask(Id,"2");
+                TaskLevelThree = new PrepaymentTask(Id,"3");
             }
-            catch (ItemNotFoundException e)
+            else
             {
-                Logger.LogException(e);
-                TaskLevelOne = new PrepaymentTask
+                //get prepayment task level 1
+                try
                 {
-                    PrepaymentId = Id,
-                    Level = "1",
-                    Date = PersianDate.Today
-                };
-            }
-            ////get prepayment task level 2
-            //try
-            //{
-            //    TaskLevelTwo = PrepaymentTasksDataAccess.SelectByPrepaymentIdAndLevel(prepaymentId, "2");
-            //}
-            //catch (ItemNotFoundException e)
-            //{
-            //    Logger.LogException(e);
-            //    TaskLevelTwo = new PrepaymentTask
-            //    {
-            //        PrepaymentId = prepaymentId,
-            //        Level = "2",
-            //        Date = PersianDate.Today
-            //    };
-            //}
+                    TaskLevelOne = PrepaymentTasksDataAccess.SelectByPrepaymentIdAndLevel(Id, "1");
+                }
+                catch (ItemNotFoundException e)
+                {
+                    Logger.LogException(e);
+                    TaskLevelOne = new PrepaymentTask(Id, "1")
+                    {
+                        Date = PersianDate.Today
+                    };
+                }
+                //get prepayment task level 2
+                try
+                {
+                    TaskLevelTwo = PrepaymentTasksDataAccess.SelectByPrepaymentIdAndLevel(Id, "2");
+                }
+                catch (ItemNotFoundException e)
+                {
+                    Logger.LogException(e);
+                    TaskLevelTwo = new PrepaymentTask(Id, "2")
+                    {
+                        Date = PersianDate.Today
+                    };
+                }
 
-            ////get prepayment task level 3
-            //try
-            //{
-            //    TaskLevelThree = PrepaymentTasksDataAccess.SelectByPrepaymentIdAndLevel(prepaymentId, "3");
-            //}
-            //catch (ItemNotFoundException e)
-            //{
-            //    Logger.LogException(e);
-            //    TaskLevelThree = new PrepaymentTask
-            //    {
-            //        PrepaymentId = prepaymentId,
-            //        Level = "3",
-            //        Date = PersianDate.Today
-            //    };
-            //}
+                //get prepayment task level 3
+                try
+                {
+                    TaskLevelThree = PrepaymentTasksDataAccess.SelectByPrepaymentIdAndLevel(Id, "3");
+                }
+                catch (ItemNotFoundException e)
+                {
+                    Logger.LogException(e);
+                    TaskLevelThree = new PrepaymentTask(Id, "3")
+                    {
+                        Date = PersianDate.Today
+                    };
+                }
+            }
+
+            setDateAction(TaskLevelOne.Date, TaskLevelTwo.Date, TaskLevelThree.Date);
+
         }
     }
 }

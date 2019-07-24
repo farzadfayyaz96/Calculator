@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Arash;
 using Arash.PersianDateControls;
 using Calculator.CustomException;
 using Calculator.Log;
@@ -14,9 +15,11 @@ namespace Calculator.View
 {
     public partial class PrepaymentUserControl
     {
-        
+        private string _enterAmount;
+        private bool _updateDateFlag;
         public PrepaymentUserControl(string prepaymentId)
         {
+            _updateDateFlag = true;
             InitializeComponent();
             ViewModel = DataContext as PrepaymentViewModel;
             if (ViewModel == null) return;
@@ -26,6 +29,7 @@ namespace Calculator.View
             {
                 ViewModel.PrepaymentItem = PrepaymentDataAccess.SelectById(prepaymentId);
                 ViewModel.IsPrepaymentExist = true;
+                ViewModel.PrepaymentItem.InitPrepaymentTasks(false, UpdateDatePickers);
             }
             catch (ItemNotFoundException e)
             {
@@ -34,7 +38,10 @@ namespace Calculator.View
                 {
                     WarrantyDate = WarrantyDatePicker.SelectedDate
                 };
+                ViewModel.PrepaymentItem.InitPrepaymentTasks(true, UpdateDatePickers);
             }
+
+            _updateDateFlag = false;
         }
 
         private void PaymentCollectionOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -87,52 +94,207 @@ namespace Calculator.View
         {
             ViewModel.PrepaymentItem.WarrantyDate = WarrantyDatePicker.SelectedDate;
         }
+        private void TaskOneButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var text = LevelOneTaskTextBox.Text;
+            if (text.Equals(_enterAmount)) return;
+            var task = ViewModel.PrepaymentItem.TaskLevelOne;
+            if (task.IsInsertMode || task.IsUpdateMode)
+            {
+                ViewModel.SavePrepaymentTaskChanges(task);
+                task.IsInsertMode = false;
+                task.IsUpdateMode = false;
+            }
+            else if (task.IsExistInDatabase && !task.IsUpdateMode)
+            {
+                DeleteTask(task);
+            }
+        }
+
+        private void LevelOneTaskTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (_updateDateFlag) return;
+            var text = LevelOneTaskTextBox.Text;
+            if (text.Equals(_enterAmount)) return;
+            if (string.IsNullOrEmpty(ViewModel.PrepaymentItem.TaskLevelOne.Amount)) return;
+            var task = ViewModel.PrepaymentItem.TaskLevelOne;
+            if (task.IsExistInDatabase)
+            {
+                task.IsUpdateMode = true;
+            }
+            else
+            {
+                task.IsInsertMode = true;
+            }
+        }
+        
+        private void LevelOneDatePicker_OnSelectedDateChanged(object sender, RoutedEventArgs e)
+        {
+            if(_updateDateFlag)return;
+            ViewModel.PrepaymentItem.TaskLevelOne.Date = LevelOneDatePicker.SelectedDate;
+            if(string.IsNullOrEmpty(ViewModel.PrepaymentItem.TaskLevelOne.Amount))return;
+            var task = ViewModel.PrepaymentItem.TaskLevelOne;
+            if (task.IsExistInDatabase)
+            {
+                task.IsUpdateMode = true;
+            }
+            else task.IsInsertMode = true;
+        }
+
+        private void TaskTwoButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var text = LevelTwoTextBox.Text;
+            if (text.Equals(_enterAmount)) return;
+            var task = ViewModel.PrepaymentItem.TaskLevelTwo;
+            if (task.IsInsertMode || task.IsUpdateMode)
+            {
+                ViewModel.SavePrepaymentTaskChanges(task);
+                task.IsInsertMode = false;
+                task.IsUpdateMode = false;
+            }
+            else if (task.IsExistInDatabase && !task.IsUpdateMode)
+            {
+                DeleteTask(task);
+            }
+        }
+        private void LevelTwoTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (_updateDateFlag) return;
+            var text = LevelTwoTextBox.Text;
+            if (text.Equals(_enterAmount)) return;
+            var task = ViewModel.PrepaymentItem.TaskLevelTwo;
+            if (string.IsNullOrEmpty(task.Amount)) return;
+            if (task.IsExistInDatabase)
+            {
+                task.IsUpdateMode = true;
+            }
+            else
+            {
+                task.IsInsertMode = true;
+            }
+        }
+
+        private void LevelTwoDatePicker_OnSelectedDateChanged(object sender, RoutedEventArgs e)
+        {
+            if (_updateDateFlag) return;
+            ViewModel.PrepaymentItem.TaskLevelTwo.Date = LevelTwoDatePicker.SelectedDate;
+            var task = ViewModel.PrepaymentItem.TaskLevelTwo;
+            if (string.IsNullOrEmpty(task.Amount)) return;
+            if (task.IsExistInDatabase)
+            {
+                task.IsUpdateMode = true;
+            }
+            else task.IsInsertMode = true;
+        }
+        private void TaskThreeButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var text = LevelThreeTextBox.Text;
+            if (text.Equals(_enterAmount)) return;
+            var task = ViewModel.PrepaymentItem.TaskLevelThree;
+            if (task.IsInsertMode || task.IsUpdateMode)
+            {
+                ViewModel.SavePrepaymentTaskChanges(task);
+                task.IsInsertMode = false;
+                task.IsUpdateMode = false;
+            }
+            else if (task.IsExistInDatabase && !task.IsUpdateMode)
+            {
+                DeleteTask(task);
+            }
+        }
+        private void LevelThreeTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (_updateDateFlag) return;
+            var text = LevelThreeTextBox.Text;
+            if (text.Equals(_enterAmount)) return;
+            var task = ViewModel.PrepaymentItem.TaskLevelThree;
+            if (string.IsNullOrEmpty(task.Amount)) return;
+            if (task.IsExistInDatabase)
+            {
+                task.IsUpdateMode = true;
+            }
+            else
+            {
+                task.IsInsertMode = true;
+            }
+        }
 
 
-        private void LevelOneTaskTextBox_OnLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        private void LevelThreeDatePicker_OnSelectedDateChanged(object sender, RoutedEventArgs e)
+        {
+            if (_updateDateFlag) return;
+            ViewModel.PrepaymentItem.TaskLevelThree.Date = LevelThreeDatePicker.SelectedDate;
+            var task = ViewModel.PrepaymentItem.TaskLevelThree;
+            if (string.IsNullOrEmpty(task.Amount)) return;
+            if (task.IsExistInDatabase)
+            {
+                task.IsUpdateMode = true;
+            }
+            else task.IsInsertMode = true;
+
+        }
+
+        private void UpdateDatePickers(PersianDate levelOneDate, PersianDate levelTwoDate, PersianDate levelThreeDate)
+        {
+            LevelOneDatePicker.SelectedDate = levelOneDate;
+            LevelTwoDatePicker.SelectedDate = levelTwoDate;
+            LevelThreeDatePicker.SelectedDate = levelThreeDate;
+        }
+
+        
+        private void LevelOneTaskTextBox_OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            _enterAmount = LevelOneTaskTextBox.Text;
+        }
+
+        private void LevelThreeTextBox_OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            _enterAmount = LevelThreeTextBox.Text;
+        }
+
+        private void LevelTwoTextBox_OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            _enterAmount = LevelTwoTextBox.Text;
+        }
+
+        public void DeleteTask(PrepaymentTask task)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                
-                var task = ViewModel.PrepaymentItem.TaskLevelOne;
-                Console.WriteLine("fffffffffffffff   " + task.Amount);
-                if (task.IsExistInDatabase)
+                var level = string.Empty;
+                PersianDatePicker datePicker = LevelOneDatePicker;
+                if (task.Level.Equals("1")) level = "اول";
+                else if (task.Level.Equals("2"))
                 {
-                    //exist so update it
-                    try
-                    {
-                        PrepaymentTasksDataAccess.Update(task);
-                        var message = $"مبلغ مراحله اول با مقدار {LevelOneTaskTextBox.Text} ویرایش یافت";
-                        ViewModel.ShowPrePaymentTaskMessage(message, false);
-                    }
-                    catch (Exception exception)
-                    {
-                        Logger.LogException(exception);
-                        ViewModel.ShowPrePaymentTaskMessage("خطا در حین ویرایش مبلغ مرحله اول رخ داده است", true);
-                    }
-
-                    return;
+                    level = "دوم";
+                    datePicker = LevelTwoDatePicker;
                 }
-
-                //not exist so insert it
+                else if (task.Level.Equals("3"))
+                {
+                    level = "سوم";
+                    datePicker = LevelThreeDatePicker;
+                }
+                
                 try
                 {
-                    PrepaymentTasksDataAccess.Insert(task);
-                    var message = $"مقدار مبلغ مرحله اول با مقدار {LevelOneTaskTextBox.Text} ذخیره شد";
+                    PrepaymentTasksDataAccess.Delete(task.PrepaymentId, task.Level);
+                    task.Amount = string.Empty;
+                    task.Date = PersianDate.Today;
+                    task.IsExistInDatabase = false;
+                    datePicker.SelectedDate = PersianDate.Today;
+                    var message = "مرحله " + level + " با موفقیت حذف شد.";
                     ViewModel.ShowPrePaymentTaskMessage(message, false);
-                    task.IsExistInDatabase = true;
                 }
-                catch (Exception exception)
+                catch (Exception e)
                 {
-                    Logger.LogException(exception);
-                    Logger.LogException(exception);
-                    ViewModel.ShowPrePaymentTaskMessage("خطا در حین ذخیره مبلغ مرحله اول رخ داده است", true);
+                    Logger.LogException(e);
+                    var message = "خطا در حین حذف مرحله " + level;
+                    ViewModel.ShowPrePaymentTaskMessage(message, true);
                 }
-
+                
             });
-
-
         }
+
     }
     
 }
