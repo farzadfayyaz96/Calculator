@@ -7,9 +7,10 @@ namespace Calculator.Log
 {
     class Logger
     {
-        private static StreamWriter _writer;
+        
         private static readonly string LogDirectoryPath = $"{Directory.GetCurrentDirectory()}//log";
         private static readonly string LogFilePath = $"{LogDirectoryPath}//error.log";
+        private static StreamWriter _writer = new StreamWriter(LogFilePath);
 
 
         private static PersianDate PersianDate => new PersianDate(DateTime.Now);
@@ -26,14 +27,18 @@ namespace Calculator.Log
                     Directory.CreateDirectory(LogDirectoryPath);
                 }
 
-                return _writer ?? (_writer = new StreamWriter(LogFilePath));
+                return _writer;
             }
+            set => _writer = value;
         }
 
         public static void Log(string text)
         {
+            Writer.Close();
+            Writer = new StreamWriter(LogFilePath,true);
             Writer.WriteLine($"{DateTime.Now.ToShortTimeString()} -- {PersianDate.ToString()} : {text}");
             Writer.WriteLine("----------------------------------------------------------------------");
+            Writer.Close();
             Debug.WriteLine(text);
             Debug.WriteLine("----------------------------------------------------------------------");
 

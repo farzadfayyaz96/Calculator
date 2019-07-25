@@ -16,7 +16,7 @@ namespace Calculator.View
     public partial class PrepaymentUserControl
     {
         private string _enterAmount;
-        private bool _updateDateFlag;
+        private readonly bool _updateDateFlag;
         public PrepaymentUserControl(string prepaymentId)
         {
             _updateDateFlag = true;
@@ -41,7 +41,29 @@ namespace Calculator.View
                 ViewModel.PrepaymentItem.InitPrepaymentTasks(true, UpdateDatePickers);
             }
 
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var paymentList = PaymentDataAccess.SelectByPrepaymentId(ViewModel.PrepaymentItem.Id);
+                foreach (var payment in paymentList)
+                {
+                    var item = new PaymentListViewItem(ViewModel.PaymentButtonAction, payment);
+                    ViewModel.PaymentCollection.Add(item);
+                }
+
+                var paymentId = Guid.NewGuid().ToString();
+                var paymentTemp = new Payment(paymentId, ViewModel.PrepaymentItem.Id)
+                {
+                    Date = PersianDate.Today
+                };
+                var newItem = new PaymentListViewItem(ViewModel.PaymentButtonAction, paymentTemp);
+                ViewModel.PaymentCollection.Add(newItem);
+                ViewModel.UpdatePaymentSum();
+            });
+
             _updateDateFlag = false;
+
+
+            
         }
 
         private void PaymentCollectionOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -52,7 +74,19 @@ namespace Calculator.View
 
         public PrepaymentViewModel ViewModel { get; set; }
 
+        private void AmountTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        { 
+            //convert sender to text box
+            if (!(sender is TextBox textBox))return;
+            foreach (var item in ViewModel.PaymentCollection)
+            {
+                if (!item.PaymentItem.Id.Equals(textBox.Tag)) continue;
+                if (item.PaymentItem.IsExistInDatabase) item.PaymentItem.IsUpdateMode = true; 
+                else item.PaymentItem.IsInsetMode = true;
+                break;
+            }
 
+        }
 
         /**
          * get date picker payment list view item
@@ -62,33 +96,26 @@ namespace Calculator.View
         {
             //convert sender to date picker
             if (!(sender is PersianDatePicker datePicker)) return;
-            //convert date picker parent to grid for get payment id
-            if (!(datePicker.Parent is Grid parent)) return;
-            //find payment by id and set selected date to his date
             foreach (var item in ViewModel.PaymentCollection)
             {
-                if(!item.PaymentItem.Id.Equals(parent.Tag))continue;
+                if (!item.PaymentItem.Id.Equals(datePicker.Tag)) continue;
                 item.PaymentItem.Date = datePicker.SelectedDate;
+                if (!string.IsNullOrEmpty(item.PaymentItem.Amount))
+                {
+                    if (item.PaymentItem.IsExistInDatabase) item.PaymentItem.IsUpdateMode = true;
+                    else item.PaymentItem.IsInsetMode = true;
+                }
                 break;
             }
-
         }
 
         private void PaymentListView_OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            Console.WriteLine(e.Delta);
             MainScrollViewer.ScrollToVerticalOffset(MainScrollViewer.VerticalOffset + (e.Delta * -1));
         }
 
-        private void AmountTextBox_OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-           
-        }
 
-        private void AmountTextBox_OnLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            
-        }
+
 
         private void WarrantyDatePicker_OnSelectedDateChanged(object sender, RoutedEventArgs e)
         {
@@ -127,7 +154,8 @@ namespace Calculator.View
                 task.IsInsertMode = true;
             }
         }
-        
+       
+
         private void LevelOneDatePicker_OnSelectedDateChanged(object sender, RoutedEventArgs e)
         {
             if(_updateDateFlag)return;
@@ -246,7 +274,7 @@ namespace Calculator.View
         {
             _enterAmount = LevelOneTaskTextBox.Text;
         }
-
+        
         private void LevelThreeTextBox_OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             _enterAmount = LevelThreeTextBox.Text;
@@ -261,40 +289,69 @@ namespace Calculator.View
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                var level = string.Empty;
-                PersianDatePicker datePicker = LevelOneDatePicker;
-                if (task.Level.Equals("1")) level = "اول";
-                else if (task.Level.Equals("2"))
+
+
+                for (var i = 0; i < ViewModel.PaymentCollection.Count; i++)
                 {
-                    level = "دوم";
-                    datePicker = LevelTwoDatePicker;
+                    //get contract windows
+                    var contractWindowList = ManageContractViewModel.Instance.EditContractWindowList;
+                    EditContractWindow editWindow = null;
+                    foreach (var window in contractWindowList)
+                    {
+                        if (!window.ViewModel.ContractId.Equals(ViewModel.ContractId))
+                        {
+                            //not found yet!!!
+                            continue;
+                        }
+
+                        //found it and add new popup dialog to windows
+                        editWindow = window;
+                        break;
+                    }
+                    var level = string.Empty;
+                    PersianDatePicker datePicker = LevelOneDatePicker;
+                    if (task.Level.Equals("1")) level = "اول";
+                    else if (task.Level.Equals("2"))
+                    {
+                        level = "دوم";
+                        datePicker = LevelTwoDatePicker;
+                    }
+                    else if (task.Level.Equals("3"))
+                    {
+                        level = "سوم";
+                        datePicker = LevelThreeDatePicker;
+                    }
+
+                    var msg = "آیا مایل به حذف پیش پرداخت مرحله " + level + " با مقدار " + task.Amount + " در تاریخ " + task.Date + " می باشید؟";
+                    var dialog = new DialogUserControl(msg, () =>
+                    {
+                        try
+                        {
+                            PrepaymentTasksDataAccess.Delete(task.PrepaymentId, task.Level);
+                            task.Amount = string.Empty;
+                            task.Date = PersianDate.Today;
+                            task.IsExistInDatabase = false;
+                            datePicker.SelectedDate = PersianDate.Today;
+                            var message = "مرحله " + level + " با موفقیت حذف شد.";
+                            ViewModel.ShowPrePaymentTaskMessage(message, false);
+                            ViewModel.PrepaymentItem.UpdatePrepaymentSum();
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.LogException(e);
+                            var message = "خطا در حین حذف مرحله " + level;
+                            ViewModel.ShowPrePaymentTaskMessage(message, true);
+                        }
+
+                    },editWindow?.ViewModel.RemovePopupAction);
+                    editWindow?.ViewModel.AddPopupAction(dialog);
+                    break;
                 }
-                else if (task.Level.Equals("3"))
-                {
-                    level = "سوم";
-                    datePicker = LevelThreeDatePicker;
-                }
-                
-                try
-                {
-                    PrepaymentTasksDataAccess.Delete(task.PrepaymentId, task.Level);
-                    task.Amount = string.Empty;
-                    task.Date = PersianDate.Today;
-                    task.IsExistInDatabase = false;
-                    datePicker.SelectedDate = PersianDate.Today;
-                    var message = "مرحله " + level + " با موفقیت حذف شد.";
-                    ViewModel.ShowPrePaymentTaskMessage(message, false);
-                }
-                catch (Exception e)
-                {
-                    Logger.LogException(e);
-                    var message = "خطا در حین حذف مرحله " + level;
-                    ViewModel.ShowPrePaymentTaskMessage(message, true);
-                }
-                
             });
         }
 
+
+       
     }
     
 }

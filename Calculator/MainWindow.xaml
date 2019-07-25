@@ -213,7 +213,7 @@
         
        
         <!-- header grid -->
-        <Grid Background="Transparent"
+        <Grid Background="{StaticResource AccentBaseColorBrush}"
               Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

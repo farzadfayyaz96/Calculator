@@ -9,9 +9,18 @@ namespace Calculator.Model.TableObject
 
         private string _amount;
         private PersianDate _date;
+        private bool _isExistInDatabase;
+        private bool _isInsertModel;
+        private bool _isUpdateMode;
 
+        public Payment(string id,string prepaymentId)
+        {
+            Id = id;
+            PrepaymentId = prepaymentId;
+        }
 
-        public string Id { get; set; }
+        public string Id { get; }
+        public string PrepaymentId { get; }
 
         public string Amount
         {
@@ -34,6 +43,38 @@ namespace Calculator.Model.TableObject
             }
         }
 
+        public BigInteger AmountBigInteger => string.IsNullOrEmpty(Amount) ? 0 : BigInteger.Parse(Amount.Replace(",",string.Empty));
+
+        public bool IsExistInDatabase
+        {
+            get => _isExistInDatabase;
+            set
+            {
+                _isExistInDatabase = value;
+                OnPropertyChanged(nameof(IsExistInDatabase));
+            }
+        }
+
+        public bool IsInsetMode
+        {
+            get => _isInsertModel;
+            set
+            {
+                _isInsertModel = value;
+                OnPropertyChanged(nameof(IsInsetMode));
+            }
+        }
+
+        public bool IsUpdateMode
+        {
+            get => _isUpdateMode;
+            set
+            {
+                _isUpdateMode = value;
+                OnPropertyChanged(nameof(IsUpdateMode));
+            }
+        }
+
 
         public PersianDate Date
         {
@@ -45,7 +86,10 @@ namespace Calculator.Model.TableObject
             }
         }
 
-
+        public override string ToString()
+        {
+            return $"id = {Id}\r\nprepayment id = {PrepaymentId}\r\namount = {Amount}\r\ndate = {Date}";
+        }
 
     }
 }

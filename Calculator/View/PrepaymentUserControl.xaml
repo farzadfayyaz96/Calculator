@@ -5,14 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModel="clr-namespace:Calculator.ViewModel"
              xmlns:persianDateControls="clr-namespace:Arash.PersianDateControls;assembly=PersianDateControls"
-             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.DataContext>
         <viewModel:PrepaymentViewModel />
     </UserControl.DataContext>
 
-    <Grid >
+    <Grid>
         <Grid HorizontalAlignment="Center"
               FlowDirection="RightToLeft"
               VerticalAlignment="Center">
@@ -53,540 +52,633 @@
                     Content="ایجاد پیش پرداخت" />
         </Grid>
         <!--main view-->
-        <ScrollViewer VerticalScrollBarVisibility="Auto"
-                      Name="MainScrollViewer"
-                      Padding="15,0">
 
-            <ScrollViewer.Style>
-                <Style TargetType="ScrollViewer">
-                    <Setter Property="Visibility" Value="Hidden" />
+        <Grid>
+
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Visible" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsPrepaymentExist,UpdateSourceTrigger=PropertyChanged}"
-                                     Value="True">
-                            <Setter Property="Visibility" Value="Visible" />
+                                     Value="False">
+                            <Setter Property="Visibility" Value="Hidden" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </ScrollViewer.Style>
-
-            <Grid FlowDirection="RightToLeft"
-                  HorizontalAlignment="Center">
-
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-
-                <!-- prepayment grid -->
-                <Grid Grid.Row="0">
+            </Grid.Style>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          Name="MainScrollViewer"
+                          Grid.Row="0"
+                          Padding="15,5">
+                <Grid FlowDirection="RightToLeft"
+                      HorizontalAlignment="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-
-                    <TextBlock Text="مراحل پیش پرداخت"
-                               Grid.Row="0"
-                               FontSize="{StaticResource FontSizeRegular}" />
-                    <Grid Grid.Row="1"
-                          Margin="10">
-
+                    <!-- prepayment grid -->
+                    <Grid Grid.Row="0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
-
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="0"
+
+
+                        <TextBlock Text="مراحل پیش پرداخت"
+                                   Grid.Row="0"
+                                   FontSize="{StaticResource FontSizeRegular}" />
+                        <Grid Grid.Row="1"
                               Margin="10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="3.5*" />
-                            </Grid.ColumnDefinitions>
 
-
-                            <TextBlock Text="تاریخ ارائه ضمانت نامه : "
-                                       VerticalAlignment="Center"
-                                       Grid.Column="0" />
-
-                            <TextBlock Grid.Column="1"
-                                       Text="{Binding PrepaymentItem.WarrantyDate,UpdateSourceTrigger=PropertyChanged}"
-                                       FontWeight="Bold"
-                                       TextAlignment="Left"
-                                       HorizontalAlignment="Left"
-                                       VerticalAlignment="Center"
-                                       Margin="10,0"
-                                       FlowDirection="LeftToRight" />
-
-                            <TextBlock Text="{Binding PrepaymentTaskMessage,UpdateSourceTrigger=PropertyChanged}"
-                                       FontFamily="{StaticResource IranSansMedium}"
-                                       TextAlignment="Left"
-                                       Grid.Column="2">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Style.Triggers>
-                                            <Trigger Property="IsEnabled" Value="False">
-                                                <Setter Property="Opacity" Value="0.5" />
-                                            </Trigger>
-                                            <DataTrigger
-                                                Binding="{Binding PrepaymentTaskOneIsError,UpdateSourceTrigger=PropertyChanged}"
-                                                Value="True">
-                                                <Setter Property="Foreground" Value="Red" />
-                                            </DataTrigger>
-                                            <DataTrigger
-                                                Binding="{Binding PrepaymentTaskOneIsError,UpdateSourceTrigger=PropertyChanged}"
-                                                Value="False">
-                                                <Setter Property="Foreground" Value="Black" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                        </Grid>
-
-
-                        <Grid Grid.Row="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0"
                                   Margin="10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="3.5*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="مرحله اول : "
-                                           Width="60"
+
+
+                                <TextBlock Text="تاریخ ارائه ضمانت نامه : "
                                            VerticalAlignment="Center"
-                                           Grid.Column="0"/>
-                                <TextBlock Text="تاریخ"
-                                           VerticalAlignment="Center"
-                                           Grid.Column="1" />
-                                <persianDateControls:PersianDatePicker Grid.Column="2"
-                                                                       Name="LevelOneDatePicker"
-                                                                       SelectedDateChanged="LevelOneDatePicker_OnSelectedDateChanged"
-                                                                       FlowDirection="LeftToRight"
-                                                                       HorizontalContentAlignment="Right"
-                                                                       Margin="10,0"
-                                                                       Width="100"
-                                                                       HorizontalAlignment="Left" />
+                                           Grid.Column="0" />
 
-                                <TextBlock Text="مبلغ"
-                                           VerticalAlignment="Center"
-                                           Width="20"
-                                           Grid.Column="3" />
-                                <TextBox Grid.Column="4"
-                                         Name="LevelOneTaskTextBox"
-                                         GotKeyboardFocus="LevelOneTaskTextBox_OnGotKeyboardFocus"
-                                         TextChanged="LevelOneTaskTextBox_OnTextChanged"
-                                         Text="{Binding PrepaymentItem.TaskLevelOne.Amount,UpdateSourceTrigger=PropertyChanged}"
-                                         Width="300" />
-
-                                <Button Grid.Column="5"
-                                        Width="40"
-                                        Name="TaskOneButton"
-                                        Click="TaskOneButton_OnClick"
-                                        BorderThickness="0"
-                                        BorderBrush="Transparent"
-                                        Height="40">
-
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource MetroCircleButtonStyle}">
-                                            <Setter Property="Foreground" Value="DarkGreen"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding PrepaymentItem.TaskLevelOne.IsInsertMode,UpdateSourceTrigger=PropertyChanged}" Value="True">
-                                                    <Setter Property="Content"  Value="ذخیره"/>
-                                                    
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding PrepaymentItem.TaskLevelOne.IsUpdateMode,UpdateSourceTrigger=PropertyChanged}" Value="True">
-                                                    <Setter Property="Content" Value="ویرایش"/>
-                                                </DataTrigger>
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding PrepaymentItem.TaskLevelOne.IsExistInDatabase,UpdateSourceTrigger=PropertyChanged}" Value="True"/>
-                                                        <Condition Binding="{Binding PrepaymentItem.TaskLevelOne.IsUpdateMode,UpdateSourceTrigger=PropertyChanged}" Value="False"/>
-                                                    </MultiDataTrigger.Conditions>
-                                                    <MultiDataTrigger.Setters>
-                                                        <Setter Property="Content" Value="حذف"/>
-                                                        <Setter Property="Foreground" Value="Red"/>
-                                                    </MultiDataTrigger.Setters>
-                                                </MultiDataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
-
-                                
-
-                            </Grid>
-                            <Grid Grid.Row="1"
-                                  Margin="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="مرحله دوم : "
-                                           Grid.Column="0"
-                                           Width="60"
-                                           VerticalAlignment="Center"/>
-                                <TextBlock Text="تاریخ"
-                                           VerticalAlignment="Center"
-                                           Grid.Column="1" />
-                                <persianDateControls:PersianDatePicker Grid.Column="2"
-                                                                       FlowDirection="LeftToRight"
-                                                                       Name="LevelTwoDatePicker"
-                                                                       SelectedDateChanged="LevelTwoDatePicker_OnSelectedDateChanged"
-                                                                       HorizontalContentAlignment="Right"
-                                                                       Margin="10,0"
-                                                                       Width="100"
-                                                                       HorizontalAlignment="Left" />
-
-                                <TextBlock Text="مبلغ"
-                                           VerticalAlignment="Center"
-                                           Width="20"
-                                           Grid.Column="3" />
-
-                                <TextBox Grid.Column="4"
-                                         Name="LevelTwoTextBox"
-                                         GotKeyboardFocus="LevelTwoTextBox_OnGotKeyboardFocus"
-                                         TextChanged="LevelTwoTextBox_OnTextChanged"
-                                         Text="{Binding PrepaymentItem.TaskLevelTwo.Amount,UpdateSourceTrigger=PropertyChanged}"
-                                         Width="300" />
-
-                                <Button Grid.Column="5"
-                                        Width="40"
-                                        Name="TaskTwoButton"
-                                        Click="TaskTwoButton_OnClick"
-                                        BorderThickness="0"
-                                        BorderBrush="Transparent"
-                                        Height="40">
-
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource MetroCircleButtonStyle}">
-                                            <Setter Property="Foreground" Value="DarkGreen"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding PrepaymentItem.TaskLevelTwo.IsInsertMode,UpdateSourceTrigger=PropertyChanged}" Value="True">
-                                                    <Setter Property="Content"  Value="ذخیره"/>
-
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding PrepaymentItem.TaskLevelTwo.IsUpdateMode,UpdateSourceTrigger=PropertyChanged}" Value="True">
-                                                    <Setter Property="Content" Value="ویرایش"/>
-                                                </DataTrigger>
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding PrepaymentItem.TaskLevelTwo.IsExistInDatabase,UpdateSourceTrigger=PropertyChanged}" Value="True"/>
-                                                        <Condition Binding="{Binding PrepaymentItem.TaskLevelTwo.IsUpdateMode,UpdateSourceTrigger=PropertyChanged}" Value="False"/>
-                                                    </MultiDataTrigger.Conditions>
-                                                    <MultiDataTrigger.Setters>
-                                                        <Setter Property="Content" Value="حذف"/>
-                                                        <Setter Property="Foreground" Value="Red"/>
-                                                    </MultiDataTrigger.Setters>
-                                                </MultiDataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
-
-
-
-
-
-                            </Grid>
-                            <Grid Grid.Row="2"
-                                  Margin="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="مرحله سوم : "
-                                           Grid.Column="0"
-                                           Width="60"
-                                           VerticalAlignment="Center"/>
-
-                                <TextBlock Text="تاریخ"
-                                           VerticalAlignment="Center"
-                                           Grid.Column="1" />
-                                <persianDateControls:PersianDatePicker Grid.Column="2"
-                                                                       Name="LevelThreeDatePicker"
-                                                                       SelectedDateChanged="LevelThreeDatePicker_OnSelectedDateChanged"
-                                                                       FlowDirection="LeftToRight"
-                                                                       HorizontalContentAlignment="Right"
-                                                                       Margin="10,0"
-                                                                       Width="100"
-                                                                       HorizontalAlignment="Left" />
-                                <TextBlock Text="مبلغ"
-                                           Width="20"
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding PrepaymentItem.WarrantyDate,UpdateSourceTrigger=PropertyChanged}"
+                                           FontWeight="Bold"
                                            TextAlignment="Left"
+                                           HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
-                                           Grid.Column="3" />
-                                <TextBox Grid.Column="4"
-                                         Name="LevelThreeTextBox"
-                                         GotKeyboardFocus="LevelThreeTextBox_OnGotKeyboardFocus"
-                                         TextChanged="LevelThreeTextBox_OnTextChanged"
-                                         Text="{Binding PrepaymentItem.TaskLevelThree.Amount,UpdateSourceTrigger=PropertyChanged}"
-                                         Width="300" />
+                                           Margin="10,0"
+                                           FlowDirection="LeftToRight" />
 
-                                <Button Grid.Column="5"
-                                        Width="40"
-                                        Name="TaskThreeButton"
-                                        Click="TaskThreeButton_OnClick"
-                                        BorderThickness="0"
-                                        BorderBrush="Transparent"
-                                        Height="40">
-
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource MetroCircleButtonStyle}">
-                                            <Setter Property="Foreground" Value="DarkGreen"/>
+                                <TextBlock Text="{Binding PrepaymentTaskMessage,UpdateSourceTrigger=PropertyChanged}"
+                                           FontFamily="{StaticResource IranSansMedium}"
+                                           TextAlignment="Left"
+                                           Grid.Column="2">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding PrepaymentItem.TaskLevelThree.IsInsertMode,UpdateSourceTrigger=PropertyChanged}" Value="True">
-                                                    <Setter Property="Content"  Value="ذخیره"/>
-
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="Opacity" Value="0.5" />
+                                                </Trigger>
+                                                <DataTrigger
+                                                    Binding="{Binding PrepaymentTaskOneIsError,UpdateSourceTrigger=PropertyChanged}"
+                                                    Value="True">
+                                                    <Setter Property="Foreground" Value="Red" />
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding PrepaymentItem.TaskLevelThree.IsUpdateMode,UpdateSourceTrigger=PropertyChanged}" Value="True">
-                                                    <Setter Property="Content" Value="ویرایش"/>
+                                                <DataTrigger
+                                                    Binding="{Binding PrepaymentTaskOneIsError,UpdateSourceTrigger=PropertyChanged}"
+                                                    Value="False">
+                                                    <Setter Property="Foreground" Value="Black" />
                                                 </DataTrigger>
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding PrepaymentItem.TaskLevelThree.IsExistInDatabase,UpdateSourceTrigger=PropertyChanged}" Value="True"/>
-                                                        <Condition Binding="{Binding PrepaymentItem.TaskLevelThree.IsUpdateMode,UpdateSourceTrigger=PropertyChanged}" Value="False"/>
-                                                    </MultiDataTrigger.Conditions>
-                                                    <MultiDataTrigger.Setters>
-                                                        <Setter Property="Content" Value="حذف"/>
-                                                        <Setter Property="Foreground" Value="Red"/>
-                                                    </MultiDataTrigger.Setters>
-                                                </MultiDataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </Button.Style>
-                                </Button>
-
-                                
-
-
+                                    </TextBlock.Style>
+                                </TextBlock>
                             </Grid>
-                        </Grid>
 
 
-                    </Grid>
-
-                </Grid>
-                <Rectangle Fill="LightGray"
-                           Height="2"
-                           Width="700"
-                           Grid.Row="1"/>
-
-                <Grid Grid.Row="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <Grid Grid.Row="0">
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Text="پرداخت ها"
-                                   Grid.Column="0"
-                                   VerticalAlignment="Center"
-                                   FontSize="{StaticResource FontSizeRegular}" />
-
-                        <TextBlock Text="{Binding PaymentMessage,UpdateSourceTrigger=PropertyChanged}"
-                                   VerticalAlignment="Center"
-                                   Margin="30,0"
-                                   FontFamily="{StaticResource IranSansMedium}"
-                                   Grid.Column="1">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Style.Triggers>
-                                        <Trigger Property="IsEnabled" Value="False">
-                                            <Setter Property="Opacity" Value="0.5" />
-                                        </Trigger>
-                                        <DataTrigger
-                                            Binding="{Binding IsMessageError,UpdateSourceTrigger=PropertyChanged}"
-                                            Value="True">
-                                            <Setter Property="Foreground" Value="Red" />
-                                        </DataTrigger>
-                                        <DataTrigger
-                                            Binding="{Binding IsMessageError,UpdateSourceTrigger=PropertyChanged}"
-                                            Value="False">
-                                            <Setter Property="Foreground" Value="Black" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-
-                        <Button Grid.Column="2"
-                                HorizontalAlignment="Right"
-                                Content="حذف همه"
-                                Margin="30,10"
-                                BorderThickness="0"
-                                Command="{Binding DeleteAllCommand}"
-                                Width="100">
-                            <Button.Style>
-                                <Style TargetType="Button" BasedOn="{StaticResource AccentedSquareButtonStyle}">
-                                    <Setter Property="Background" Value="#f53333" />
-                                    <Setter Property="Foreground" Value="White" />
-                                    <Style.Triggers>
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition Binding="{Binding PaymentCollection.Count}" Value="1" />
-                                                <Condition Binding="{Binding PaymentCollection[0].IsSavedItem}"
-                                                           Value="False" />
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="IsEnabled" Value="False" />
-                                        </MultiDataTrigger>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#b32626" />
-                                        </Trigger>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter Property="Foreground" Value="Black" />
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-
-                    </Grid>
-
-                    <ListView Grid.Row="1"
-                              Background="Transparent"
-                              BorderThickness="0"
-                              Name="PaymentListView"
-                              PreviewMouseWheel="PaymentListView_OnMouseWheel"
-                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                              ItemsSource="{Binding PaymentCollection}">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="ListViewItem">
-                                            <ContentPresenter />
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ListView.ItemContainerStyle>
-
-                        <ListView.ItemTemplate>
-                            <DataTemplate DataType="viewModel:PaymentListViewItem">
-                                <Grid Tag="{Binding PaymentItem.Id}"
-                                      FocusManager.FocusedElement="{Binding ElementName=AmountTextBox}">
+                            <Grid Grid.Row="1" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0"
+                                      Margin="10"
+                                      FocusManager.FocusedElement="{Binding ElementName = LevelOneTaskTextBox}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="تاریخ پرداخت : "
-                                               Grid.Column="0"
+                                    <TextBlock Text="مرحله اول : "
+                                               Width="60"
                                                VerticalAlignment="Center"
-                                               Margin="10" />
-                                    <persianDateControls:PersianDatePicker Grid.Column="1"
+                                               Grid.Column="0" />
+                                    <TextBlock Text="تاریخ"
+                                               VerticalAlignment="Center"
+                                               Grid.Column="1" />
+                                    <persianDateControls:PersianDatePicker Grid.Column="2"
+                                                                           Name="LevelOneDatePicker"
+                                                                           SelectedDateChanged="LevelOneDatePicker_OnSelectedDateChanged"
                                                                            FlowDirection="LeftToRight"
-                                                                           Margin="5,0"
-                                                                           SelectedDate="{Binding PaymentItem.Date,UpdateSourceTrigger=PropertyChanged}"
-                                                                           SelectedDateChanged="PersianDatePicker_OnSelectedDateChanged"
-                                                                           HorizontalContentAlignment="Right" />
-                                    <TextBlock Text="مبلغ پرداخت : "
+                                                                           HorizontalContentAlignment="Right"
+                                                                           Margin="10,0"
+                                                                           Width="100"
+                                                                           HorizontalAlignment="Left" />
+
+                                    <TextBlock Text="مبلغ"
                                                VerticalAlignment="Center"
-                                               Margin="5,0"
-                                               Grid.Column="2" />
-                                    <TextBox Text="{Binding PaymentItem.Amount,UpdateSourceTrigger=PropertyChanged}"
-                                             Width="200"
-                                             Name="AmountTextBox"
-                                             GotKeyboardFocus="AmountTextBox_OnGotKeyboardFocus"
-                                             LostKeyboardFocus="AmountTextBox_OnLostKeyboardFocus"
-                                             Grid.Column="3" />
-                                    <Button Foreground="White"
-                                            Grid.Row="0"
-                                            Grid.Column="4"
+                                               Width="20"
+                                               Grid.Column="3" />
+                                    <TextBox Grid.Column="4"
+                                             Name="LevelOneTaskTextBox"
+                                             GotKeyboardFocus="LevelOneTaskTextBox_OnGotKeyboardFocus"
+                                             TextChanged="LevelOneTaskTextBox_OnTextChanged"
+                                             Text="{Binding PrepaymentItem.TaskLevelOne.Amount,UpdateSourceTrigger=PropertyChanged}"
+                                             Width="300" />
+
+                                    <Button Grid.Column="5"
+                                            Width="40"
+                                            Name="TaskOneButton"
+                                            Click="TaskOneButton_OnClick"
                                             BorderThickness="0"
-                                            Width="35"
-                                            Height="35"
-                                            HorizontalContentAlignment="Center">
+                                            BorderBrush="Transparent"
+                                            Height="40">
 
                                         <Button.Style>
                                             <Style TargetType="Button"
                                                    BasedOn="{StaticResource MetroCircleButtonStyle}">
+                                                <Setter Property="Foreground" Value="DarkGreen" />
                                                 <Style.Triggers>
-                                                    <Trigger Property="IsEnabled" Value="False">
-                                                        <Setter Property="Opacity" Value="0.5" />
-                                                    </Trigger>
-                                                    <DataTrigger
-                                                        Binding="{Binding IsSavedItem,UpdateSourceTrigger=PropertyChanged}"
-                                                        Value="True">
-                                                        <Setter Property="Content">
-                                                            <Setter.Value>
-                                                                <iconPacks:PackIconFontAwesome Kind="MinusSolid"
-                                                                                               Width="10"
-                                                                                               HorizontalAlignment="Center"
-                                                                                               Height="10" />
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                        <Setter Property="Command" Value="{Binding DeleteCommand}" />
-                                                        <Setter Property="Background" Value="Red" />
-                                                        <Setter Property="ToolTip" Value="حذف پرداخت" />
-                                                        <Setter Property="IsDefault" Value="False" />
+                                                    <DataTrigger Binding="{Binding PrepaymentItem.TaskLevelOne.IsInsertMode,UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                                        <Setter Property="Content" Value="ذخیره" />
+                                                        <Setter Property="IsDefault" Value="True"/>
                                                     </DataTrigger>
-
-                                                    <DataTrigger
-                                                        Binding="{Binding IsSavedItem,UpdateSourceTrigger=PropertyChanged}"
-                                                        Value="False">
-                                                        <Setter Property="Content">
-                                                            <Setter.Value>
-                                                                <iconPacks:PackIconFontAwesome Kind="PlusSolid"
-                                                                                               Width="10"
-                                                                                               HorizontalAlignment="Center"
-                                                                                               Height="10" />
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                        <Setter Property="Command" Value="{Binding AddCommand}" />
-                                                        <Setter Property="Background" Value="Green" />
-                                                        <Setter Property="ToolTip" Value="ذخیره پرداخت" />
-                                                        <Setter Property="IsDefault" Value="True" />
+                                                    <DataTrigger Binding="{Binding PrepaymentItem.TaskLevelOne.IsUpdateMode,UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                                        <Setter Property="Content" Value="ویرایش" />
+                                                        <Setter Property="IsDefault" Value="True"/>
                                                     </DataTrigger>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition
+                                                                Binding="{Binding PrepaymentItem.TaskLevelOne.IsExistInDatabase,UpdateSourceTrigger=PropertyChanged}"
+                                                                Value="True" />
+                                                            <Condition
+                                                                Binding="{Binding PrepaymentItem.TaskLevelOne.IsUpdateMode,UpdateSourceTrigger=PropertyChanged}"
+                                                                Value="False" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <MultiDataTrigger.Setters>
+                                                            <Setter Property="Content" Value="حذف" />
+                                                            <Setter Property="Foreground" Value="Red" />
+                                                            <Setter Property="IsDefault" Value="False"/>
+                                                        </MultiDataTrigger.Setters>
+                                                    </MultiDataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </Button.Style>
-
                                     </Button>
 
 
                                 </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
+                                <Grid Grid.Row="1"
+                                      Margin="10"
+                                      FocusManager.FocusedElement="{Binding ElementName = LevelTwoTextBox}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="مرحله دوم : "
+                                               Grid.Column="0"
+                                               Width="60"
+                                               VerticalAlignment="Center" />
+                                    <TextBlock Text="تاریخ"
+                                               VerticalAlignment="Center"
+                                               Grid.Column="1" />
+                                    <persianDateControls:PersianDatePicker Grid.Column="2"
+                                                                           FlowDirection="LeftToRight"
+                                                                           Name="LevelTwoDatePicker"
+                                                                           SelectedDateChanged="LevelTwoDatePicker_OnSelectedDateChanged"
+                                                                           HorizontalContentAlignment="Right"
+                                                                           Margin="10,0"
+                                                                           Width="100"
+                                                                           HorizontalAlignment="Left" />
 
-                    </ListView>
+                                    <TextBlock Text="مبلغ"
+                                               VerticalAlignment="Center"
+                                               Width="20"
+                                               Grid.Column="3" />
+
+                                    <TextBox Grid.Column="4"
+                                             Name="LevelTwoTextBox"
+                                             GotKeyboardFocus="LevelTwoTextBox_OnGotKeyboardFocus"
+                                             TextChanged="LevelTwoTextBox_OnTextChanged"
+                                             Text="{Binding PrepaymentItem.TaskLevelTwo.Amount,UpdateSourceTrigger=PropertyChanged}"
+                                             Width="300" />
+
+                                    <Button Grid.Column="5"
+                                            Width="40"
+                                            Name="TaskTwoButton"
+                                            Click="TaskTwoButton_OnClick"
+                                            BorderThickness="0"
+                                            BorderBrush="Transparent"
+                                            Height="40">
+
+                                        <Button.Style>
+                                            <Style TargetType="Button"
+                                                   BasedOn="{StaticResource MetroCircleButtonStyle}">
+                                                <Setter Property="Foreground" Value="DarkGreen" />
+                                                <Style.Triggers>
+                                                    <DataTrigger
+                                                        Binding="{Binding PrepaymentItem.TaskLevelTwo.IsInsertMode,UpdateSourceTrigger=PropertyChanged}"
+                                                        Value="True">
+                                                        <Setter Property="Content" Value="ذخیره" />
+                                                        <Setter Property="IsDefault" Value="True"/>
+
+                                                    </DataTrigger>
+                                                    <DataTrigger
+                                                        Binding="{Binding PrepaymentItem.TaskLevelTwo.IsUpdateMode,UpdateSourceTrigger=PropertyChanged}"
+                                                        Value="True">
+                                                        <Setter Property="Content" Value="ویرایش" />
+                                                        <Setter Property="IsDefault" Value="True"/>
+                                                    </DataTrigger>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition
+                                                                Binding="{Binding PrepaymentItem.TaskLevelTwo.IsExistInDatabase,UpdateSourceTrigger=PropertyChanged}"
+                                                                Value="True" />
+                                                            <Condition
+                                                                Binding="{Binding PrepaymentItem.TaskLevelTwo.IsUpdateMode,UpdateSourceTrigger=PropertyChanged}"
+                                                                Value="False" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <MultiDataTrigger.Setters>
+                                                            <Setter Property="Content" Value="حذف" />
+                                                            <Setter Property="Foreground" Value="Red" />
+                                                            <Setter Property="IsDefault" Value="False"/>
+                                                        </MultiDataTrigger.Setters>
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+
+
+                                </Grid>
+                                <Grid Grid.Row="2"
+                                      FocusManager.FocusedElement="{Binding ElementName = LevelThreeTextBox}"
+                                      Margin="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="مرحله سوم : "
+                                               Grid.Column="0"
+                                               Width="60"
+                                               VerticalAlignment="Center" />
+
+                                    <TextBlock Text="تاریخ"
+                                               VerticalAlignment="Center"
+                                               Grid.Column="1" />
+                                    <persianDateControls:PersianDatePicker Grid.Column="2"
+                                                                           Name="LevelThreeDatePicker"
+                                                                           SelectedDateChanged="LevelThreeDatePicker_OnSelectedDateChanged"
+                                                                           FlowDirection="LeftToRight"
+                                                                           HorizontalContentAlignment="Right"
+                                                                           Margin="10,0"
+                                                                           Width="100"
+                                                                           HorizontalAlignment="Left" />
+                                    <TextBlock Text="مبلغ"
+                                               Width="20"
+                                               TextAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Grid.Column="3" />
+                                    <TextBox Grid.Column="4"
+                                             Name="LevelThreeTextBox"
+                                             GotKeyboardFocus="LevelThreeTextBox_OnGotKeyboardFocus"
+                                             TextChanged="LevelThreeTextBox_OnTextChanged"
+                                             Text="{Binding PrepaymentItem.TaskLevelThree.Amount,UpdateSourceTrigger=PropertyChanged}"
+                                             Width="300" />
+
+                                    <Button Grid.Column="5"
+                                            Width="40"
+                                            Name="TaskThreeButton"
+                                            Click="TaskThreeButton_OnClick"
+                                            BorderThickness="0"
+                                            BorderBrush="Transparent"
+                                            Height="40">
+
+                                        <Button.Style>
+                                            <Style TargetType="Button"
+                                                   BasedOn="{StaticResource MetroCircleButtonStyle}">
+                                                <Setter Property="Foreground" Value="DarkGreen" />
+                                                <Style.Triggers>
+                                                    <DataTrigger
+                                                        Binding="{Binding PrepaymentItem.TaskLevelThree.IsInsertMode,UpdateSourceTrigger=PropertyChanged}"
+                                                        Value="True">
+                                                        <Setter Property="Content" Value="ذخیره" />
+                                                        <Setter Property="IsDefault" Value="True"/>
+
+                                                    </DataTrigger>
+                                                    <DataTrigger
+                                                        Binding="{Binding PrepaymentItem.TaskLevelThree.IsUpdateMode,UpdateSourceTrigger=PropertyChanged}"
+                                                        Value="True">
+                                                        <Setter Property="Content" Value="ویرایش" />
+                                                        <Setter Property="IsDefault" Value="True"/>
+                                                    </DataTrigger>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition
+                                                                Binding="{Binding PrepaymentItem.TaskLevelThree.IsExistInDatabase,UpdateSourceTrigger=PropertyChanged}"
+                                                                Value="True" />
+                                                            <Condition
+                                                                Binding="{Binding PrepaymentItem.TaskLevelThree.IsUpdateMode,UpdateSourceTrigger=PropertyChanged}"
+                                                                Value="False" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <MultiDataTrigger.Setters>
+                                                            <Setter Property="Content" Value="حذف" />
+                                                            <Setter Property="Foreground" Value="Red" />
+                                                            <Setter Property="IsDefault" Value="False"/>
+                                                        </MultiDataTrigger.Setters>
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+
+
+                                </Grid>
+                                <StackPanel Grid.Row="3"
+                                            Orientation="Horizontal"
+                                            Margin="215,0,0,0">
+                                    <TextBlock Text="جمع کل : "
+                                               Margin="5,0"
+                                               VerticalAlignment="Center" />
+                                    <TextBlock
+                                        Text="{Binding PrepaymentItem.PrepaymentSum,UpdateSourceTrigger=PropertyChanged}"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Grid>
+
+
+                        </Grid>
+
+                    </Grid>
+                    <Rectangle Fill="LightGray"
+                               Height="2"
+                               Width="700"
+                               Grid.Row="1" />
+                    <Grid Grid.Row="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="پرداخت ها"
+                                       Grid.Column="0"
+                                       VerticalAlignment="Center"
+                                       FontSize="{StaticResource FontSizeRegular}" />
+
+
+                            <Button Grid.Column="2"
+                                    HorizontalAlignment="Right"
+                                    Content="حذف همه"
+                                    Margin="30,10"
+                                    BorderThickness="0"
+                                    Command="{Binding DeleteAllCommand}"
+                                    Width="100">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource AccentedSquareButtonStyle}">
+                                        <Setter Property="Background" Value="#f53333" />
+                                        <Setter Property="Foreground" Value="White" />
+                                        <Style.Triggers>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding PaymentCollection.Count}" Value="1" />
+                                                    <Condition
+                                                        Binding="{Binding PaymentCollection[0].PaymentItem.IsExistInDatabase,UpdateSourceTrigger=PropertyChanged}"
+                                                        Value="False" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="IsEnabled" Value="False" />
+                                            </MultiDataTrigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#b32626" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Foreground" Value="Black" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+
+                        </Grid>
+
+                        <ListView Grid.Row="1"
+                                  Background="Transparent"
+                                  BorderThickness="0"
+                                  Name="PaymentListView"
+                                  PreviewMouseWheel="PaymentListView_OnMouseWheel"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                  ItemsSource="{Binding PaymentCollection}">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListViewItem">
+                                                <ContentPresenter />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate DataType="viewModel:PaymentListViewItem">
+                                    <Grid FocusManager.FocusedElement="{Binding ElementName=AmountTextBox}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="تاریخ پرداخت : "
+                                                   Grid.Column="0"
+                                                   VerticalAlignment="Center"
+                                                   Margin="10" />
+                                        <persianDateControls:PersianDatePicker Grid.Column="1"
+                                                                               FlowDirection="LeftToRight"
+                                                                               Margin="5,0"
+                                                                               Tag="{Binding PaymentItem.Id}"
+                                                                               SelectedDate="{Binding PaymentItem.Date,UpdateSourceTrigger=PropertyChanged}"
+                                                                               SelectedDateChanged="PersianDatePicker_OnSelectedDateChanged"
+                                                                               HorizontalContentAlignment="Right" />
+                                        <TextBlock Text="مبلغ پرداخت : "
+                                                   VerticalAlignment="Center"
+                                                   Margin="5,0"
+                                                   Grid.Column="2" />
+                                        <TextBox
+                                            Text="{Binding PaymentItem.Amount,UpdateSourceTrigger=PropertyChanged}"
+                                            Width="200"
+                                            Name="AmountTextBox"
+                                            Tag="{Binding PaymentItem.Id}"
+                                            TextChanged="AmountTextBox_OnTextChanged"
+                                            Grid.Column="3" />
+
+                                        <Button Grid.Row="0"
+                                                Grid.Column="4"
+                                                BorderThickness="0"
+                                                Width="50"
+                                                Command="{Binding PaymentCommand}"
+                                                Height="50"
+                                                HorizontalContentAlignment="Center">
+
+                                            <Button.Style>
+                                                <Style TargetType="Button"
+                                                       BasedOn="{StaticResource MetroCircleButtonStyle}">
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsEnabled" Value="False">
+                                                            <Setter Property="Opacity" Value="0.5" />
+                                                        </Trigger>
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                                <Condition
+                                                                    Binding="{Binding PaymentItem.IsExistInDatabase,UpdateSourceTrigger=PropertyChanged}"
+                                                                    Value="True" />
+                                                                <Condition
+                                                                    Binding="{Binding PaymentItem.IsUpdateMode,UpdateSourceTrigger=PropertyChanged}"
+                                                                    Value="False" />
+                                                            </MultiDataTrigger.Conditions>
+
+                                                            <MultiDataTrigger.Setters>
+                                                                <Setter Property="Content" Value="حذف" />
+                                                                <Setter Property="Foreground" Value="Red" />
+                                                                <Setter Property="IsDefault" Value="False" />
+                                                                <Setter Property="Content" Value="حذف" />
+                                                            </MultiDataTrigger.Setters>
+
+                                                        </MultiDataTrigger>
+
+                                                        <DataTrigger
+                                                            Binding="{Binding PaymentItem.IsUpdateMode,UpdateSourceTrigger=PropertyChanged}"
+                                                            Value="True">
+                                                            <Setter Property="Content" Value="ویرایش" />
+                                                            <Setter Property="Foreground" Value="Green" />
+                                                            <Setter Property="IsDefault" Value="True" />
+                                                        </DataTrigger>
+
+                                                        <DataTrigger
+                                                            Binding="{Binding PaymentItem.IsInsetMode,UpdateSourceTrigger=PropertyChanged}"
+                                                            Value="True">
+                                                            <Setter Property="Content" Value="ذخیره" />
+                                                            <Setter Property="Foreground" Value="Green" />
+                                                            <Setter Property="IsDefault" Value="True" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+
+                                        </Button>
+
+
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+
+                        </ListView>
+                    </Grid>
+
+
                 </Grid>
+            </ScrollViewer>
 
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="{Binding PaymentMessage,UpdateSourceTrigger=PropertyChanged}"
+                           VerticalAlignment="Center"
+                           Margin="10,5"
+                           HorizontalAlignment="Left"
+                           FontFamily="{StaticResource IranSansMedium}"
+                           Grid.Column="2">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Opacity" Value="0.5" />
+                                </Trigger>
+                                <DataTrigger
+                                    Binding="{Binding IsMessageError,UpdateSourceTrigger=PropertyChanged}"
+                                    Value="True">
+                                    <Setter Property="Foreground" Value="Red" />
+                                </DataTrigger>
+                                <DataTrigger
+                                    Binding="{Binding IsMessageError,UpdateSourceTrigger=PropertyChanged}"
+                                    Value="False">
+                                    <Setter Property="Foreground" Value="Black" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <Rectangle Fill="LightGray"
+                           Width="2"
+                           Height="20"
+                           Margin="0,2"
+                           Grid.Column="1" />
+
+                <StackPanel Grid.Column="0"
+                            Margin="10,5"
+                            FlowDirection="RightToLeft"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+                    <TextBlock Text=" : جمع کل پرداخت ها"
+                               HorizontalAlignment="Left"
+                               TextAlignment="Right"
+                               FontFamily="{StaticResource IranSansMedium}"
+                               VerticalAlignment="Center"
+                               FlowDirection="LeftToRight">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding PaymentSum,UpdateSourceTrigger=PropertyChanged}"
+                                                 Value="">
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBlock Text="{Binding PaymentSum,UpdateSourceTrigger=PropertyChanged}"
+                               VerticalAlignment="Center" />
+
+                </StackPanel>
             </Grid>
-        </ScrollViewer>
+        </Grid>
+
     </Grid>
 
 

@@ -1,4 +1,5 @@
-﻿using Arash;
+﻿using System.Numerics;
+using Arash;
 using Calculator.ViewModel;
 
 namespace Calculator.Model.TableObject
@@ -9,7 +10,7 @@ namespace Calculator.Model.TableObject
         private PersianDate _date;
         private bool _isInsertMode;
         private bool _isUpdateMode;
-        private bool _isExistInDatebase;
+        private bool _isExistInDatabase;
         public PrepaymentTask(string prepaymentId,string level)
         {
             PrepaymentId = prepaymentId;
@@ -43,10 +44,10 @@ namespace Calculator.Model.TableObject
 
         public bool IsExistInDatabase
         {
-            get => _isExistInDatebase;
+            get => _isExistInDatabase;
             set
             {
-                _isExistInDatebase = value;
+                _isExistInDatabase = value;
                 OnPropertyChanged(nameof(IsExistInDatabase));
             }
         }
@@ -70,6 +71,8 @@ namespace Calculator.Model.TableObject
                 OnPropertyChanged(nameof(Amount));
             }
         }
+
+        public BigInteger AmountBigInteger=>string.IsNullOrEmpty(Amount) ? 0 : BigInteger.Parse(Amount.Replace(",",string.Empty));
 
         public PersianDate Date
         {

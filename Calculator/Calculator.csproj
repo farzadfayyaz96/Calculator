@@ -155,6 +155,7 @@
     <Compile Include="Log\Logger.cs" />
     <Compile Include="Model\DataAccess\ContractDataAccess.cs" />
     <Compile Include="Model\DataAccess\DatabaseConnection.cs" />
+    <Compile Include="Model\DataAccess\PaymentDataAccess.cs" />
     <Compile Include="Model\DataAccess\PrepaymentDataAccess.cs" />
     <Compile Include="Model\DataAccess\PrepaymentTasksDataAccess.cs" />
     <Compile Include="Model\DataAccess\ProfitDateAccess.cs" />

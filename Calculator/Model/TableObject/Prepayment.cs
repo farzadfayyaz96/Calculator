@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Numerics;
 using Arash;
 using Calculator.CustomException;
 using Calculator.Log;
@@ -14,7 +15,8 @@ namespace Calculator.Model.TableObject
         private PrepaymentTask _taskLevelOne;
         private PrepaymentTask _taskLevelTwo;
         private PrepaymentTask _taskLevelThree;
-
+        private string _prepaymentSum;
+        private BigInteger _prepaymentSumBigInteger;
         public Prepayment(string prepaymentId)
         {
             Id = prepaymentId;
@@ -60,6 +62,37 @@ namespace Calculator.Model.TableObject
             }
         }
 
+        public BigInteger PrepaymentSumBigInteger
+        {
+            get=> _prepaymentSumBigInteger;
+            set
+            {
+                _prepaymentSumBigInteger = value;
+                OnPropertyChanged(nameof(PrepaymentSumBigInteger));
+                PrepaymentSum = _prepaymentSumBigInteger == 0 ? string.Empty : _prepaymentSumBigInteger.ToString();
+            }
+        }
+        public string PrepaymentSum
+        {
+            get => _prepaymentSum;
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    _prepaymentSum = value;
+                    OnPropertyChanged(nameof(PrepaymentSum));
+                    return;
+                }
+                var temp = value.Replace(",", "");
+                if (!AmountSplitter.AmountRegex.IsMatch(temp) && !string.IsNullOrEmpty(temp))
+                {
+                    return;
+                }
+                _prepaymentSum = string.IsNullOrEmpty(temp) ? temp : AmountSplitter.Split(temp, 3);
+                OnPropertyChanged(nameof(PrepaymentSum));
+
+            }
+        }
 
         public string Id { get; set; }
 
@@ -118,10 +151,18 @@ namespace Calculator.Model.TableObject
                         Date = PersianDate.Today
                     };
                 }
+                UpdatePrepaymentSum();
             }
 
             setDateAction(TaskLevelOne.Date, TaskLevelTwo.Date, TaskLevelThree.Date);
 
         }
+
+        public void UpdatePrepaymentSum()
+        {
+            PrepaymentSumBigInteger = TaskLevelOne.AmountBigInteger + TaskLevelTwo.AmountBigInteger + TaskLevelThree.AmountBigInteger;
+        }
     }
+
+
 }
