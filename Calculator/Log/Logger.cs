@@ -10,38 +10,29 @@ namespace Calculator.Log
         
         private static readonly string LogDirectoryPath = $"{Directory.GetCurrentDirectory()}//log";
         private static readonly string LogFilePath = $"{LogDirectoryPath}//error.log";
-        private static StreamWriter _writer = new StreamWriter(LogFilePath);
 
 
         private static PersianDate PersianDate => new PersianDate(DateTime.Now);
 
 
-        private static StreamWriter Writer
-        {
-            get
-            {
-                if (!Directory.Exists(LogDirectoryPath))
-                {
-                    //directory not exist 
-                    //create new directory
-                    Directory.CreateDirectory(LogDirectoryPath);
-                }
-
-                return _writer;
-            }
-            set => _writer = value;
-        }
-
         public static void Log(string text)
         {
-            Writer.Close();
-            Writer = new StreamWriter(LogFilePath,true);
-            Writer.WriteLine($"{DateTime.Now.ToShortTimeString()} -- {PersianDate.ToString()} : {text}");
-            Writer.WriteLine("----------------------------------------------------------------------");
-            Writer.Close();
-            Debug.WriteLine(text);
-            Debug.WriteLine("----------------------------------------------------------------------");
+            if (!Directory.Exists(LogDirectoryPath))
+            {
+                //directory not exist 
+                //create new directory
+                Directory.CreateDirectory(LogDirectoryPath);
+            }
 
+            using (var writer = new StreamWriter(LogFilePath,true))
+            {
+                writer.WriteLine($"{DateTime.Now.ToShortTimeString()} -- {PersianDate.ToString()} : {text}");
+                writer.WriteLine("----------------------------------------------------------------------");
+                writer.Close();
+                Debug.WriteLine(text);
+                Debug.WriteLine("----------------------------------------------------------------------");
+
+            }
         }
 
         public static void LogException(Exception e)
@@ -54,11 +45,6 @@ namespace Calculator.Log
         {
             var message = $"execute sql = {sql}";
             Log(message);
-        }
-
-        public static void CloseFile()
-        {
-            _writer.Close();
         }
 
     }
