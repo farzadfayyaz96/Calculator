@@ -10,10 +10,7 @@ namespace Calculator.Log
         
         private static readonly string LogDirectoryPath = $"{Directory.GetCurrentDirectory()}//log";
         private static readonly string LogFilePath = $"{LogDirectoryPath}//error.log";
-
-
-        private static PersianDate PersianDate => new PersianDate(DateTime.Now);
-
+        private static bool _firstLog = true;
 
         public static void Log(string text)
         {
@@ -24,9 +21,10 @@ namespace Calculator.Log
                 Directory.CreateDirectory(LogDirectoryPath);
             }
 
-            using (var writer = new StreamWriter(LogFilePath,true))
+            using (var writer = new StreamWriter(LogFilePath,!_firstLog))
             {
-                writer.WriteLine($"{DateTime.Now.ToShortTimeString()} -- {PersianDate.ToString()} : {text}");
+                _firstLog = false;
+                writer.WriteLine($"{DateTime.Now.ToShortTimeString()} -- {PersianDate.Today.ToString()} : {text}");
                 writer.WriteLine("----------------------------------------------------------------------");
                 writer.Close();
                 Debug.WriteLine(text);

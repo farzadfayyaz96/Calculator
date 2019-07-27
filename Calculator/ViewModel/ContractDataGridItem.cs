@@ -75,13 +75,17 @@ namespace Calculator.ViewModel
                 var list = ManageContractViewModel.Instance.EditContractWindowList;
                 foreach (var window in list)
                 {
-                    //if (!window.ViewModel.FunctionsControl.ViewModel.ItemFunction.ContractId.Equals(ItemContract.Id))
+                    if (!window.ViewModel.ContractId.Equals(ItemContract.Id))
                     {
                         //not found so continue
                         continue;
                     }
                     //found it so active it and get out 
-                    window.Activate();
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        //window.Activate();
+                        window.Focus();
+                    });
                     return;
                 }
                 //not exist so make new windows and add it to list

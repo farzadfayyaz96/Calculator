@@ -22,8 +22,7 @@ namespace Calculator.ViewModel
 
         public ManageProfitViewModel()
         {
-
-            Year = new PersianDate(DateTime.Now).Year;
+            Year = PersianDate.Today.Year < 1396 ? 1396 : PersianDate.Today.Year;
             RightCommand = new CommandHandler(Right);
             LeftCommand = new CommandHandler(Left);
             ProfitCollection = new ObservableCollection<Profit>();
@@ -103,6 +102,17 @@ namespace Calculator.ViewModel
             get => _year;
             set
             {
+                if (value < 1396)
+                {
+                    
+                    return;
+                }
+
+                if (value == 1396)
+                {
+                    ProfitListSelectedIndex = 6;
+                    
+                }
                 _year = value;
                 OnPropertyChanged(nameof(Year));
             }
@@ -113,8 +123,24 @@ namespace Calculator.ViewModel
             get => _interestRates;
             set
             {
-                _interestRates = value;
-                OnPropertyChanged(nameof(InterestRates));
+                if (string.IsNullOrEmpty(value))
+                {
+                    _interestRates = value;
+                    OnPropertyChanged(nameof(InterestRates));
+                    return;
+                }
+
+                try
+                {
+                    var temp = Convert.ToInt32(value);
+                    if (temp < 0 || temp > 100)return;
+                    _interestRates = temp.ToString();
+                    OnPropertyChanged(nameof(InterestRates));
+                }
+                catch (FormatException)
+                {
+                    //ignore
+                }
             }
         }
 
@@ -140,15 +166,13 @@ namespace Calculator.ViewModel
 
         private void InitProfits(int year)
         {
+            //load profits from database
+            var list = ProfitDateAccess.SelectByYear(year);
             //init new year to profit array 
             foreach (var profit in ProfitCollection)
             {
                 profit.Year = $"{year}";
-            }
-            //load profits from database
-            var list = ProfitDateAccess.SelectByYear(year);
-            foreach (var profit in ProfitCollection)
-            {
+                
                 var result = list.Where(x => x.Month == profit.Month).ToList();
                 profit.InterestRates = result.Any() ? result[0].InterestRates : "نامشخص";
             }
@@ -168,7 +192,7 @@ namespace Calculator.ViewModel
                 }
             }
             //
-            var pr = ProfitCollection[_profitListSelectedIndex];
+            var pr = ProfitCollection[ProfitListSelectedIndex];
             InterestRates = pr.InterestRates.Equals("نامشخص") ? string.Empty : pr.InterestRates;
         }
 
@@ -182,8 +206,14 @@ namespace Calculator.ViewModel
                     return;
                 }
 
-              try
-              {
+                if (Year == 1396 && ProfitListSelectedIndex <= 5)
+                {
+                    ShowError("مقدار درصد سود باید بعد از شهریور سال 1396 باشد.");
+                    return;
+                }
+
+                try
+                {
                     var year = $"{Year}";
                     var month = $"{ProfitListSelectedIndex + 1}";
                     var profit = new Profit(year,month,InterestRates);
@@ -191,7 +221,7 @@ namespace Calculator.ViewModel
                     ShowMessage("مبلغ سود با موفقیت ذخیره شد");
                     //replace data to view 
                     ProfitCollection[ProfitListSelectedIndex].InterestRates = profit.InterestRates;
-              }
+                }
                 catch (Exception e)
                 {
                     Logger.LogException(e);

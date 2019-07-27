@@ -33,8 +33,6 @@ namespace Calculator.Model.TableObject
             else if (month.Equals("12")) MonthName = "اسفند";
         }
 
-        public Profit() { }
-
         public string Month
         {
             get => _month;

@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
 using Calculator.ViewModel;
 
 namespace Calculator
@@ -28,5 +30,9 @@ namespace Calculator
             MainGrid.Children.RemoveAt(index);
         }
 
+        private void MainWindow_OnClosed(object sender, EventArgs e)
+        {
+            Application.Current.Shutdown(0);
+        }
     }
 }

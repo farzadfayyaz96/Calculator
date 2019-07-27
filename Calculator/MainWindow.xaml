@@ -6,6 +6,7 @@
         mc:Ignorable="d"
         xmlns:mahApps ="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:iconPack ="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        Closed="MainWindow_OnClosed"
         WindowState="Maximized"
         MinHeight="600"
         MinWidth="900">

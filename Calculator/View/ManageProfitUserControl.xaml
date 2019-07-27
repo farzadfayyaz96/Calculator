@@ -22,7 +22,7 @@
         <Grid HorizontalAlignment="Stretch"
                     Margin="40,20,40,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -39,6 +39,7 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        TextAlignment="Center"
+                       Width="250"
                        FontSize="{StaticResource FontSizeSmall}"
                        FontFamily="{StaticResource IranSansMedium}">
                 <TextBlock.Style>
@@ -59,6 +60,7 @@
             </TextBlock>
             <Button Content="ذخیره"
                     Grid.Column="3"
+                    IsDefault="True"
                     Command="{Binding SaveCommand}"
                     Style="{StaticResource FirstCustomButton}"
                     Padding="50,0"/>
@@ -114,11 +116,21 @@
 
                     <Button Grid.Column="0"
                             Foreground="Black"
-                            Command="{Binding LeftCommand}"
-                            Style="{StaticResource SimpleButton}">
+                            Command="{Binding LeftCommand}">
+
                         <iconPack:Material Kind="MenuLeft"
                                            Width="30"
                                            Height="30"/>
+
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource SimpleButton}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Year,UpdateSourceTrigger=PropertyChanged}" Value="1396">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
                     </Button>
 
                     <TextBlock Text="{Binding Year,UpdateSourceTrigger=PropertyChanged}"
@@ -151,10 +163,11 @@
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch"
                           BorderThickness="0"
+                          SelectionChanged="Selector_OnSelectionChanged"
                           SelectedIndex="{Binding ProfitListSelectedIndex,UpdateSourceTrigger=PropertyChanged}"
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                           BorderBrush="Transparent">
-                    
+
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Columns="3"/>
@@ -164,6 +177,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate DataType="tableObject:Profit">
                             <StackPanel>
+
                                 <TextBlock Text="{Binding MonthName,UpdateSourceTrigger=PropertyChanged}"
                                            FontSize="{StaticResource FontSizeLarge}"
                                            HorizontalAlignment="Stretch"
